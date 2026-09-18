@@ -1,4 +1,18 @@
-registry = {}
+import os
+
+class RegistryError(Exception):
+    """Base class for Registry exceptions."""
+    pass
+
+class DuplicateRegistrationError(RegistryError):
+    """Raised when attempting to register a parser that is already registered."""
+    pass
+
+class ParserNotFoundError(RegistryError):
+    """Raised when attempting to retrieve a parser that is not registered."""
+    pass
+
+_registry = {}
 
 def register_parser(source: str, version: str, path: str):
     """Register a parser definition.
@@ -8,14 +22,25 @@ def register_parser(source: str, version: str, path: str):
         path: absolute path to the YAML file
     """
     key = (source, version)
-    registry[key] = path
+    if key in _registry:
+        raise DuplicateRegistrationError(f"Parser already registered for source={source}, version={version}")
+    _registry[key] = path
 
 def get_parser(source: str, version: str) -> str:
     """Retrieve the registered parser definition path.
     Raises:
-        KeyError if not registered.
+        ParserNotFoundError if not registered.
     """
     key = (source, version)
-    if key not in registry:
-        raise KeyError(f"Parser not found for source={source}, version={version}")
-    return registry[key]
+    if key not in _registry:
+        raise ParserNotFoundError(f"Parser not found for source={source}, version={version}")
+    
+    path = _registry[key]
+    if not os.path.isfile(path):
+        raise FileNotFoundError(f"Registered parser path does not exist: {path}")
+        
+    return path
+
+def _clear_registry():
+    """Clear the registry (internal use only, for testing)."""
+    _registry.clear()
