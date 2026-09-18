@@ -8,7 +8,14 @@ class DSLInterpreter:
     def evaluate(self, field_def, state):
         op = field_def.get('op')
         source_key = field_def.get('source')
-        
+        # Whitelist of allowed operations (as defined in parser_mapping.schema.json)
+        _allowed_ops = {
+            'extract', 'cast', 'lookup', 'parse_timestamp', 'extract_regex',
+            'extract_json', 'extract_kv', 'extract_csv', 'drop'
+        }
+        if op not in _allowed_ops:
+            raise ValueError(f"Unsupported operation: {op}")
+
         # If the source is not in state, and it's not raw_event, we drop it
         if source_key not in state and source_key != 'raw_event':
             return None
@@ -49,6 +56,41 @@ class DSLInterpreter:
         elif op == 'extract':
             return val
             
+        elif op == 'parse_timestamp':
+            fmt = field_def.get('format')
+            if not fmt:
+                return None
+            try:
+                from datetime import datetime
+                dt = datetime.strptime(str(val), fmt)
+                return dt.isoformat()
+            except Exception:
+                return None
+
+        elif op == 'extract_json':
+            try:
+                return json.loads(str(val))
+            except Exception:
+                return None
+
+        elif op == 'extract_kv':
+            sep = field_def.get('separator')
+            if not sep:
+                return None
+            kv_str = str(val)
+            result = {}
+            for part in kv_str.split(sep):
+                if '=' in part:
+                    k, v = part.split('=', 1)
+                    result[k.strip()] = v.strip()
+            return result
+
+        elif op == 'extract_csv':
+            sep = field_def.get('separator')
+            if not sep:
+                return None
+            return str(val).split(sep)
+
         elif op == 'drop':
             return None
 
