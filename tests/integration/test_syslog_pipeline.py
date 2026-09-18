@@ -1,20 +1,30 @@
 import json
 import hashlib
+from pathlib import Path
 from src.parsers.engine import ParserEngine
 from src.normalization.mapper import OCSFMapper
+from src.registry import register_parser, _clear_registry
 
 def test_syslog_pipeline():
-    with open('p:/Univeral Log Processing/ulpf/fixtures/raw/syslog/syslog-001.log', 'rb') as f:
+    _clear_registry()
+    
+    raw_path = Path("fixtures/raw/syslog/syslog-001.log").resolve()
+    parser_path = Path("parsers/syslog.yaml").resolve()
+    expected_path = Path("fixtures/expected/syslog/syslog-001.json").resolve()
+    
+    with open(raw_path, 'rb') as f:
         raw_bytes = f.read()
         
     sha256 = hashlib.sha256(raw_bytes).hexdigest()
     assert sha256 == "a3783b7c387f7248d8c90c315b9b06a73bf4f7e6d0a6631b0a2449afd5706552", "SHA256 mismatch"
     
     raw_lines = raw_bytes.decode('utf-8').strip().split('\n')
-    engine = ParserEngine('p:/Univeral Log Processing/ulpf/parsers/syslog.yaml')
+    
+    register_parser("syslog-001", "1.0.0", str(parser_path))
+    engine = ParserEngine("syslog-001", "1.0.0")
     mapper = OCSFMapper()
     
-    with open('p:/Univeral Log Processing/ulpf/fixtures/expected/syslog/syslog-001.json', 'r') as f:
+    with open(expected_path, 'r', encoding='utf-8') as f:
         expected = json.load(f)
         
     discrepancies = []
@@ -40,7 +50,8 @@ def test_syslog_pipeline():
             discrepancies.append(f"Mismatch at line {i+1}\nExpected: {exp_event['ocsf_event']}\nActual:   {ocsf}\n")
             
     if discrepancies:
-        with open('p:/Univeral Log Processing/ulpf/tests/integration/discrepancies_report.txt', 'w') as f:
+        report_path = Path("tests/integration/discrepancies_report.txt").resolve()
+        with open(report_path, 'w', encoding='utf-8') as f:
             for d in discrepancies:
                 f.write(d + "\n")
         assert False, f"Found {len(discrepancies)} discrepancies. See discrepancies_report.txt"

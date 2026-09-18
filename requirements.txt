@@ -1,0 +1,8 @@
+# ULPF Application Dependencies
+
+# Runtime Dependencies
+jsonschema>=4.20.0
+pyyaml>=6.0.0
+
+# Development & Test Dependencies
+pytest>=8.0.0
