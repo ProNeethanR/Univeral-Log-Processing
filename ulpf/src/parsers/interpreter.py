@@ -1,6 +1,6 @@
 import re
 import json
-
+from .exceptions import UnsupportedOperationError
 class DSLInterpreter:
     def __init__(self):
         pass
@@ -14,7 +14,7 @@ class DSLInterpreter:
             'extract_json', 'extract_kv', 'extract_csv', 'drop'
         }
         if op not in _allowed_ops:
-            raise ValueError(f"Unsupported operation: {op}")
+            raise UnsupportedOperationError(f"Unsupported operation: {op}")
 
         # If the source is not in state, and it's not raw_event, we drop it
         if source_key not in state and source_key != 'raw_event':
