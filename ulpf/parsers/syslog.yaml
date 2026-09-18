@@ -1,0 +1,164 @@
+source: syslog-001
+version: 1.0.0
+fields:
+  syslog_month:
+    op: extract_regex
+    source: raw_event
+    pattern: '^(?P<val>[A-Z][a-z]{2})\s+'
+  syslog_day:
+    op: extract_regex
+    source: raw_event
+    pattern: '^[A-Z][a-z]{2}\s+(?P<val>\d+)\s+'
+  syslog_time:
+    op: extract_regex
+    source: raw_event
+    pattern: '^[A-Z][a-z]{2}\s+\d+\s+(?P<val>\d{2}:\d{2}:\d{2})\s+'
+  syslog_host:
+    op: extract_regex
+    source: raw_event
+    pattern: '^[A-Z][a-z]{2}\s+\d+\s+\d{2}:\d{2}:\d{2}\s+(?P<val>\S+)\s+'
+  syslog_process:
+    op: extract_regex
+    source: raw_event
+    pattern: '^[A-Z][a-z]{2}\s+\d+\s+\d{2}:\d{2}:\d{2}\s+\S+\s+(?P<val>[^:]+):'
+  SRC:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bSRC=(?P<val>\S+)'
+  DST:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bDST=(?P<val>\S+)'
+  IN:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bIN=(?P<val>\S*)'
+  OUT:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bOUT=(?P<val>\S*)'
+  PHYSIN:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bPHYSIN=(?P<val>\S+)'
+  PHYSOUT:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bPHYSOUT=(?P<val>\S+)'
+  LEN:
+    op: extract_regex
+    source: raw_event
+    pattern: '.*\bLEN=(?P<val>\d+)'
+  TOS:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bTOS=(?P<val>\S+)'
+  PREC:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bPREC=(?P<val>\S+)'
+  TTL:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bTTL=(?P<val>\d+)'
+  ID:
+    op: extract_regex
+    source: raw_event
+    pattern: '.*\bID=(?P<val>\d+)'
+  PROTO:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bPROTO=(?P<val>\S+)'
+  SPT:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bSPT=(?P<val>\d+)'
+  DPT:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bDPT=(?P<val>\d+)'
+  WINDOW:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bWINDOW=(?P<val>\d+)'
+  RES:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bRES=(?P<val>\S+)'
+  URGP:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bURGP=(?P<val>\d+)'
+  DF:
+    op: extract_regex
+    source: raw_event
+    pattern: '\b(?P<val>DF)\b'
+  SYN:
+    op: extract_regex
+    source: raw_event
+    pattern: '\b(?P<val>SYN)\b'
+  TYPE:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bTYPE=(?P<val>\d+)'
+  CODE:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bCODE=(?P<val>\d+)'
+  SEQ:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bSEQ=(?P<val>\d+)'
+  MAC:
+    op: extract_regex
+    source: raw_event
+    pattern: '\bMAC=(?P<val>\S+)'
+  syslog_action:
+    op: extract_regex
+    source: raw_event
+    pattern: 'kernel:\s+(?P<val>INBLOCK):'
+    
+  syslog_day_int:
+    op: cast
+    source: syslog_day
+    type: integer
+  SPT_int:
+    op: cast
+    source: SPT
+    type: integer
+  DPT_int:
+    op: cast
+    source: DPT
+    type: integer
+  WINDOW_int:
+    op: cast
+    source: WINDOW
+    type: integer
+  URGP_int:
+    op: cast
+    source: URGP
+    type: integer
+  TTL_int:
+    op: cast
+    source: TTL
+    type: integer
+  LEN_int:
+    op: cast
+    source: LEN
+    type: integer
+  ID_int:
+    op: cast
+    source: ID
+    type: integer
+  TYPE_int:
+    op: cast
+    source: TYPE
+    type: integer
+  CODE_int:
+    op: cast
+    source: CODE
+    type: integer
+  SEQ_int:
+    op: cast
+    source: SEQ
+    type: integer

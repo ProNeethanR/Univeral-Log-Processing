@@ -1,0 +1,422 @@
+[
+  {
+    "raw_event_index": 1,
+    "raw_event": "CEF:0|Palo Alto Networks|Cortex XDR|Cortex XDR 2.4|XDR Analytics|High Connection Rate|6|end=1601792870694 shost=WGHRAMG deviceFacility=None cat=Discovery externalId=98106342 request=https:\\/\\/iga-bh.xdr.eu.paloaltonetworks.com\\/alerts\\/98106342 cs1=iexplore.exe cs1Label=Initiated by cs2=\\\u201cC:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\IEXPLORE.EXE\\\u201d SCODEF:11844 CREDAT:82946 \\/prefetch:2 cs2Label=Initiator CMD cs3=Microsoft CorporationSIGNATURE_SIGNED- cs3Label=Signature cs4=iexplore.exe cs4Label=CGO name cs5=\\\u201cC:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\IEXPLORE.EXE\\\u201d SCODEF:11844 CREDAT:82946 \\/prefetch:2 cs5Label=CGO CMD cs6=Microsoft CorporationSIGNATURE_SIGNED- cs6Label=CGO Signature dst=10.12.4.37 dpt=8000 src=10.10.28.140 spt=58003 fileHash=e582676ec900249b408ab4e37976ae8c443635a7da77755daf6f896a172856a3 filePath=C:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\iexplore.exe targetprocesssignature=NoneSIGNATURE_UNAVAILABLE- tenantname=iGA tenantCDLid=1021319191 CSPaccountname=Information & eGovernment Authority initiatorSha256=e582676ec900249b408ab4e37976ae8c443635a7da77755daf6f896a172856a3 initiatorPath=C:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\iexplore.exe cgoSha256=e582676ec900249b408ab4e37976ae8c443635a7da77755daf6f896a172856a3 osParentName=iexplore.exe osParentCmd=\\\u201cC:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\IEXPLORE.EXE\\\u201d SCODEF:11844 CREDAT:82946 \\/prefetch:2 osParentSha256=e582676ec900249b408ab4e37976ae8c443635a7da77755daf6f896a172856a3 osParentSignature=SIGNATURE_SIGNED osParentSigner=Microsoft Corporation incident=118719 act=Detected suser=['root']",
+    "fields": [
+      {
+        "source_field_name": "act",
+        "semantic_meaning": "Action",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "externalId",
+        "semantic_meaning": "External ID",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cs3",
+        "semantic_meaning": "Custom String 3",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "tenantCDLid",
+        "semantic_meaning": "Tenant CDL ID",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "cat",
+        "semantic_meaning": "Event Category",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "dpt",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cs4",
+        "semantic_meaning": "Custom String 4",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "tenantname",
+        "semantic_meaning": "Tenant Name",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "cef_name",
+        "semantic_meaning": "Event Name",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cef_device_vendor",
+        "semantic_meaning": "Device Vendor",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "request",
+        "semantic_meaning": "Request URL",
+        "source_datatype": "string",
+        "normalized_datatype": "url",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "initiatorSha256",
+        "semantic_meaning": "Initiator SHA256",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "incident",
+        "semantic_meaning": "Incident ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "targetprocesssignature",
+        "semantic_meaning": "Target Process Signature",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "cef_device_product",
+        "semantic_meaning": "Device Product",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "initiatorPath",
+        "semantic_meaning": "Initiator Path",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "end",
+        "semantic_meaning": "End Time",
+        "source_datatype": "long",
+        "normalized_datatype": "timestamp",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "osParentSigner",
+        "semantic_meaning": "OS Parent Signer",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "fileHash",
+        "semantic_meaning": "File Hash",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cs5Label",
+        "semantic_meaning": "Custom String 5 Label",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cs1Label",
+        "semantic_meaning": "Custom String 1 Label",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "osParentName",
+        "semantic_meaning": "OS Parent Name",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "cs2Label",
+        "semantic_meaning": "Custom String 2 Label",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "deviceFacility",
+        "semantic_meaning": "Device Facility",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cef_version",
+        "semantic_meaning": "CEF Version",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cef_device_version",
+        "semantic_meaning": "Device Version",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cs6Label",
+        "semantic_meaning": "Custom String 6 Label",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "dst",
+        "semantic_meaning": "Destination IP",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cs2",
+        "semantic_meaning": "Custom String 2",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cef_severity",
+        "semantic_meaning": "Event Severity",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": "0-10 or string",
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "osParentSha256",
+        "semantic_meaning": "OS Parent SHA256",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "cs4Label",
+        "semantic_meaning": "Custom String 4 Label",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "spt",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cgoSha256",
+        "semantic_meaning": "CGO SHA256",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "cs3Label",
+        "semantic_meaning": "Custom String 3 Label",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "filePath",
+        "semantic_meaning": "File Path",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "CSPaccountname",
+        "semantic_meaning": "CSP Account Name",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "cs1",
+        "semantic_meaning": "Custom String 1",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "shost",
+        "semantic_meaning": "Source Hostname",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cef_device_event_class_id",
+        "semantic_meaning": "Signature ID / Event Class ID",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "src",
+        "semantic_meaning": "Source IP",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "cs6",
+        "semantic_meaning": "Custom String 6",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "osParentCmd",
+        "semantic_meaning": "OS Parent Cmd",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "cs5",
+        "semantic_meaning": "Custom String 5",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      },
+      {
+        "source_field_name": "osParentSignature",
+        "semantic_meaning": "OS Parent Signature",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context (Palo Alto specific)"
+      },
+      {
+        "source_field_name": "suser",
+        "semantic_meaning": "Source User",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "MicroFocus CEF specification"
+      }
+    ]
+  }
+]

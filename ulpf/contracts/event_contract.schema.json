@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ULPF Event Contract",
+  "description": "Schema for the standard normalized event output.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "source_id",
+    "ingest_timestamp",
+    "raw_ref",
+    "schema_version",
+    "ocsf_event"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for the event."
+    },
+    "source_id": {
+      "type": "string",
+      "description": "Identifier of the log source or origin."
+    },
+    "ingest_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp indicating when the event was ingested."
+    },
+    "raw_ref": {
+      "type": "object",
+      "description": "Reference to the original raw log.",
+      "required": [
+        "store",
+        "locator",
+        "raw_hash"
+      ],
+      "properties": {
+        "store": {
+          "type": "string",
+          "description": "Storage backend type (e.g., 'vault')."
+        },
+        "locator": {
+          "type": "string",
+          "description": "Location or key of the raw log in the store."
+        },
+        "raw_hash": {
+          "type": "string",
+          "description": "Cryptographic hash of the raw log payload (e.g., 'sha256:...')."
+        }
+      }
+    },
+    "parser_id": {
+      "type": "string",
+      "description": "Identifier of the parser used to process this event."
+    },
+    "parser_version": {
+      "type": "string",
+      "description": "Version of the parser used."
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Version of this event contract schema."
+    },
+    "ocsf_event": {
+      "type": "object",
+      "description": "The normalized event fields conforming to OCSF standard.",
+      "additionalProperties": true
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Metadata regarding the origins and confidence of parsing/detection.",
+      "properties": {
+        "detection_method": {
+          "type": "string",
+          "description": "Method by which the event structure was identified."
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Confidence score of the parsing or detection."
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "description": "Integrity metadata for blockchain or sequential hashing guarantees.",
+      "properties": {
+        "chain_seq": {
+          "type": "integer",
+          "description": "Sequence number in the tamper-evident chain."
+        },
+        "chain_prev_hash": {
+          "type": "string",
+          "description": "Hash of the previous event in the chain."
+        },
+        "checkpoint_ref": {
+          "type": "string",
+          "description": "Reference to a verifiable checkpoint or Merkle root."
+        }
+      }
+    }
+  }
+}

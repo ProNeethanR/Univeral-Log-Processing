@@ -1,0 +1,10 @@
+CEF:0|Palo Alto Networks|PAN-OS|10.0.0|THREAT|spyware|1|src=10.1.1.1 dst=10.2.2.2 spt=54321 dpt=80 act=alert
+CEF:0|Palo Alto Networks|PAN-OS|10.0.0|TRAFFIC|end|0|src=192.168.1.10 dst=8.8.8.8 spt=12345 dpt=53 act=allow
+CEF:0|Fortinet|FortiGate|6.4.2|00013|webfilter|3|src=10.0.0.5 dst=93.184.216.34 spt=43210 dpt=443 act=block
+CEF:0|Fortinet|FortiGate|7.0.0|00014|virus|5|src=192.168.0.50 dst=10.10.10.10 spt=65432 dpt=21 act=quarantine
+CEF:0|Check Point|VPN-1 & FireWall-1|R80.40|Accept|Traffic|1|src=172.16.1.1 dst=172.16.2.2 spt=1024 dpt=22 act=accept
+CEF:0|Check Point|VPN-1 & FireWall-1|R81|Drop|Traffic|2|src=10.20.30.40 dst=10.50.60.70 spt=4444 dpt=80 act=drop
+CEF:0|Palo Alto Networks|PAN-OS|10.1.0|SYSTEM|general|1|msg=Configuration committed successfully
+CEF:0|Fortinet|FortiGate|6.2.3|00015|ips|4|src=10.100.100.1 dst=10.200.200.2 spt=135 dpt=135 act=dropped
+CEF:0|Check Point|SmartCenter|R80.30|Login|Audit|1|suser=admin msg=Successful login to SmartConsole
+CEF:0|Palo Alto Networks|Cortex XDR|2.5|Malware|Detected|5|src=192.168.5.5 filePath=C:\\Windows\\Temp\\evil.exe act=prevented

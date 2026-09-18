@@ -1,0 +1,4940 @@
+[
+  {
+    "raw_event_index": 1,
+    "raw_event": "Feb  1 00:00:02 bridge kernel: INBOUND TCP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=192.150.249.87 DST=11.11.11.84 LEN=40 TOS=0x00 PREC=0x00 TTL=110 ID=12973 PROTO=TCP SPT=220 DPT=6129 WINDOW=16384 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 2,
+    "raw_event": "Feb  1 00:00:02 bridge kernel: INBOUND TCP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=24.17.237.70 DST=11.11.11.95 LEN=40 TOS=0x00 PREC=0x00 TTL=113 ID=27095 PROTO=TCP SPT=220 DPT=6129 WINDOW=16384 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 3,
+    "raw_event": "Feb  1 00:00:07 bridge kernel: INBOUND TCP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=192.150.249.87 DST=11.11.11.85 LEN=40 TOS=0x00 PREC=0x00 TTL=110 ID=13801 PROTO=TCP SPT=220 DPT=6129 WINDOW=16384 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 4,
+    "raw_event": "Feb  1 00:00:17 bridge kernel: INBOUND TCP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=192.150.249.87 DST=11.11.11.87 LEN=40 TOS=0x00 PREC=0x00 TTL=110 ID=15432 PROTO=TCP SPT=220 DPT=6129 WINDOW=16384 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 5,
+    "raw_event": "Feb  1 00:00:24 bridge kernel: INBOUND TCP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=24.17.237.70 DST=11.11.11.100 LEN=40 TOS=0x00 PREC=0x00 TTL=113 ID=31168 PROTO=TCP SPT=220 DPT=6129 WINDOW=16384 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 6,
+    "raw_event": "Feb  1 00:12:25 bridge kernel: INBOUND UDP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=213.112.56.195 DST=11.11.11.89 LEN=404 TOS=0x00 PREC=0x00 TTL=109 ID=62901 PROTO=UDP SPT=3301 DPT=1434 LEN=384",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 7,
+    "raw_event": "Feb  1 00:22:34 bridge kernel: INBOUND UDP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=203.192.11.247 DST=11.11.11.69 LEN=404 TOS=0x00 PREC=0x00 TTL=112 ID=12274 PROTO=UDP SPT=2317 DPT=1434 LEN=384",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 8,
+    "raw_event": "Feb  1 00:39:46 bridge kernel: INBOUND UDP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=202.108.249.51 DST=11.11.11.115 LEN=404 TOS=0x00 PREC=0x00 TTL=114 ID=29149 PROTO=UDP SPT=1282 DPT=1434 LEN=384",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 9,
+    "raw_event": "Feb  1 00:51:07 bridge kernel: INBOUND UDP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=81.130.27.198 DST=11.11.11.89 LEN=404 TOS=0x00 PREC=0x00 TTL=110 ID=25884 PROTO=UDP SPT=5515 DPT=1434 LEN=384",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 10,
+    "raw_event": "Feb  1 00:54:51 bridge kernel: INBOUND UDP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=221.11.115.54 DST=11.11.11.69 LEN=404 TOS=0x00 PREC=0x00 TTL=114 ID=55211 PROTO=UDP SPT=1152 DPT=1434 LEN=384",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 11,
+    "raw_event": "Feb  1 00:04:19 bridge kernel: INBOUND ICMP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=190.0.0.39 DST=11.11.11.105 LEN=92 TOS=0x00 PREC=0x00 TTL=107 ID=12037 PROTO=ICMP TYPE=8 CODE=0 ID=512 SEQ=733",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "CODE",
+        "semantic_meaning": "ICMP Code",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TYPE",
+        "semantic_meaning": "ICMP Type",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SEQ",
+        "semantic_meaning": "Sequence number",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 12,
+    "raw_event": "Feb  1 00:08:06 bridge kernel: INBOUND ICMP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=24.70.192.251 DST=11.11.11.105 LEN=92 TOS=0x00 PREC=0x00 TTL=117 ID=11114 PROTO=ICMP TYPE=8 CODE=0 ID=6273 SEQ=10638",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "CODE",
+        "semantic_meaning": "ICMP Code",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TYPE",
+        "semantic_meaning": "ICMP Type",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SEQ",
+        "semantic_meaning": "Sequence number",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 13,
+    "raw_event": "Feb  1 00:08:58 bridge kernel: INBOUND ICMP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=218.190.214.96 DST=11.11.11.110 LEN=92 TOS=0x00 PREC=0x00 TTL=113 ID=1657 PROTO=ICMP TYPE=8 CODE=0 ID=512 SEQ=40433",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "CODE",
+        "semantic_meaning": "ICMP Code",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TYPE",
+        "semantic_meaning": "ICMP Type",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SEQ",
+        "semantic_meaning": "Sequence number",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 14,
+    "raw_event": "Feb  1 00:12:53 bridge kernel: INBOUND ICMP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=220.189.40.76 DST=11.11.11.105 LEN=92 TOS=0x00 PREC=0x00 TTL=105 ID=22160 PROTO=ICMP TYPE=8 CODE=0 ID=768 SEQ=677",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "CODE",
+        "semantic_meaning": "ICMP Code",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TYPE",
+        "semantic_meaning": "ICMP Type",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SEQ",
+        "semantic_meaning": "Sequence number",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 15,
+    "raw_event": "Feb  1 00:15:12 bridge kernel: INBOUND ICMP: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=63.125.10.7 DST=11.11.11.64 LEN=92 TOS=0x00 PREC=0x00 TTL=121 ID=61143 PROTO=ICMP TYPE=8 CODE=0 ID=512 SEQ=25623",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "CODE",
+        "semantic_meaning": "ICMP Code",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TYPE",
+        "semantic_meaning": "ICMP Type",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SEQ",
+        "semantic_meaning": "Sequence number",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 16,
+    "raw_event": "Feb  1 09:05:46 bridge kernel: OUTG CONN TCP: IN=br0 PHYSIN=eth1 OUT=br0 PHYSOUT=eth0 SRC=11.11.11.67 DST=80.116.93.36 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=29865 DF PROTO=TCP SPT=1163 DPT=113 WINDOW=5840 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DF",
+        "semantic_meaning": "Don't Fragment flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 17,
+    "raw_event": "Feb  1 09:05:47 bridge kernel: OUTG CONN TCP: IN=br0 PHYSIN=eth1 OUT=br0 PHYSOUT=eth0 SRC=11.11.11.67 DST=80.116.93.36 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=40060 DF PROTO=TCP SPT=1164 DPT=113 WINDOW=5840 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DF",
+        "semantic_meaning": "Don't Fragment flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 18,
+    "raw_event": "Feb  1 09:05:47 bridge kernel: OUTG CONN TCP: IN=br0 PHYSIN=eth1 OUT=br0 PHYSOUT=eth0 SRC=11.11.11.67 DST=80.116.93.36 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=8438 DF PROTO=TCP SPT=1165 DPT=113 WINDOW=5840 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DF",
+        "semantic_meaning": "Don't Fragment flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 19,
+    "raw_event": "Feb  1 09:05:47 bridge kernel: OUTG CONN TCP: IN=br0 PHYSIN=eth1 OUT=br0 PHYSOUT=eth0 SRC=11.11.11.67 DST=80.116.93.36 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=10112 DF PROTO=TCP SPT=1166 DPT=113 WINDOW=5840 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DF",
+        "semantic_meaning": "Don't Fragment flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 20,
+    "raw_event": "Feb  1 09:05:47 bridge kernel: OUTG CONN TCP: IN=br0 PHYSIN=eth1 OUT=br0 PHYSOUT=eth0 SRC=11.11.11.67 DST=80.116.93.36 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=55343 DF PROTO=TCP SPT=1167 DPT=113 WINDOW=5840 RES=0x00 SYN URGP=0",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "SYN",
+        "semantic_meaning": "TCP SYN flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "WINDOW",
+        "semantic_meaning": "TCP Window Size",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "URGP",
+        "semantic_meaning": "Urgent Pointer",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "RES",
+        "semantic_meaning": "Reserved bits",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DF",
+        "semantic_meaning": "Don't Fragment flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 21,
+    "raw_event": "Feb 10 13:50:22 bridge kernel: INBLOCK: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=4.22.106.52 DST=11.11.11.105 LEN=92 TOS=0x00 PREC=0x00 TTL=112 ID=17103 PROTO=ICMP TYPE=8 CODE=0 ID=21241 SEQ=46667",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "CODE",
+        "semantic_meaning": "ICMP Code",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TYPE",
+        "semantic_meaning": "ICMP Type",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SEQ",
+        "semantic_meaning": "Sequence number",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_action",
+        "semantic_meaning": "Action or flow direction",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 22,
+    "raw_event": "Feb 10 13:50:46 bridge kernel: INBLOCK: IN=br0 PHYSIN=eth0 OUT=br0 PHYSOUT=eth1 SRC=205.230.103.253 DST=11.11.11.100 LEN=92 TOS=0x00 PREC=0x00 TTL=118 ID=57942 PROTO=ICMP TYPE=8 CODE=0 ID=33697 SEQ=42893",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSIN",
+        "semantic_meaning": "Physical Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "CODE",
+        "semantic_meaning": "ICMP Code",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PHYSOUT",
+        "semantic_meaning": "Physical Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TYPE",
+        "semantic_meaning": "ICMP Type",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SEQ",
+        "semantic_meaning": "Sequence number",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_action",
+        "semantic_meaning": "Action or flow direction",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 23,
+    "raw_event": "Feb 10 14:00:28 bridge kernel: INBLOCK: IN=eth1 OUT= MAC=00:02:b3:65:c9:71:00:b0:d0:87:85:c3:08:00 SRC=11.11.11.69 DST=11.11.11.65 LEN=69 TOS=0x00 PREC=0x00 TTL=64 ID=0 DF PROTO=UDP SPT=1024 DPT=514 LEN=49",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "MAC",
+        "semantic_meaning": "MAC Address",
+        "source_datatype": "string",
+        "normalized_datatype": "mac_address",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DF",
+        "semantic_meaning": "Don't Fragment flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "syslog_action",
+        "semantic_meaning": "Action or flow direction",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 24,
+    "raw_event": "Feb 10 14:00:33 bridge kernel: INBLOCK: IN=eth1 OUT= MAC=ff:ff:ff:ff:ff:ff:00:b0:d0:87:85:c3:08:00 SRC=11.11.11.69 DST=11.11.11.255 LEN=96 TOS=0x00 PREC=0x00 TTL=64 ID=0 DF PROTO=UDP SPT=137 DPT=137 LEN=76",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "MAC",
+        "semantic_meaning": "MAC Address",
+        "source_datatype": "string",
+        "normalized_datatype": "mac_address",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DF",
+        "semantic_meaning": "Don't Fragment flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "syslog_action",
+        "semantic_meaning": "Action or flow direction",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      }
+    ]
+  },
+  {
+    "raw_event_index": 25,
+    "raw_event": "Feb 10 14:00:33 bridge kernel: INBLOCK: IN=eth1 OUT= MAC=ff:ff:ff:ff:ff:ff:00:b0:d0:87:85:c3:08:00 SRC=11.11.11.69 DST=11.11.11.255 LEN=241 TOS=0x00 PREC=0x00 TTL=64 ID=0 DF PROTO=UDP SPT=138 DPT=138 LEN=221",
+    "fields": [
+      {
+        "source_field_name": "SRC",
+        "semantic_meaning": "Source IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_month",
+        "semantic_meaning": "Month of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "SPT",
+        "semantic_meaning": "Source Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PREC",
+        "semantic_meaning": "Precedence",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "IN",
+        "semantic_meaning": "Ingress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_process",
+        "semantic_meaning": "Process generating the log",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      },
+      {
+        "source_field_name": "DST",
+        "semantic_meaning": "Destination IP Address",
+        "source_datatype": "ipv4",
+        "normalized_datatype": "ip_address",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TOS",
+        "semantic_meaning": "Type of Service",
+        "source_datatype": "hex",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "OUT",
+        "semantic_meaning": "Egress Interface",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_time",
+        "semantic_meaning": "Time of the event",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "ID",
+        "semantic_meaning": "IP ID",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "PROTO",
+        "semantic_meaning": "L4 Protocol",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "TTL",
+        "semantic_meaning": "Time to Live",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "MAC",
+        "semantic_meaning": "MAC Address",
+        "source_datatype": "string",
+        "normalized_datatype": "mac_address",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DPT",
+        "semantic_meaning": "Destination Port",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_day",
+        "semantic_meaning": "Day of the event",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "LEN",
+        "semantic_meaning": "Packet length",
+        "source_datatype": "integer",
+        "normalized_datatype": "integer",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "DF",
+        "semantic_meaning": "Don't Fragment flag set",
+        "source_datatype": "boolean",
+        "normalized_datatype": "boolean",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "netfilter/iptables documentation"
+      },
+      {
+        "source_field_name": "syslog_host",
+        "semantic_meaning": "Hostname of the reporting device",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "required",
+        "known_enumeration": null,
+        "evidence": "RFC 3164/5424 inferred"
+      },
+      {
+        "source_field_name": "syslog_action",
+        "semantic_meaning": "Action or flow direction",
+        "source_datatype": "string",
+        "normalized_datatype": "string",
+        "required_optional": "optional",
+        "known_enumeration": null,
+        "evidence": "inferred from context"
+      }
+    ]
+  }
+]

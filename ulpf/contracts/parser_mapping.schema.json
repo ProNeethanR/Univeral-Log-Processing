@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ULPF Parser Mapping DSL Contract",
+  "description": "Strict DSL schema for parser mappings. Enforces exactly nine legal operations for security and deterministic execution. Turing-completeness is strictly prohibited.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source",
+    "version",
+    "fields"
+  ],
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "Name or identifier of the log source (e.g., firewall_x)."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version string of this parser mapping."
+    },
+    "fields": {
+      "type": "object",
+      "description": "Mapping configuration for target fields.",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Definition of how a single target field is populated.",
+        "additionalProperties": false,
+        "required": ["op"],
+        "properties": {
+          "op": {
+            "type": "string",
+            "enum": [
+              "extract",
+              "cast",
+              "lookup",
+              "parse_timestamp",
+              "extract_regex",
+              "extract_json",
+              "extract_kv",
+              "extract_csv",
+              "drop"
+            ],
+            "description": "One of the exactly nine frozen operations. No arbitrary code execution allowed."
+          },
+          "source": {
+            "type": "string",
+            "description": "Source field name or path to extract the value from."
+          },
+          "type": {
+            "type": "string",
+            "description": "Target data type (used with 'cast')."
+          },
+          "values": {
+            "type": "object",
+            "description": "Mapping dictionary (used with 'lookup').",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "pattern": {
+            "type": "string",
+            "description": "Regex pattern (used with 'extract_regex')."
+          },
+          "format": {
+            "type": "string",
+            "description": "Timestamp format string (used with 'parse_timestamp')."
+          },
+          "separator": {
+            "type": "string",
+            "description": "Separator character (used with 'extract_kv' or 'extract_csv')."
+          }
+        }
+      }
+    }
+  }
+}

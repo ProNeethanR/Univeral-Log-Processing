@@ -1,0 +1,3619 @@
+[
+  {
+    "event_id": "syslog-test-1",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "16384",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:00:02",
+        "RES": "0x00",
+        "ID": "12973",
+        "PHYSOUT": "eth1",
+        "TTL": "110",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "192.150.249.87",
+        "port": 220,
+        "interface_name": "br0",
+        "bytes": 40
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.84",
+        "interface_name": "br0",
+        "port": 6129
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-2",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "16384",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:00:02",
+        "RES": "0x00",
+        "ID": "27095",
+        "PHYSOUT": "eth1",
+        "TTL": "113",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "24.17.237.70",
+        "port": 220,
+        "interface_name": "br0",
+        "bytes": 40
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.95",
+        "interface_name": "br0",
+        "port": 6129
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-3",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "16384",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:00:07",
+        "RES": "0x00",
+        "ID": "13801",
+        "PHYSOUT": "eth1",
+        "TTL": "110",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "192.150.249.87",
+        "port": 220,
+        "interface_name": "br0",
+        "bytes": 40
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.85",
+        "interface_name": "br0",
+        "port": 6129
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-4",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "16384",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:00:17",
+        "RES": "0x00",
+        "ID": "15432",
+        "PHYSOUT": "eth1",
+        "TTL": "110",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "192.150.249.87",
+        "port": 220,
+        "interface_name": "br0",
+        "bytes": 40
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.87",
+        "interface_name": "br0",
+        "port": 6129
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-5",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "16384",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:00:24",
+        "RES": "0x00",
+        "ID": "31168",
+        "PHYSOUT": "eth1",
+        "TTL": "113",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "24.17.237.70",
+        "port": 220,
+        "interface_name": "br0",
+        "bytes": 40
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.100",
+        "interface_name": "br0",
+        "port": 6129
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-6",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:12:25",
+        "ID": "62901",
+        "PHYSOUT": "eth1",
+        "TTL": "109",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "213.112.56.195",
+        "port": 3301,
+        "interface_name": "br0",
+        "bytes": 384
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.89",
+        "interface_name": "br0",
+        "port": 1434
+      },
+      "connection_info": {
+        "protocol_name": "UDP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-7",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:22:34",
+        "ID": "12274",
+        "PHYSOUT": "eth1",
+        "TTL": "112",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "203.192.11.247",
+        "port": 2317,
+        "interface_name": "br0",
+        "bytes": 384
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.69",
+        "interface_name": "br0",
+        "port": 1434
+      },
+      "connection_info": {
+        "protocol_name": "UDP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-8",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:39:46",
+        "ID": "29149",
+        "PHYSOUT": "eth1",
+        "TTL": "114",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "202.108.249.51",
+        "port": 1282,
+        "interface_name": "br0",
+        "bytes": 384
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.115",
+        "interface_name": "br0",
+        "port": 1434
+      },
+      "connection_info": {
+        "protocol_name": "UDP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-9",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:51:07",
+        "ID": "25884",
+        "PHYSOUT": "eth1",
+        "TTL": "110",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "81.130.27.198",
+        "port": 5515,
+        "interface_name": "br0",
+        "bytes": 384
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.89",
+        "interface_name": "br0",
+        "port": 1434
+      },
+      "connection_info": {
+        "protocol_name": "UDP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-10",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:54:51",
+        "ID": "55211",
+        "PHYSOUT": "eth1",
+        "TTL": "114",
+        "syslog_day": "1",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "221.11.115.54",
+        "port": 1152,
+        "interface_name": "br0",
+        "bytes": 384
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.69",
+        "interface_name": "br0",
+        "port": 1434
+      },
+      "connection_info": {
+        "protocol_name": "UDP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-11",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "CODE",
+            "semantic_meaning": "ICMP Code",
+            "ocsf_target": "unmapped.CODE"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TYPE",
+            "semantic_meaning": "ICMP Type",
+            "ocsf_target": "unmapped.TYPE"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "SEQ",
+            "semantic_meaning": "Sequence number",
+            "ocsf_target": "unmapped.SEQ"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:04:19",
+        "ID": "512",
+        "CODE": "0",
+        "PHYSOUT": "eth1",
+        "TYPE": "8",
+        "TTL": "107",
+        "syslog_day": "1",
+        "syslog_host": "bridge",
+        "SEQ": "733"
+      },
+      "src_endpoint": {
+        "ip": "190.0.0.39",
+        "interface_name": "br0",
+        "bytes": 92
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.105",
+        "interface_name": "br0"
+      },
+      "connection_info": {
+        "protocol_name": "ICMP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-12",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "CODE",
+            "semantic_meaning": "ICMP Code",
+            "ocsf_target": "unmapped.CODE"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TYPE",
+            "semantic_meaning": "ICMP Type",
+            "ocsf_target": "unmapped.TYPE"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "SEQ",
+            "semantic_meaning": "Sequence number",
+            "ocsf_target": "unmapped.SEQ"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:08:06",
+        "ID": "6273",
+        "CODE": "0",
+        "PHYSOUT": "eth1",
+        "TYPE": "8",
+        "TTL": "117",
+        "syslog_day": "1",
+        "syslog_host": "bridge",
+        "SEQ": "10638"
+      },
+      "src_endpoint": {
+        "ip": "24.70.192.251",
+        "interface_name": "br0",
+        "bytes": 92
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.105",
+        "interface_name": "br0"
+      },
+      "connection_info": {
+        "protocol_name": "ICMP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-13",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "CODE",
+            "semantic_meaning": "ICMP Code",
+            "ocsf_target": "unmapped.CODE"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TYPE",
+            "semantic_meaning": "ICMP Type",
+            "ocsf_target": "unmapped.TYPE"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "SEQ",
+            "semantic_meaning": "Sequence number",
+            "ocsf_target": "unmapped.SEQ"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:08:58",
+        "ID": "512",
+        "CODE": "0",
+        "PHYSOUT": "eth1",
+        "TYPE": "8",
+        "TTL": "113",
+        "syslog_day": "1",
+        "syslog_host": "bridge",
+        "SEQ": "40433"
+      },
+      "src_endpoint": {
+        "ip": "218.190.214.96",
+        "interface_name": "br0",
+        "bytes": 92
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.110",
+        "interface_name": "br0"
+      },
+      "connection_info": {
+        "protocol_name": "ICMP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-14",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "CODE",
+            "semantic_meaning": "ICMP Code",
+            "ocsf_target": "unmapped.CODE"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TYPE",
+            "semantic_meaning": "ICMP Type",
+            "ocsf_target": "unmapped.TYPE"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "SEQ",
+            "semantic_meaning": "Sequence number",
+            "ocsf_target": "unmapped.SEQ"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:12:53",
+        "ID": "768",
+        "CODE": "0",
+        "PHYSOUT": "eth1",
+        "TYPE": "8",
+        "TTL": "105",
+        "syslog_day": "1",
+        "syslog_host": "bridge",
+        "SEQ": "677"
+      },
+      "src_endpoint": {
+        "ip": "220.189.40.76",
+        "interface_name": "br0",
+        "bytes": 92
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.105",
+        "interface_name": "br0"
+      },
+      "connection_info": {
+        "protocol_name": "ICMP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-15",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "CODE",
+            "semantic_meaning": "ICMP Code",
+            "ocsf_target": "unmapped.CODE"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TYPE",
+            "semantic_meaning": "ICMP Type",
+            "ocsf_target": "unmapped.TYPE"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "SEQ",
+            "semantic_meaning": "Sequence number",
+            "ocsf_target": "unmapped.SEQ"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "00:15:12",
+        "ID": "512",
+        "CODE": "0",
+        "PHYSOUT": "eth1",
+        "TYPE": "8",
+        "TTL": "121",
+        "syslog_day": "1",
+        "syslog_host": "bridge",
+        "SEQ": "25623"
+      },
+      "src_endpoint": {
+        "ip": "63.125.10.7",
+        "interface_name": "br0",
+        "bytes": 92
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.64",
+        "interface_name": "br0"
+      },
+      "connection_info": {
+        "protocol_name": "ICMP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-16",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DF",
+            "semantic_meaning": "Don't Fragment flag set",
+            "ocsf_target": "unmapped.DF"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "5840",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth1",
+        "syslog_time": "09:05:46",
+        "RES": "0x00",
+        "ID": "29865",
+        "PHYSOUT": "eth0",
+        "TTL": "64",
+        "syslog_day": "1",
+        "DF": "true",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "11.11.11.67",
+        "port": 1163,
+        "interface_name": "br0",
+        "bytes": 60
+      },
+      "dst_endpoint": {
+        "ip": "80.116.93.36",
+        "interface_name": "br0",
+        "port": 113
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-17",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DF",
+            "semantic_meaning": "Don't Fragment flag set",
+            "ocsf_target": "unmapped.DF"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "5840",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth1",
+        "syslog_time": "09:05:47",
+        "RES": "0x00",
+        "ID": "40060",
+        "PHYSOUT": "eth0",
+        "TTL": "64",
+        "syslog_day": "1",
+        "DF": "true",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "11.11.11.67",
+        "port": 1164,
+        "interface_name": "br0",
+        "bytes": 60
+      },
+      "dst_endpoint": {
+        "ip": "80.116.93.36",
+        "interface_name": "br0",
+        "port": 113
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-18",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DF",
+            "semantic_meaning": "Don't Fragment flag set",
+            "ocsf_target": "unmapped.DF"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "5840",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth1",
+        "syslog_time": "09:05:47",
+        "RES": "0x00",
+        "ID": "8438",
+        "PHYSOUT": "eth0",
+        "TTL": "64",
+        "syslog_day": "1",
+        "DF": "true",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "11.11.11.67",
+        "port": 1165,
+        "interface_name": "br0",
+        "bytes": 60
+      },
+      "dst_endpoint": {
+        "ip": "80.116.93.36",
+        "interface_name": "br0",
+        "port": 113
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-19",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DF",
+            "semantic_meaning": "Don't Fragment flag set",
+            "ocsf_target": "unmapped.DF"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "5840",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth1",
+        "syslog_time": "09:05:47",
+        "RES": "0x00",
+        "ID": "10112",
+        "PHYSOUT": "eth0",
+        "TTL": "64",
+        "syslog_day": "1",
+        "DF": "true",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "11.11.11.67",
+        "port": 1166,
+        "interface_name": "br0",
+        "bytes": 60
+      },
+      "dst_endpoint": {
+        "ip": "80.116.93.36",
+        "interface_name": "br0",
+        "port": 113
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-20",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "SYN",
+            "semantic_meaning": "TCP SYN flag set",
+            "ocsf_target": "unmapped.SYN"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "WINDOW",
+            "semantic_meaning": "TCP Window Size",
+            "ocsf_target": "unmapped.WINDOW"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "URGP",
+            "semantic_meaning": "Urgent Pointer",
+            "ocsf_target": "unmapped.URGP"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "RES",
+            "semantic_meaning": "Reserved bits",
+            "ocsf_target": "unmapped.RES"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DF",
+            "semantic_meaning": "Don't Fragment flag set",
+            "ocsf_target": "unmapped.DF"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          }
+        ],
+        "SYN": "true",
+        "syslog_month": "Feb",
+        "WINDOW": "5840",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "URGP": "0",
+        "PHYSIN": "eth1",
+        "syslog_time": "09:05:47",
+        "RES": "0x00",
+        "ID": "55343",
+        "PHYSOUT": "eth0",
+        "TTL": "64",
+        "syslog_day": "1",
+        "DF": "true",
+        "syslog_host": "bridge"
+      },
+      "src_endpoint": {
+        "ip": "11.11.11.67",
+        "port": 1167,
+        "interface_name": "br0",
+        "bytes": 60
+      },
+      "dst_endpoint": {
+        "ip": "80.116.93.36",
+        "interface_name": "br0",
+        "port": 113
+      },
+      "connection_info": {
+        "protocol_name": "TCP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-21",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "CODE",
+            "semantic_meaning": "ICMP Code",
+            "ocsf_target": "unmapped.CODE"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TYPE",
+            "semantic_meaning": "ICMP Type",
+            "ocsf_target": "unmapped.TYPE"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "SEQ",
+            "semantic_meaning": "Sequence number",
+            "ocsf_target": "unmapped.SEQ"
+          },
+          {
+            "source_field": "syslog_action",
+            "semantic_meaning": "Action or flow direction",
+            "ocsf_target": "unmapped.syslog_action"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "13:50:22",
+        "ID": "21241",
+        "CODE": "0",
+        "PHYSOUT": "eth1",
+        "TYPE": "8",
+        "TTL": "112",
+        "syslog_day": "10",
+        "syslog_host": "bridge",
+        "SEQ": "46667",
+        "syslog_action": "INBLOCK"
+      },
+      "src_endpoint": {
+        "ip": "4.22.106.52",
+        "interface_name": "br0",
+        "bytes": 92
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.105",
+        "interface_name": "br0"
+      },
+      "connection_info": {
+        "protocol_name": "ICMP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-22",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "PHYSIN",
+            "semantic_meaning": "Physical Ingress Interface",
+            "ocsf_target": "unmapped.PHYSIN"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "CODE",
+            "semantic_meaning": "ICMP Code",
+            "ocsf_target": "unmapped.CODE"
+          },
+          {
+            "source_field": "PHYSOUT",
+            "semantic_meaning": "Physical Egress Interface",
+            "ocsf_target": "unmapped.PHYSOUT"
+          },
+          {
+            "source_field": "TYPE",
+            "semantic_meaning": "ICMP Type",
+            "ocsf_target": "unmapped.TYPE"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "SEQ",
+            "semantic_meaning": "Sequence number",
+            "ocsf_target": "unmapped.SEQ"
+          },
+          {
+            "source_field": "syslog_action",
+            "semantic_meaning": "Action or flow direction",
+            "ocsf_target": "unmapped.syslog_action"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "PHYSIN": "eth0",
+        "syslog_time": "13:50:46",
+        "ID": "33697",
+        "CODE": "0",
+        "PHYSOUT": "eth1",
+        "TYPE": "8",
+        "TTL": "118",
+        "syslog_day": "10",
+        "syslog_host": "bridge",
+        "SEQ": "42893",
+        "syslog_action": "INBLOCK"
+      },
+      "src_endpoint": {
+        "ip": "205.230.103.253",
+        "interface_name": "br0",
+        "bytes": 92
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.100",
+        "interface_name": "br0"
+      },
+      "connection_info": {
+        "protocol_name": "ICMP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-23",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "MAC",
+            "semantic_meaning": "MAC Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DF",
+            "semantic_meaning": "Don't Fragment flag set",
+            "ocsf_target": "unmapped.DF"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "syslog_action",
+            "semantic_meaning": "Action or flow direction",
+            "ocsf_target": "unmapped.syslog_action"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "syslog_time": "14:00:28",
+        "ID": "0",
+        "TTL": "64",
+        "syslog_day": "10",
+        "DF": "true",
+        "syslog_host": "bridge",
+        "syslog_action": "INBLOCK"
+      },
+      "src_endpoint": {
+        "ip": "11.11.11.69",
+        "port": 1024,
+        "interface_name": "eth1",
+        "mac": "00:02:b3:65:c9:71:00:b0:d0:87:85:c3:08:00",
+        "bytes": 49
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.65",
+        "interface_name": "true",
+        "port": 514
+      },
+      "connection_info": {
+        "protocol_name": "UDP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-24",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "MAC",
+            "semantic_meaning": "MAC Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DF",
+            "semantic_meaning": "Don't Fragment flag set",
+            "ocsf_target": "unmapped.DF"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "syslog_action",
+            "semantic_meaning": "Action or flow direction",
+            "ocsf_target": "unmapped.syslog_action"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "syslog_time": "14:00:33",
+        "ID": "0",
+        "TTL": "64",
+        "syslog_day": "10",
+        "DF": "true",
+        "syslog_host": "bridge",
+        "syslog_action": "INBLOCK"
+      },
+      "src_endpoint": {
+        "ip": "11.11.11.69",
+        "port": 137,
+        "interface_name": "eth1",
+        "mac": "ff:ff:ff:ff:ff:ff:00:b0:d0:87:85:c3:08:00",
+        "bytes": 76
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.255",
+        "interface_name": "true",
+        "port": 137
+      },
+      "connection_info": {
+        "protocol_name": "UDP"
+      }
+    }
+  },
+  {
+    "event_id": "syslog-test-25",
+    "source_id": "fixture_syslog",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "syslog-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "SRC",
+            "semantic_meaning": "Source IP Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "syslog_month",
+            "semantic_meaning": "Month of the event",
+            "ocsf_target": "unmapped.syslog_month"
+          },
+          {
+            "source_field": "SPT",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "PREC",
+            "semantic_meaning": "Precedence",
+            "ocsf_target": "unmapped.PREC"
+          },
+          {
+            "source_field": "IN",
+            "semantic_meaning": "Ingress Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DST",
+            "semantic_meaning": "Destination IP Address",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "TOS",
+            "semantic_meaning": "Type of Service",
+            "ocsf_target": "unmapped.TOS"
+          },
+          {
+            "source_field": "OUT",
+            "semantic_meaning": "Egress Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_time",
+            "semantic_meaning": "Time of the event",
+            "ocsf_target": "unmapped.syslog_time"
+          },
+          {
+            "source_field": "ID",
+            "semantic_meaning": "IP ID",
+            "ocsf_target": "unmapped.ID"
+          },
+          {
+            "source_field": "PROTO",
+            "semantic_meaning": "L4 Protocol",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "TTL",
+            "semantic_meaning": "Time to Live",
+            "ocsf_target": "unmapped.TTL"
+          },
+          {
+            "source_field": "MAC",
+            "semantic_meaning": "MAC Address",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DPT",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "syslog_day",
+            "semantic_meaning": "Day of the event",
+            "ocsf_target": "unmapped.syslog_day"
+          },
+          {
+            "source_field": "LEN",
+            "semantic_meaning": "Packet length",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "DF",
+            "semantic_meaning": "Don't Fragment flag set",
+            "ocsf_target": "unmapped.DF"
+          },
+          {
+            "source_field": "syslog_host",
+            "semantic_meaning": "Hostname of the reporting device",
+            "ocsf_target": "unmapped.syslog_host"
+          },
+          {
+            "source_field": "syslog_action",
+            "semantic_meaning": "Action or flow direction",
+            "ocsf_target": "unmapped.syslog_action"
+          }
+        ],
+        "syslog_month": "Feb",
+        "PREC": "0x00",
+        "TOS": "0x00",
+        "syslog_time": "14:00:33",
+        "ID": "0",
+        "TTL": "64",
+        "syslog_day": "10",
+        "DF": "true",
+        "syslog_host": "bridge",
+        "syslog_action": "INBLOCK"
+      },
+      "src_endpoint": {
+        "ip": "11.11.11.69",
+        "port": 138,
+        "interface_name": "eth1",
+        "mac": "ff:ff:ff:ff:ff:ff:00:b0:d0:87:85:c3:08:00",
+        "bytes": 221
+      },
+      "dst_endpoint": {
+        "ip": "11.11.11.255",
+        "interface_name": "true",
+        "port": 138
+      },
+      "connection_info": {
+        "protocol_name": "UDP"
+      }
+    }
+  }
+]

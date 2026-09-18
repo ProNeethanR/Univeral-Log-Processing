@@ -1,0 +1,301 @@
+[
+  {
+    "event_id": "cef-test-1",
+    "source_id": "fixture_cef",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "cef-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "act",
+            "semantic_meaning": "Action",
+            "ocsf_target": "unmapped.act"
+          },
+          {
+            "source_field": "externalId",
+            "semantic_meaning": "External ID",
+            "ocsf_target": "unmapped.externalId"
+          },
+          {
+            "source_field": "cs3",
+            "semantic_meaning": "Custom String 3",
+            "ocsf_target": "unmapped.cs3"
+          },
+          {
+            "source_field": "tenantCDLid",
+            "semantic_meaning": "Tenant CDL ID",
+            "ocsf_target": "unmapped.tenantCDLid"
+          },
+          {
+            "source_field": "cat",
+            "semantic_meaning": "Event Category",
+            "ocsf_target": "unmapped.cat"
+          },
+          {
+            "source_field": "dpt",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "cs4",
+            "semantic_meaning": "Custom String 4",
+            "ocsf_target": "unmapped.cs4"
+          },
+          {
+            "source_field": "tenantname",
+            "semantic_meaning": "Tenant Name",
+            "ocsf_target": "unmapped.tenantname"
+          },
+          {
+            "source_field": "cef_name",
+            "semantic_meaning": "Event Name",
+            "ocsf_target": "activity_name"
+          },
+          {
+            "source_field": "cef_device_vendor",
+            "semantic_meaning": "Device Vendor",
+            "ocsf_target": "device"
+          },
+          {
+            "source_field": "request",
+            "semantic_meaning": "Request URL",
+            "ocsf_target": "unmapped.request"
+          },
+          {
+            "source_field": "initiatorSha256",
+            "semantic_meaning": "Initiator SHA256",
+            "ocsf_target": "unmapped.initiatorSha256"
+          },
+          {
+            "source_field": "incident",
+            "semantic_meaning": "Incident ID",
+            "ocsf_target": "unmapped.incident"
+          },
+          {
+            "source_field": "targetprocesssignature",
+            "semantic_meaning": "Target Process Signature",
+            "ocsf_target": "unmapped.targetprocesssignature"
+          },
+          {
+            "source_field": "cef_device_product",
+            "semantic_meaning": "Device Product",
+            "ocsf_target": "device"
+          },
+          {
+            "source_field": "initiatorPath",
+            "semantic_meaning": "Initiator Path",
+            "ocsf_target": "unmapped.initiatorPath"
+          },
+          {
+            "source_field": "end",
+            "semantic_meaning": "End Time",
+            "ocsf_target": "unmapped.end"
+          },
+          {
+            "source_field": "osParentSigner",
+            "semantic_meaning": "OS Parent Signer",
+            "ocsf_target": "unmapped.osParentSigner"
+          },
+          {
+            "source_field": "fileHash",
+            "semantic_meaning": "File Hash",
+            "ocsf_target": "unmapped.fileHash"
+          },
+          {
+            "source_field": "cs5Label",
+            "semantic_meaning": "Custom String 5 Label",
+            "ocsf_target": "unmapped.cs5Label"
+          },
+          {
+            "source_field": "cs1Label",
+            "semantic_meaning": "Custom String 1 Label",
+            "ocsf_target": "unmapped.cs1Label"
+          },
+          {
+            "source_field": "osParentName",
+            "semantic_meaning": "OS Parent Name",
+            "ocsf_target": "unmapped.osParentName"
+          },
+          {
+            "source_field": "cs2Label",
+            "semantic_meaning": "Custom String 2 Label",
+            "ocsf_target": "unmapped.cs2Label"
+          },
+          {
+            "source_field": "deviceFacility",
+            "semantic_meaning": "Device Facility",
+            "ocsf_target": "unmapped.deviceFacility"
+          },
+          {
+            "source_field": "cef_version",
+            "semantic_meaning": "CEF Version",
+            "ocsf_target": "unmapped.cef_version"
+          },
+          {
+            "source_field": "cef_device_version",
+            "semantic_meaning": "Device Version",
+            "ocsf_target": "unmapped.cef_device_version"
+          },
+          {
+            "source_field": "cs6Label",
+            "semantic_meaning": "Custom String 6 Label",
+            "ocsf_target": "unmapped.cs6Label"
+          },
+          {
+            "source_field": "dst",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "cs2",
+            "semantic_meaning": "Custom String 2",
+            "ocsf_target": "unmapped.cs2"
+          },
+          {
+            "source_field": "cef_severity",
+            "semantic_meaning": "Event Severity",
+            "ocsf_target": "severity_id"
+          },
+          {
+            "source_field": "osParentSha256",
+            "semantic_meaning": "OS Parent SHA256",
+            "ocsf_target": "unmapped.osParentSha256"
+          },
+          {
+            "source_field": "cs4Label",
+            "semantic_meaning": "Custom String 4 Label",
+            "ocsf_target": "unmapped.cs4Label"
+          },
+          {
+            "source_field": "spt",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "cgoSha256",
+            "semantic_meaning": "CGO SHA256",
+            "ocsf_target": "unmapped.cgoSha256"
+          },
+          {
+            "source_field": "cs3Label",
+            "semantic_meaning": "Custom String 3 Label",
+            "ocsf_target": "unmapped.cs3Label"
+          },
+          {
+            "source_field": "filePath",
+            "semantic_meaning": "File Path",
+            "ocsf_target": "unmapped.filePath"
+          },
+          {
+            "source_field": "CSPaccountname",
+            "semantic_meaning": "CSP Account Name",
+            "ocsf_target": "unmapped.CSPaccountname"
+          },
+          {
+            "source_field": "cs1",
+            "semantic_meaning": "Custom String 1",
+            "ocsf_target": "unmapped.cs1"
+          },
+          {
+            "source_field": "shost",
+            "semantic_meaning": "Source Hostname",
+            "ocsf_target": "unmapped.shost"
+          },
+          {
+            "source_field": "cef_device_event_class_id",
+            "semantic_meaning": "Signature ID / Event Class ID",
+            "ocsf_target": "unmapped.cef_device_event_class_id"
+          },
+          {
+            "source_field": "src",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "cs6",
+            "semantic_meaning": "Custom String 6",
+            "ocsf_target": "unmapped.cs6"
+          },
+          {
+            "source_field": "osParentCmd",
+            "semantic_meaning": "OS Parent Cmd",
+            "ocsf_target": "unmapped.osParentCmd"
+          },
+          {
+            "source_field": "cs5",
+            "semantic_meaning": "Custom String 5",
+            "ocsf_target": "unmapped.cs5"
+          },
+          {
+            "source_field": "osParentSignature",
+            "semantic_meaning": "OS Parent Signature",
+            "ocsf_target": "unmapped.osParentSignature"
+          },
+          {
+            "source_field": "suser",
+            "semantic_meaning": "Source User",
+            "ocsf_target": "unmapped.suser"
+          }
+        ],
+        "act": "Detected",
+        "externalId": "98106342",
+        "cs3": "Microsoft CorporationSIGNATURE_SIGNED-",
+        "tenantCDLid": "1021319191",
+        "cat": "Discovery",
+        "cs4": "iexplore.exe",
+        "tenantname": "iGA",
+        "request": "https:\\/\\/iga-bh.xdr.eu.paloaltonetworks.com\\/alerts\\/98106342",
+        "initiatorSha256": "e582676ec900249b408ab4e37976ae8c443635a7da77755daf6f896a172856a3",
+        "incident": "118719",
+        "targetprocesssignature": "NoneSIGNATURE_UNAVAILABLE-",
+        "initiatorPath": "C:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\iexplore.exe",
+        "end": "1601792870694",
+        "osParentSigner": "Microsoft Corporation",
+        "fileHash": "e582676ec900249b408ab4e37976ae8c443635a7da77755daf6f896a172856a3",
+        "cs5Label": "CGO CMD",
+        "cs1Label": "Initiated by",
+        "osParentName": "iexplore.exe",
+        "cs2Label": "Initiator CMD",
+        "deviceFacility": "None",
+        "cef_version": "0",
+        "cef_device_version": "Cortex XDR 2.4",
+        "cs6Label": "CGO Signature",
+        "cs2": "\\\u201cC:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\IEXPLORE.EXE\\\u201d SCODEF:11844 CREDAT:82946 \\/prefetch:2",
+        "osParentSha256": "e582676ec900249b408ab4e37976ae8c443635a7da77755daf6f896a172856a3",
+        "cs4Label": "CGO name",
+        "cgoSha256": "e582676ec900249b408ab4e37976ae8c443635a7da77755daf6f896a172856a3",
+        "cs3Label": "Signature",
+        "filePath": "C:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\iexplore.exe",
+        "CSPaccountname": "Information & eGovernment Authority",
+        "cs1": "iexplore.exe",
+        "shost": "WGHRAMG",
+        "cef_device_event_class_id": "XDR Analytics",
+        "cs6": "Microsoft CorporationSIGNATURE_SIGNED-",
+        "osParentCmd": "\\\u201cC:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\IEXPLORE.EXE\\\u201d SCODEF:11844 CREDAT:82946 \\/prefetch:2",
+        "cs5": "\\\u201cC:\\\\\\\\Program Files (x86)\\\\\\\\Internet Explorer\\\\\\\\IEXPLORE.EXE\\\u201d SCODEF:11844 CREDAT:82946 \\/prefetch:2",
+        "osParentSignature": "SIGNATURE_SIGNED",
+        "suser": "['root']"
+      },
+      "dst_endpoint": {
+        "port": 8000,
+        "ip": "10.12.4.37"
+      },
+      "activity_name": "High Connection Rate",
+      "device": {
+        "vendor": "Palo Alto Networks",
+        "product": "Cortex XDR"
+      },
+      "severity_id": 6,
+      "src_endpoint": {
+        "port": 58003,
+        "ip": "10.10.28.140"
+      }
+    }
+  }
+]

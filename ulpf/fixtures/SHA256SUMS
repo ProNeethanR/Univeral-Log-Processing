@@ -1,0 +1,4 @@
+755326d148ce3f2c456c79c97bec6a6b9981f1a8b3450c2588b5a66c87cf79ad  1628  fixtures/raw/cef/cef-real-001.log
+b80b3a483c6a0a91b1193c9d6c3b2fe9fed58d0f1ee8715ac29fee181ea4e3bc  1095  fixtures/raw/cef/doc_reference/cef-doc-examples.log
+a3783b7c387f7248d8c90c315b9b06a73bf4f7e6d0a6631b0a2449afd5706552  5330  fixtures/raw/syslog/syslog-001.log
+162edcbc838ed90c1bad712fc485977e43225e1b6ccf715adb0ee7eb1ae00caf  8905  fixtures/raw/vendor/fortigate-001.log

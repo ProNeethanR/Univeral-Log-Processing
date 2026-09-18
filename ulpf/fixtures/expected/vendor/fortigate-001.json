@@ -1,0 +1,2540 @@
+[
+  {
+    "event_id": "fortigate-test-1",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "srcintf",
+            "semantic_meaning": "Source Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "dstintf",
+            "semantic_meaning": "Destination Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "rcvdpkt",
+            "semantic_meaning": "Packets Received",
+            "ocsf_target": "unmapped.rcvdpkt"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "srcport",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "srcip",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "trandisp",
+            "semantic_meaning": "Translation Disposition",
+            "ocsf_target": "unmapped.trandisp"
+          },
+          {
+            "source_field": "dstcountry",
+            "semantic_meaning": "Destination Country",
+            "ocsf_target": "unmapped.dstcountry"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "dstip",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "sessionid",
+            "semantic_meaning": "Session ID",
+            "ocsf_target": "unmapped.sessionid"
+          },
+          {
+            "source_field": "srccountry",
+            "semantic_meaning": "Source Country",
+            "ocsf_target": "unmapped.srccountry"
+          },
+          {
+            "source_field": "duration",
+            "semantic_meaning": "Session Duration",
+            "ocsf_target": "unmapped.duration"
+          },
+          {
+            "source_field": "sentpkt",
+            "semantic_meaning": "Packets Sent",
+            "ocsf_target": "unmapped.sentpkt"
+          },
+          {
+            "source_field": "dstport",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "rcvdbyte",
+            "semantic_meaning": "Bytes Received",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "transip",
+            "semantic_meaning": "Translated IP",
+            "ocsf_target": "unmapped.transip"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "transport",
+            "semantic_meaning": "Translated Port",
+            "ocsf_target": "unmapped.transport"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "service",
+            "semantic_meaning": "Service Name / Protocol",
+            "ocsf_target": "unmapped.service"
+          },
+          {
+            "source_field": "proto",
+            "semantic_meaning": "Protocol Number",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "sentbyte",
+            "semantic_meaning": "Bytes Sent",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0000000013",
+        "devname": "JLL_FW",
+        "rcvdpkt": "1",
+        "date": "2014-05-14",
+        "status": "accept",
+        "trandisp": "snat",
+        "dstcountry": "United States",
+        "vd": "root",
+        "type": "traffic",
+        "time": "06:25:42",
+        "sessionid": "2722472",
+        "srccountry": "Reserved",
+        "duration": "180",
+        "sentpkt": "1",
+        "transip": "200.74.141.50",
+        "policyid": "12",
+        "transport": "54781",
+        "level": "notice",
+        "service": "DNS",
+        "subtype": "forward",
+        "devid": "FG200B3910602686"
+      },
+      "src_endpoint": {
+        "interface_name": "port1",
+        "port": 54781,
+        "ip": "192.168.100.72",
+        "bytes": 78
+      },
+      "dst_endpoint": {
+        "interface_name": "port2",
+        "ip": "<OTXIP>",
+        "port": 53,
+        "bytes": 94
+      },
+      "connection_info": {
+        "protocol_name": "17"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-2",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "srcintf",
+            "semantic_meaning": "Source Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "catdesc",
+            "semantic_meaning": "Category Description",
+            "ocsf_target": "unmapped.catdesc"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "dstintf",
+            "semantic_meaning": "Destination Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "identidx",
+            "semantic_meaning": "Identity Index",
+            "ocsf_target": "unmapped.identidx"
+          },
+          {
+            "source_field": "rcvdpkt",
+            "semantic_meaning": "Packets Received",
+            "ocsf_target": "unmapped.rcvdpkt"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "srcport",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "srcip",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "utmevent",
+            "semantic_meaning": "UTM Event Name",
+            "ocsf_target": "unmapped.utmevent"
+          },
+          {
+            "source_field": "group",
+            "semantic_meaning": "User Group",
+            "ocsf_target": "unmapped.group"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "trandisp",
+            "semantic_meaning": "Translation Disposition",
+            "ocsf_target": "unmapped.trandisp"
+          },
+          {
+            "source_field": "dstcountry",
+            "semantic_meaning": "Destination Country",
+            "ocsf_target": "unmapped.dstcountry"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "dstip",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "hostname",
+            "semantic_meaning": "Hostname / URL",
+            "ocsf_target": "unmapped.hostname"
+          },
+          {
+            "source_field": "sessionid",
+            "semantic_meaning": "Session ID",
+            "ocsf_target": "unmapped.sessionid"
+          },
+          {
+            "source_field": "srccountry",
+            "semantic_meaning": "Source Country",
+            "ocsf_target": "unmapped.srccountry"
+          },
+          {
+            "source_field": "duration",
+            "semantic_meaning": "Session Duration",
+            "ocsf_target": "unmapped.duration"
+          },
+          {
+            "source_field": "utmsubtype",
+            "semantic_meaning": "UTM Subtype",
+            "ocsf_target": "unmapped.utmsubtype"
+          },
+          {
+            "source_field": "sentpkt",
+            "semantic_meaning": "Packets Sent",
+            "ocsf_target": "unmapped.sentpkt"
+          },
+          {
+            "source_field": "dstport",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "rcvdbyte",
+            "semantic_meaning": "Bytes Received",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "transip",
+            "semantic_meaning": "Translated IP",
+            "ocsf_target": "unmapped.transip"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "transport",
+            "semantic_meaning": "Translated Port",
+            "ocsf_target": "unmapped.transport"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "service",
+            "semantic_meaning": "Service Name / Protocol",
+            "ocsf_target": "unmapped.service"
+          },
+          {
+            "source_field": "utmaction",
+            "semantic_meaning": "UTM Action",
+            "ocsf_target": "unmapped.utmaction"
+          },
+          {
+            "source_field": "proto",
+            "semantic_meaning": "Protocol Number",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "sentbyte",
+            "semantic_meaning": "Bytes Sent",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "urlcnt",
+            "semantic_meaning": "URL Count",
+            "ocsf_target": "unmapped.urlcnt"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0000000013",
+        "catdesc": "Information Technology",
+        "devname": "JLL_FW",
+        "identidx": "3",
+        "rcvdpkt": "30",
+        "date": "2014-05-14",
+        "utmevent": "webfilter",
+        "group": "NAVEGACION_LLCCO",
+        "status": "close",
+        "trandisp": "snat",
+        "dstcountry": "United States",
+        "vd": "root",
+        "type": "traffic",
+        "time": "06:25:42",
+        "hostname": "ping.chartbeat.net",
+        "sessionid": "2720779",
+        "srccountry": "Reserved",
+        "duration": "414",
+        "utmsubtype": "ftgd-cat",
+        "sentpkt": "30",
+        "transip": "200.74.141.50",
+        "policyid": "75",
+        "transport": "62877",
+        "level": "notice",
+        "service": "HTTP",
+        "utmaction": "passthrough",
+        "subtype": "forward",
+        "user": "CARLOSC",
+        "urlcnt": "13",
+        "devid": "FG200B3910602686"
+      },
+      "src_endpoint": {
+        "interface_name": "port1",
+        "port": 2461,
+        "ip": "192.168.100.41",
+        "bytes": 8535
+      },
+      "dst_endpoint": {
+        "interface_name": "port2",
+        "ip": "<OTXIP>",
+        "port": 80,
+        "bytes": 3603
+      },
+      "connection_info": {
+        "protocol_name": "6"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-3",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "srcintf",
+            "semantic_meaning": "Source Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "dstintf",
+            "semantic_meaning": "Destination Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "rcvdpkt",
+            "semantic_meaning": "Packets Received",
+            "ocsf_target": "unmapped.rcvdpkt"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "srcport",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "srcip",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "trandisp",
+            "semantic_meaning": "Translation Disposition",
+            "ocsf_target": "unmapped.trandisp"
+          },
+          {
+            "source_field": "dstcountry",
+            "semantic_meaning": "Destination Country",
+            "ocsf_target": "unmapped.dstcountry"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "dstip",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "sessionid",
+            "semantic_meaning": "Session ID",
+            "ocsf_target": "unmapped.sessionid"
+          },
+          {
+            "source_field": "srccountry",
+            "semantic_meaning": "Source Country",
+            "ocsf_target": "unmapped.srccountry"
+          },
+          {
+            "source_field": "duration",
+            "semantic_meaning": "Session Duration",
+            "ocsf_target": "unmapped.duration"
+          },
+          {
+            "source_field": "vpntype",
+            "semantic_meaning": "VPN Type",
+            "ocsf_target": "unmapped.vpntype"
+          },
+          {
+            "source_field": "sentpkt",
+            "semantic_meaning": "Packets Sent",
+            "ocsf_target": "unmapped.sentpkt"
+          },
+          {
+            "source_field": "dstport",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "rcvdbyte",
+            "semantic_meaning": "Bytes Received",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "service",
+            "semantic_meaning": "Service Name / Protocol",
+            "ocsf_target": "unmapped.service"
+          },
+          {
+            "source_field": "proto",
+            "semantic_meaning": "Protocol Number",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "sentbyte",
+            "semantic_meaning": "Bytes Sent",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "vpn",
+            "semantic_meaning": "VPN Name",
+            "ocsf_target": "unmapped.vpn"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0000000013",
+        "devname": "JLL_FW",
+        "rcvdpkt": "1",
+        "date": "2014-05-13",
+        "status": "accept",
+        "trandisp": "noop",
+        "dstcountry": "Reserved",
+        "vd": "root",
+        "type": "traffic",
+        "time": "06:25:31",
+        "sessionid": "1817499",
+        "srccountry": "Reserved",
+        "duration": "180",
+        "vpntype": "ipsec-static",
+        "sentpkt": "1",
+        "policyid": "37",
+        "level": "notice",
+        "service": "SNMP",
+        "subtype": "forward",
+        "vpn": "Etek_Soc_1",
+        "devid": "FG200B3910602686"
+      },
+      "src_endpoint": {
+        "interface_name": "Etek_Soc_1",
+        "port": 51980,
+        "ip": "192.168.100.40",
+        "bytes": 77
+      },
+      "dst_endpoint": {
+        "interface_name": "port1",
+        "ip": "192.168.6.3",
+        "port": 161,
+        "bytes": 105
+      },
+      "connection_info": {
+        "protocol_name": "17"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-4",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "srcintf",
+            "semantic_meaning": "Source Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "dstintf",
+            "semantic_meaning": "Destination Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "rcvdpkt",
+            "semantic_meaning": "Packets Received",
+            "ocsf_target": "unmapped.rcvdpkt"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "srcport",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "srcip",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "trandisp",
+            "semantic_meaning": "Translation Disposition",
+            "ocsf_target": "unmapped.trandisp"
+          },
+          {
+            "source_field": "dstcountry",
+            "semantic_meaning": "Destination Country",
+            "ocsf_target": "unmapped.dstcountry"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "dstip",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "sessionid",
+            "semantic_meaning": "Session ID",
+            "ocsf_target": "unmapped.sessionid"
+          },
+          {
+            "source_field": "srccountry",
+            "semantic_meaning": "Source Country",
+            "ocsf_target": "unmapped.srccountry"
+          },
+          {
+            "source_field": "duration",
+            "semantic_meaning": "Session Duration",
+            "ocsf_target": "unmapped.duration"
+          },
+          {
+            "source_field": "vpntype",
+            "semantic_meaning": "VPN Type",
+            "ocsf_target": "unmapped.vpntype"
+          },
+          {
+            "source_field": "sentpkt",
+            "semantic_meaning": "Packets Sent",
+            "ocsf_target": "unmapped.sentpkt"
+          },
+          {
+            "source_field": "dstport",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "rcvdbyte",
+            "semantic_meaning": "Bytes Received",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "service",
+            "semantic_meaning": "Service Name / Protocol",
+            "ocsf_target": "unmapped.service"
+          },
+          {
+            "source_field": "proto",
+            "semantic_meaning": "Protocol Number",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "sentbyte",
+            "semantic_meaning": "Bytes Sent",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "vpn",
+            "semantic_meaning": "VPN Name",
+            "ocsf_target": "unmapped.vpn"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0000000013",
+        "devname": "JLL_FW",
+        "rcvdpkt": "1",
+        "date": "2014-05-13",
+        "status": "accept",
+        "trandisp": "noop",
+        "dstcountry": "Reserved",
+        "vd": "root",
+        "type": "traffic",
+        "time": "06:25:32",
+        "sessionid": "1817504",
+        "srccountry": "Reserved",
+        "duration": "180",
+        "vpntype": "ipsec-static",
+        "sentpkt": "1",
+        "policyid": "37",
+        "level": "notice",
+        "service": "SNMP",
+        "subtype": "forward",
+        "vpn": "Etek_Soc_1",
+        "devid": "FG200B3910602686"
+      },
+      "src_endpoint": {
+        "interface_name": "Etek_Soc_1",
+        "port": 51996,
+        "ip": "192.168.100.40",
+        "bytes": 77
+      },
+      "dst_endpoint": {
+        "interface_name": "port1",
+        "ip": "192.168.6.3",
+        "port": 161,
+        "bytes": 105
+      },
+      "connection_info": {
+        "protocol_name": "17"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-5",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "ui",
+            "semantic_meaning": "UI Type",
+            "ocsf_target": "unmapped.ui"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          }
+        ],
+        "status": "success",
+        "vd": "root",
+        "logid": "0100032001",
+        "ui": "https(200.31.77.163)",
+        "subtype": "system",
+        "type": "event",
+        "time": "05:35:40",
+        "devname": "JLL_FW",
+        "user": "ringo",
+        "date": "2014-05-11",
+        "devid": "FG200B3910602686",
+        "level": "information"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-6",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "duration",
+            "semantic_meaning": "Session Duration",
+            "ocsf_target": "unmapped.duration"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "ui",
+            "semantic_meaning": "UI Type",
+            "ocsf_target": "unmapped.ui"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          }
+        ],
+        "status": "success",
+        "duration": "31809",
+        "vd": "root",
+        "logid": "0100032003",
+        "ui": "https(200.31.77.163)",
+        "subtype": "system",
+        "type": "event",
+        "time": "14:25:49",
+        "devname": "JLL_FW",
+        "user": "paul",
+        "date": "2014-05-11",
+        "devid": "FG200B3910602686",
+        "level": "information"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-7",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          }
+        ],
+        "vd": "root",
+        "logid": "0100032010",
+        "subtype": "system",
+        "type": "event",
+        "time": "17:41:31",
+        "devname": "JLL_FW",
+        "date": "2014-05-11",
+        "devid": "FG200B3910602686",
+        "level": "information"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-8",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          }
+        ],
+        "status": "success",
+        "vd": "root",
+        "logid": "0100046085",
+        "subtype": "system",
+        "type": "event",
+        "time": "07:28:53",
+        "devname": "JLL_FW",
+        "date": "2014-05-09",
+        "devid": "FG200B3910602686",
+        "level": "information"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-9",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          }
+        ],
+        "status": "success",
+        "vd": "root",
+        "logid": "0100046085",
+        "subtype": "system",
+        "type": "event",
+        "time": "19:28:53",
+        "devname": "JLL_FW",
+        "date": "2014-05-09",
+        "devid": "FG200B3910602686",
+        "level": "information"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-10",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "group",
+            "semantic_meaning": "User Group",
+            "ocsf_target": "unmapped.group"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0101037122",
+        "devname": "JLL_FW",
+        "date": "2014-05-14",
+        "group": "N/A",
+        "status": "success",
+        "vd": "root",
+        "type": "event",
+        "time": "06:28:42",
+        "level": "notice",
+        "subtype": "vpn",
+        "user": "N/A",
+        "devid": "FG200B3910602686"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-11",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "group",
+            "semantic_meaning": "User Group",
+            "ocsf_target": "unmapped.group"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0101037122",
+        "devname": "JLL_FW",
+        "date": "2014-05-14",
+        "group": "N/A",
+        "status": "success",
+        "vd": "root",
+        "type": "event",
+        "time": "06:50:17",
+        "level": "notice",
+        "subtype": "vpn",
+        "user": "N/A",
+        "devid": "FG200B3910602686"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-12",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "group",
+            "semantic_meaning": "User Group",
+            "ocsf_target": "unmapped.group"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0101037122",
+        "devname": "JLL_FW",
+        "date": "2014-05-13",
+        "group": "N/A",
+        "status": "success",
+        "vd": "root",
+        "type": "event",
+        "time": "06:38:12",
+        "level": "notice",
+        "subtype": "vpn",
+        "user": "N/A",
+        "devid": "FG200B3910602686"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-13",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "group",
+            "semantic_meaning": "User Group",
+            "ocsf_target": "unmapped.group"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          }
+        ],
+        "vd": "root",
+        "logid": "0101039424",
+        "subtype": "vpn",
+        "type": "event",
+        "time": "14:08:48",
+        "devname": "JLL_FW",
+        "user": "SAL",
+        "group": "VPN_LLOREDA",
+        "date": "2014-05-13",
+        "devid": "FG200B3910602686",
+        "level": "information"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-14",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "ui",
+            "semantic_meaning": "UI Type",
+            "ocsf_target": "unmapped.ui"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "group",
+            "semantic_meaning": "User Group",
+            "ocsf_target": "unmapped.group"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0102043011",
+        "devname": "JLL_FW",
+        "ui": "guest(192.168.6.65)",
+        "date": "2014-05-14",
+        "group": "FSSO_Guest_Users",
+        "status": "timed_out",
+        "vd": "root",
+        "type": "event",
+        "time": "06:25:45",
+        "policyid": "0",
+        "level": "notice",
+        "subtype": "user",
+        "user": "guest",
+        "devid": "FG200B3910602686"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-15",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "ui",
+            "semantic_meaning": "UI Type",
+            "ocsf_target": "unmapped.ui"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "group",
+            "semantic_meaning": "User Group",
+            "ocsf_target": "unmapped.group"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0102043011",
+        "devname": "JLL_FW",
+        "ui": "guest(192.168.7.47)",
+        "date": "2014-05-14",
+        "group": "FSSO_Guest_Users",
+        "status": "timed_out",
+        "vd": "root",
+        "type": "event",
+        "time": "06:26:05",
+        "policyid": "0",
+        "level": "notice",
+        "subtype": "user",
+        "user": "guest",
+        "devid": "FG200B3910602686"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-16",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "ui",
+            "semantic_meaning": "UI Type",
+            "ocsf_target": "unmapped.ui"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "group",
+            "semantic_meaning": "User Group",
+            "ocsf_target": "unmapped.group"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0102043011",
+        "devname": "JLL_FW",
+        "ui": "guest(192.168.7.183)",
+        "date": "2014-05-13",
+        "group": "FSSO_Guest_Users",
+        "status": "timed_out",
+        "vd": "root",
+        "type": "event",
+        "time": "06:25:35",
+        "policyid": "0",
+        "level": "notice",
+        "subtype": "user",
+        "user": "guest",
+        "devid": "FG200B3910602686"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-17",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "srcintf",
+            "semantic_meaning": "Source Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "dstintf",
+            "semantic_meaning": "Destination Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "identidx",
+            "semantic_meaning": "Identity Index",
+            "ocsf_target": "unmapped.identidx"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "srcport",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "srcip",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "dstip",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "sessionid",
+            "semantic_meaning": "Session ID",
+            "ocsf_target": "unmapped.sessionid"
+          },
+          {
+            "source_field": "dstport",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "service",
+            "semantic_meaning": "Service Name / Protocol",
+            "ocsf_target": "unmapped.service"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0213008705",
+        "devname": "JLL_FW",
+        "identidx": "3",
+        "date": "2014-05-14",
+        "status": "passthrough",
+        "vd": "root",
+        "type": "utm",
+        "time": "06:34:20",
+        "sessionid": "2727880",
+        "policyid": "75",
+        "service": "http",
+        "level": "notice",
+        "subtype": "virus",
+        "user": "CAROLINAM",
+        "devid": "FG200B3910602686"
+      },
+      "src_endpoint": {
+        "interface_name": "port1",
+        "port": 3935,
+        "ip": "192.168.100.74"
+      },
+      "dst_endpoint": {
+        "interface_name": "port2",
+        "ip": "206.111.1.82",
+        "port": 80
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-18",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "srcintf",
+            "semantic_meaning": "Source Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "dstintf",
+            "semantic_meaning": "Destination Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "identidx",
+            "semantic_meaning": "Identity Index",
+            "ocsf_target": "unmapped.identidx"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "srcport",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "srcip",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "dstip",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "hostname",
+            "semantic_meaning": "Hostname / URL",
+            "ocsf_target": "unmapped.hostname"
+          },
+          {
+            "source_field": "sessionid",
+            "semantic_meaning": "Session ID",
+            "ocsf_target": "unmapped.sessionid"
+          },
+          {
+            "source_field": "dstport",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "rcvdbyte",
+            "semantic_meaning": "Bytes Received",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "service",
+            "semantic_meaning": "Service Name / Protocol",
+            "ocsf_target": "unmapped.service"
+          },
+          {
+            "source_field": "sentbyte",
+            "semantic_meaning": "Bytes Sent",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "user",
+            "semantic_meaning": "Username",
+            "ocsf_target": "unmapped.user"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0315012546",
+        "devname": "JLL_FW",
+        "identidx": "3",
+        "date": "2014-05-09",
+        "status": "passthrough",
+        "vd": "root",
+        "type": "utm",
+        "time": "08:42:58",
+        "hostname": "www.noticiasrcn.com",
+        "sessionid": "117836698",
+        "policyid": "75",
+        "level": "information",
+        "service": "http",
+        "subtype": "webfilter",
+        "user": "SARA",
+        "devid": "FG200B3910602686"
+      },
+      "src_endpoint": {
+        "interface_name": "port1",
+        "port": 2034,
+        "ip": "192.168.7.41",
+        "bytes": 474
+      },
+      "dst_endpoint": {
+        "interface_name": "port2",
+        "ip": "173.193.169.232",
+        "port": 80,
+        "bytes": 370
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-19",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "srcintf",
+            "semantic_meaning": "Source Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "dstintf",
+            "semantic_meaning": "Destination Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "identidx",
+            "semantic_meaning": "Identity Index",
+            "ocsf_target": "unmapped.identidx"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "srcport",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "srcip",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "dstip",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "sessionid",
+            "semantic_meaning": "Session ID",
+            "ocsf_target": "unmapped.sessionid"
+          },
+          {
+            "source_field": "dstport",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "service",
+            "semantic_meaning": "Service Name / Protocol",
+            "ocsf_target": "unmapped.service"
+          },
+          {
+            "source_field": "proto",
+            "semantic_meaning": "Protocol Number",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0419016384",
+        "devname": "JLL_FW",
+        "identidx": "0",
+        "date": "2014-05-11",
+        "status": "detected",
+        "vd": "root",
+        "type": "utm",
+        "time": "18:52:15",
+        "sessionid": "388908",
+        "policyid": "49",
+        "level": "alert",
+        "service": "http",
+        "subtype": "ips",
+        "devid": "FG200B3910602686"
+      },
+      "src_endpoint": {
+        "interface_name": "port2",
+        "port": 38182,
+        "ip": "61.19.246.69"
+      },
+      "dst_endpoint": {
+        "interface_name": "Vlan_3",
+        "ip": "192.168.100.55",
+        "port": 80
+      },
+      "connection_info": {
+        "protocol_name": "6"
+      }
+    }
+  },
+  {
+    "event_id": "fortigate-test-20",
+    "source_id": "fixture_fortigate",
+    "ingest_timestamp": "2026-09-18T12:00:00Z",
+    "raw_ref": {
+      "store": "vault",
+      "locator": "fortigate-001.log",
+      "raw_hash": "sha256:000000000000000000000000"
+    },
+    "schema_version": "1.0.0",
+    "ocsf_event": {
+      "unmapped": {
+        "tracing": [
+          {
+            "source_field": "logid",
+            "semantic_meaning": "Log Message ID",
+            "ocsf_target": "unmapped.logid"
+          },
+          {
+            "source_field": "srcintf",
+            "semantic_meaning": "Source Interface",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "devname",
+            "semantic_meaning": "Device Name",
+            "ocsf_target": "unmapped.devname"
+          },
+          {
+            "source_field": "dstintf",
+            "semantic_meaning": "Destination Interface",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "identidx",
+            "semantic_meaning": "Identity Index",
+            "ocsf_target": "unmapped.identidx"
+          },
+          {
+            "source_field": "date",
+            "semantic_meaning": "Event Date",
+            "ocsf_target": "unmapped.date"
+          },
+          {
+            "source_field": "srcport",
+            "semantic_meaning": "Source Port",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "srcip",
+            "semantic_meaning": "Source IP",
+            "ocsf_target": "src_endpoint"
+          },
+          {
+            "source_field": "status",
+            "semantic_meaning": "Action Status",
+            "ocsf_target": "unmapped.status"
+          },
+          {
+            "source_field": "vd",
+            "semantic_meaning": "Virtual Domain",
+            "ocsf_target": "unmapped.vd"
+          },
+          {
+            "source_field": "type",
+            "semantic_meaning": "Log Type",
+            "ocsf_target": "unmapped.type"
+          },
+          {
+            "source_field": "time",
+            "semantic_meaning": "Event Time",
+            "ocsf_target": "unmapped.time"
+          },
+          {
+            "source_field": "dstip",
+            "semantic_meaning": "Destination IP",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "sessionid",
+            "semantic_meaning": "Session ID",
+            "ocsf_target": "unmapped.sessionid"
+          },
+          {
+            "source_field": "dstport",
+            "semantic_meaning": "Destination Port",
+            "ocsf_target": "dst_endpoint"
+          },
+          {
+            "source_field": "policyid",
+            "semantic_meaning": "Policy ID",
+            "ocsf_target": "unmapped.policyid"
+          },
+          {
+            "source_field": "level",
+            "semantic_meaning": "Log Level",
+            "ocsf_target": "unmapped.level"
+          },
+          {
+            "source_field": "service",
+            "semantic_meaning": "Service Name / Protocol",
+            "ocsf_target": "unmapped.service"
+          },
+          {
+            "source_field": "proto",
+            "semantic_meaning": "Protocol Number",
+            "ocsf_target": "connection_info"
+          },
+          {
+            "source_field": "subtype",
+            "semantic_meaning": "Log Subtype",
+            "ocsf_target": "unmapped.subtype"
+          },
+          {
+            "source_field": "devid",
+            "semantic_meaning": "Device ID / Serial Number",
+            "ocsf_target": "unmapped.devid"
+          }
+        ],
+        "logid": "0419016384",
+        "devname": "JLL_FW",
+        "identidx": "0",
+        "date": "2014-05-11",
+        "status": "detected",
+        "vd": "root",
+        "type": "utm",
+        "time": "18:52:15",
+        "sessionid": "388914",
+        "policyid": "49",
+        "level": "alert",
+        "service": "http",
+        "subtype": "ips",
+        "devid": "FG200B3910602686"
+      },
+      "src_endpoint": {
+        "interface_name": "port2",
+        "port": 38281,
+        "ip": "<OTXIP>"
+      },
+      "dst_endpoint": {
+        "interface_name": "Vlan_3",
+        "ip": "192.168.100.45",
+        "port": 80
+      },
+      "connection_info": {
+        "protocol_name": "6"
+      }
+    }
+  }
+]
