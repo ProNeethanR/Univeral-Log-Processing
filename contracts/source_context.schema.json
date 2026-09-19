@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ULPF Source Profile Contract",
+  "description": "Defines the authoritative Source Context required for deterministic OCSF normalization. This context provides identity, temporal grounding, and producer metadata that cannot be reliably inferred from raw logs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source",
+    "profile_version",
+    "capture_year",
+    "capture_timezone",
+    "vendor_name",
+    "product_name"
+  ],
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "Name or identifier of the log source (e.g., syslog-001). This matches the parser source."
+    },
+    "profile_version": {
+      "type": "string",
+      "description": "Version string of this source profile. Independent from parser version."
+    },
+    "capture_year": {
+      "type": "integer",
+      "description": "The authoritative year the logs were captured. Required for temporal determinism when raw logs omit the year. Runtime fallbacks to current year are explicitly forbidden."
+    },
+    "capture_timezone": {
+      "type": "string",
+      "description": "The authoritative timezone of the captured logs (e.g., 'UTC', 'America/New_York'). Runtime fallbacks to system local time are explicitly forbidden."
+    },
+    "vendor_name": {
+      "type": "string",
+      "description": "The authoritative vendor name for OCSF metadata.product.vendor_name."
+    },
+    "product_name": {
+      "type": "string",
+      "description": "The authoritative product name for OCSF metadata.product.name. Explicitly made required by this contract to avoid missing identities."
+    }
+  }
+}
