@@ -197,18 +197,18 @@ validator = OCSFValidator()
 result = validator.validate(ocsf_event)
 
 if result.is_valid:
-    print(f"✅ Event is valid against OCSF {result.ocsf_version} ({result.class_name})")
+    print(f" Event is valid against OCSF {result.ocsf_version} ({result.class_name})")
 else:
-    print(f"❌ Validation failed with {len(result.errors)} errors:")
+    print(f" Validation failed with {len(result.errors)} errors:")
     for err in result.errors:
         print(f"   [{err.error_type}] Path: {err.path} -> {err.message}")
 
 # Method B: Raising Exception on Validation Failure
 try:
     validate_ocsf_event(ocsf_event, raise_on_error=True)
-    print("✅ Event validated successfully!")
+    print(" Event validated successfully!")
 except OCSFValidationError as e:
-    print(f"❌ Error: {e}")
+    print(f"Error: {e}")
 ```
 
 ### 2. Parsing Raw Logs with the DSL Engine
