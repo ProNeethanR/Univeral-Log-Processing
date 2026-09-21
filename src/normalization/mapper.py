@@ -96,9 +96,9 @@ class OCSFMapper:
         if 'LEN_int' in fields:
             src_endpoint['bytes'] = fields['LEN_int']
             add_trace("LEN", "Packet length", "src_endpoint")
-        if 'MAC' in fields and len(fields['MAC'].split(':')) > 6:
-            src_endpoint['mac'] = ':'.join(fields['MAC'].split(':')[6:])
-            add_trace("MAC", "MAC address", "src_endpoint")
+        if 'MAC' in fields:
+            src_endpoint['mac'] = fields['MAC']
+            add_trace("MAC", "MAC Address", "src_endpoint")
 
         if 'DST' in fields:
             dst_endpoint['ip'] = fields['DST']
@@ -109,8 +109,7 @@ class OCSFMapper:
         if 'OUT' in fields and fields['OUT']:
             dst_endpoint['interface_name'] = fields['OUT']
             add_trace("OUT", "Egress Interface", "dst_endpoint")
-        if 'MAC' in fields and len(fields['MAC'].split(':')) >= 6:
-            dst_endpoint['mac'] = ':'.join(fields['MAC'].split(':')[:6])
+
 
         if 'PROTO' in fields:
             connection_info['protocol_name'] = fields['PROTO']
@@ -181,9 +180,7 @@ class OCSFMapper:
         if 'SEQ_int' in fields:
             unmapped['SEQ'] = str(fields['SEQ_int'])
             add_trace("SEQ", "Sequence number", "unmapped.SEQ")
-        if 'MAC' in fields:
-            unmapped['MAC'] = fields['MAC']
-            add_trace("MAC", "MAC address", "unmapped.MAC")
+
         if 'syslog_action' in fields:
             unmapped['syslog_action'] = fields['syslog_action'].strip()
             add_trace("syslog_action", "Action or flow direction", "unmapped.syslog_action")

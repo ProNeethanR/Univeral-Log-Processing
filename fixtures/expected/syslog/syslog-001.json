@@ -150,7 +150,8 @@
         "port": 6129
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -305,7 +306,8 @@
         "port": 6129
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -460,7 +462,8 @@
         "port": 6129
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -615,7 +618,8 @@
         "port": 6129
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -770,7 +774,8 @@
         "port": 6129
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -901,7 +906,8 @@
         "port": 1434
       },
       "connection_info": {
-        "protocol_name": "UDP"
+        "protocol_name": "UDP",
+        "direction_id": 0
       }
     }
   },
@@ -1032,7 +1038,8 @@
         "port": 1434
       },
       "connection_info": {
-        "protocol_name": "UDP"
+        "protocol_name": "UDP",
+        "direction_id": 0
       }
     }
   },
@@ -1163,7 +1170,8 @@
         "port": 1434
       },
       "connection_info": {
-        "protocol_name": "UDP"
+        "protocol_name": "UDP",
+        "direction_id": 0
       }
     }
   },
@@ -1294,7 +1302,8 @@
         "port": 1434
       },
       "connection_info": {
-        "protocol_name": "UDP"
+        "protocol_name": "UDP",
+        "direction_id": 0
       }
     }
   },
@@ -1425,7 +1434,8 @@
         "port": 1434
       },
       "connection_info": {
-        "protocol_name": "UDP"
+        "protocol_name": "UDP",
+        "direction_id": 0
       }
     }
   },
@@ -1562,7 +1572,8 @@
         "interface_name": "br0"
       },
       "connection_info": {
-        "protocol_name": "ICMP"
+        "protocol_name": "ICMP",
+        "direction_id": 0
       }
     }
   },
@@ -1699,7 +1710,8 @@
         "interface_name": "br0"
       },
       "connection_info": {
-        "protocol_name": "ICMP"
+        "protocol_name": "ICMP",
+        "direction_id": 0
       }
     }
   },
@@ -1836,7 +1848,8 @@
         "interface_name": "br0"
       },
       "connection_info": {
-        "protocol_name": "ICMP"
+        "protocol_name": "ICMP",
+        "direction_id": 0
       }
     }
   },
@@ -1973,7 +1986,8 @@
         "interface_name": "br0"
       },
       "connection_info": {
-        "protocol_name": "ICMP"
+        "protocol_name": "ICMP",
+        "direction_id": 0
       }
     }
   },
@@ -2110,7 +2124,8 @@
         "interface_name": "br0"
       },
       "connection_info": {
-        "protocol_name": "ICMP"
+        "protocol_name": "ICMP",
+        "direction_id": 0
       }
     }
   },
@@ -2271,7 +2286,8 @@
         "port": 113
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -2432,7 +2448,8 @@
         "port": 113
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -2593,7 +2610,8 @@
         "port": 113
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -2754,7 +2772,8 @@
         "port": 113
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -2915,7 +2934,8 @@
         "port": 113
       },
       "connection_info": {
-        "protocol_name": "TCP"
+        "protocol_name": "TCP",
+        "direction_id": 0
       }
     }
   },
@@ -3058,7 +3078,8 @@
         "interface_name": "br0"
       },
       "connection_info": {
-        "protocol_name": "ICMP"
+        "protocol_name": "ICMP",
+        "direction_id": 1
       }
     }
   },
@@ -3201,7 +3222,8 @@
         "interface_name": "br0"
       },
       "connection_info": {
-        "protocol_name": "ICMP"
+        "protocol_name": "ICMP",
+        "direction_id": 1
       }
     }
   },
@@ -3252,11 +3274,6 @@
             "source_field": "TOS",
             "semantic_meaning": "Type of Service",
             "ocsf_target": "unmapped.TOS"
-          },
-          {
-            "source_field": "OUT",
-            "semantic_meaning": "Egress Interface",
-            "ocsf_target": "dst_endpoint"
           },
           {
             "source_field": "syslog_time",
@@ -3334,11 +3351,11 @@
       },
       "dst_endpoint": {
         "ip": "11.11.11.65",
-        "interface_name": "true",
         "port": 514
       },
       "connection_info": {
-        "protocol_name": "UDP"
+        "protocol_name": "UDP",
+        "direction_id": 1
       }
     }
   },
@@ -3389,11 +3406,6 @@
             "source_field": "TOS",
             "semantic_meaning": "Type of Service",
             "ocsf_target": "unmapped.TOS"
-          },
-          {
-            "source_field": "OUT",
-            "semantic_meaning": "Egress Interface",
-            "ocsf_target": "dst_endpoint"
           },
           {
             "source_field": "syslog_time",
@@ -3471,11 +3483,11 @@
       },
       "dst_endpoint": {
         "ip": "11.11.11.255",
-        "interface_name": "true",
         "port": 137
       },
       "connection_info": {
-        "protocol_name": "UDP"
+        "protocol_name": "UDP",
+        "direction_id": 1
       }
     }
   },
@@ -3526,11 +3538,6 @@
             "source_field": "TOS",
             "semantic_meaning": "Type of Service",
             "ocsf_target": "unmapped.TOS"
-          },
-          {
-            "source_field": "OUT",
-            "semantic_meaning": "Egress Interface",
-            "ocsf_target": "dst_endpoint"
           },
           {
             "source_field": "syslog_time",
@@ -3608,11 +3615,11 @@
       },
       "dst_endpoint": {
         "ip": "11.11.11.255",
-        "interface_name": "true",
         "port": 138
       },
       "connection_info": {
-        "protocol_name": "UDP"
+        "protocol_name": "UDP",
+        "direction_id": 1
       }
     }
   }

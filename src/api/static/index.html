@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULPF Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>ULPF Operations</h2>
+        <ul>
+            <li><a href="#" onclick="loadView('overview')">Overview</a></li>
+            <li><a href="#" onclick="loadView('events')">Events</a></li>
+            <li><a href="#" onclick="loadView('parsers')">Parsers</a></li>
+            <li><a href="#" onclick="loadView('runs')">Pipeline Runs</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Dashboard</h1>
+        </header>
+        <div id="view-container">
+            <!-- Content dynamically loaded here -->
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
