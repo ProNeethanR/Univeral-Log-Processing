@@ -8,6 +8,7 @@
     "source_id",
     "ingest_timestamp",
     "raw_ref",
+    "evidence_classification",
     "schema_version",
     "ocsf_event"
   ],
@@ -48,6 +49,11 @@
         }
       }
     },
+    "evidence_classification": {
+      "type": "string",
+      "enum": ["raw", "parsed", "normalized", "validated", "rejected"],
+      "description": "Explicit evidence state for the event payload."
+    },
     "parser_id": {
       "type": "string",
       "description": "Identifier of the parser used to process this event."
@@ -78,6 +84,42 @@
           "minimum": 0.0,
           "maximum": 1.0,
           "description": "Confidence score of the parsing or detection."
+        },
+        "source_profile_id": {
+          "type": ["string", "null"],
+          "description": "ID of the source profile used for authoritative metadata injection."
+        },
+        "source_profile_version": {
+          "type": ["string", "null"],
+          "description": "Version of the source profile used."
+        },
+        "injected_fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": { "type": "string" },
+              "source": { "type": "string" },
+              "profile_id": { "type": ["string", "null"] }
+            },
+            "required": ["field", "source"]
+          }
+        },
+        "policy_fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": { "type": "string" },
+              "source": { "type": "string" },
+              "value": {},
+              "rationale": { "type": ["string", "null"] }
+            },
+            "required": ["field", "source"]
+          }
+        },
+        "parser_fields_traced": {
+          "type": "boolean"
         }
       }
     },
@@ -85,6 +127,12 @@
       "type": "object",
       "description": "Integrity metadata for blockchain or sequential hashing guarantees.",
       "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["verified", "corrupted", "missing", "unavailable", "not_captured"]
+        },
+        "reason": { "type": ["string", "null"] },
+        "chain_verified": { "type": ["boolean", "null"] },
         "chain_seq": {
           "type": "integer",
           "description": "Sequence number in the tamper-evident chain."

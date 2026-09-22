@@ -6,9 +6,10 @@ from fastapi.responses import FileResponse
 
 from src.api.models import (
     DashboardSummary, EventDetail, ValidationResultDetail,
-    PipelineRun, PaginatedRuns, PaginatedEvents,
+    PipelineRun, PaginatedRuns, PaginatedEvents, ULPFEventEnvelope
 )
 from src.api.services import event_service, run_service
+from src.vault import store as vault
 
 app = FastAPI(title="ULPF Dashboard API")
 
@@ -64,6 +65,14 @@ def get_event(event_id: str):
     return detail
 
 
+@app.get("/api/events/{event_id}/envelope", response_model=ULPFEventEnvelope)
+def get_event_envelope(event_id: str):
+    envelope = event_service.get_event_envelope(event_id)
+    if not envelope:
+        raise HTTPException(status_code=404, detail="Event envelope not found")
+    return envelope
+
+
 @app.get("/api/events/{event_id}/raw")
 def get_event_raw(event_id: str):
     raw = event_service.get_event_raw(event_id)
@@ -94,6 +103,12 @@ def get_event_validation(event_id: str):
     if validation is None:
         raise HTTPException(status_code=404, detail="Validation data unavailable")
     return validation
+
+
+@app.get("/api/integrity/verify")
+def verify_integrity():
+    """Return an air-gapped vault verification summary without raw content."""
+    return vault.verification_report()
 
 
 # ------------------------------------------------------------------

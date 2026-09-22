@@ -58,6 +58,22 @@ from src.normalization.ocsf_validator import (
     OCSFValidator,
     OCSFValidationResult,
 )
+from src.registry import get_source_profile, ProfileNotFoundError
+import datetime
+import zoneinfo
+
+
+class MappingResult(dict):
+    """
+    A dictionary containing the mapped OCSF event, enriched with lineage metadata.
+    This subclass allows backwards compatibility with callers expecting a raw dict.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.injected_fields = []
+        self.policy_fields = []
+        self.source_profile_id = None
+        self.source_profile_version = None
 
 
 class OCSFMapper:
@@ -69,11 +85,57 @@ class OCSFMapper:
         self.validator = validator or OCSFValidator(schema_path=schema_path)
 
 
-    def map_syslog(self, fields: Dict[str, Any]) -> Dict[str, Any]:
+    def map_syslog(self, fields: Dict[str, Any], source_id: Optional[str] = None, profile_version: Optional[str] = None) -> Dict[str, Any]:
         unmapped = {}
         src_endpoint = {}
         dst_endpoint = {}
         connection_info = {}
+        metadata = {}
+        event_time = None
+
+        injected_fields = []
+
+        # 1. Attempt to load Source Profile if context is provided
+        profile = None
+        if source_id and profile_version:
+            # Case E: Will raise ProfileNotFoundError if missing
+            profile = get_source_profile(source_id, profile_version)
+            profile_id = f"{source_id}:{profile_version}"
+            event_profile_id = profile_id
+
+            # Construct authoritative metadata
+            if 'vendor_name' in profile and 'product_name' in profile:
+                metadata = {
+                    "product": {
+                        "vendor_name": profile["vendor_name"],
+                        "name": profile["product_name"]
+                    }
+                }
+                injected_fields.append({
+                    "field": "metadata",
+                    "source": "source_profile",
+                    "profile_id": profile_id
+                })
+
+            # Construct authoritative timestamp
+            if 'capture_year' in profile and 'capture_timezone' in profile:
+                month_str = fields.get('syslog_month')
+                day = fields.get('syslog_day') or fields.get('syslog_day_int')
+                time_str = fields.get('syslog_time')
+
+                if month_str and day and time_str:
+                    try:
+                        dt_str = f"{profile['capture_year']} {month_str} {day} {time_str}"
+                        dt = datetime.datetime.strptime(dt_str, "%Y %b %d %H:%M:%S")
+                        dt = dt.replace(tzinfo=zoneinfo.ZoneInfo(profile['capture_timezone']))
+                        event_time = int(dt.timestamp())
+                        injected_fields.append({
+                            "field": "time",
+                            "source": "source_profile",
+                            "profile_id": profile_id
+                        })
+                    except Exception:
+                        pass # Case F: incomplete event without time
 
         tracing = []
 
@@ -187,7 +249,11 @@ class OCSFMapper:
 
         unmapped['tracing'] = tracing
 
-        event = {}
+        event = MappingResult()
+        event.injected_fields = injected_fields
+        event.source_profile_id = event_profile_id if profile else None
+        event.source_profile_version = profile_version if profile else None
+
         if unmapped:
             event['unmapped'] = unmapped
         if src_endpoint:
@@ -197,9 +263,14 @@ class OCSFMapper:
         if connection_info:
             event['connection_info'] = connection_info
 
+        if metadata:
+            event['metadata'] = metadata
+        if event_time is not None:
+            event['time'] = event_time
+
         # Pass through base OCSF metadata/class identification attributes if present in fields
         for base_key in ('class_uid', 'category_uid', 'activity_id', 'type_uid', 'time', 'severity_id', 'metadata', 'profiles', 'class_name'):
-            if base_key in fields:
+            if base_key in fields and base_key not in event:
                 event[base_key] = fields[base_key]
 
         return event
@@ -236,22 +307,43 @@ class OCSFMapper:
                            the current project.  Fabricating a vendor would
                            produce an unverifiable metadata object.
         """
-        event = dict(ocsf_event)
+        if isinstance(ocsf_event, MappingResult):
+            event = MappingResult(ocsf_event)
+            event.injected_fields = list(ocsf_event.injected_fields)
+            event.policy_fields = list(ocsf_event.policy_fields)
+            event.source_profile_id = ocsf_event.source_profile_id
+            event.source_profile_version = ocsf_event.source_profile_version
+        else:
+            event = MappingResult(ocsf_event)
 
         # Schema-verified classification constants (OCSF 1.3.0 network_activity)
-        if 'class_uid' not in event:
-            event['class_uid'] = fields.get('class_uid', 4001)
-        if 'category_uid' not in event:
-            event['category_uid'] = fields.get('category_uid', 4)
-        if 'activity_id' not in event:
-            event['activity_id'] = fields.get('activity_id', 6)
-        if 'type_uid' not in event:
-            event['type_uid'] = fields.get('type_uid', 400106)
+        for key, default_val in [
+            ('class_uid', 4001),
+            ('category_uid', 4),
+            ('activity_id', 6),
+            ('type_uid', 400106)
+        ]:
+            if key not in event:
+                val = fields.get(key, default_val)
+                event[key] = val
+                event.policy_fields.append({
+                    "field": key,
+                    "source": "normalization_policy",
+                    "value": val,
+                    "rationale": "Schema-verified classification constant"
+                })
 
         # ULPF policy default: Informational severity when no source field exists.
         # See module docstring for the normalization policy rationale.
         if 'severity_id' not in event:
-            event['severity_id'] = fields.get('severity_id', 1)
+            val = fields.get('severity_id', 1)
+            event['severity_id'] = val
+            event.policy_fields.append({
+                "field": "severity_id",
+                "source": "normalization_policy",
+                "value": val,
+                "rationale": "ULPF policy default"
+            })
 
         # 'time' and 'metadata' are intentionally NOT set here.
         # See module docstring for the evidence gaps that prevent fabrication.
@@ -266,11 +358,13 @@ class OCSFMapper:
         self,
         fields: Dict[str, Any],
         raise_on_error: bool = False,
+        source_id: Optional[str] = None,
+        profile_version: Optional[str] = None,
     ) -> Tuple[Dict[str, Any], OCSFValidationResult]:
         """
         Maps Syslog fields to OCSF event representation and validates against OCSF 1.3.0 schema.
         """
-        raw_mapped = self.map_syslog(fields)
+        raw_mapped = self.map_syslog(fields, source_id, profile_version)
         enriched_event = self.enrich_ocsf_headers(fields, raw_mapped)
         validation_result = self.validator.validate(enriched_event, raise_on_error=raise_on_error)
         return enriched_event, validation_result
@@ -280,11 +374,13 @@ class OCSFMapper:
         fields: Dict[str, Any],
         source_type: str = "syslog",
         raise_on_error: bool = False,
+        source_id: Optional[str] = None,
+        profile_version: Optional[str] = None,
     ) -> Tuple[Dict[str, Any], OCSFValidationResult]:
         """
         Normalizes parser fields using specified source mapper and validates against OCSF 1.3.0 schema.
         """
         if source_type == "syslog":
-            return self.map_and_validate_syslog(fields, raise_on_error=raise_on_error)
+            return self.map_and_validate_syslog(fields, raise_on_error=raise_on_error, source_id=source_id, profile_version=profile_version)
         else:
             raise ValueError(f"Unsupported normalization source_type: {source_type}")

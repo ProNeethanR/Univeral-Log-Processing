@@ -72,6 +72,29 @@ def test_get_event_endpoints():
         assert "status" in res_validation.json()
         assert "errors" in res_validation.json()
 
+        # Test Envelope
+        res_envelope = client.get(f"/api/events/{event_id}/envelope")
+        assert res_envelope.status_code == 200
+        env_data = res_envelope.json()
+        assert "event_id" in env_data
+        assert "source_id" in env_data
+        assert "ingest_timestamp" in env_data
+        assert "raw_ref" in env_data
+        assert "store" in env_data["raw_ref"]
+        assert "locator" in env_data["raw_ref"]
+        assert "raw_hash" in env_data["raw_ref"]
+        assert "evidence_classification" in env_data
+        assert env_data["evidence_classification"] in {"raw", "parsed", "normalized", "validated", "rejected"}
+        assert "parser_id" in env_data
+        assert "parser_version" in env_data
+        assert "schema_version" in env_data
+        assert "ocsf_event" in env_data
+        assert "provenance" in env_data
+        assert "integrity" in env_data
+        assert env_data["integrity"]["status"] in {
+            "verified", "corrupted", "missing", "unavailable", "not_captured"
+        }
+
 def test_get_event_not_found():
     res = client.get("/api/events/invalid-event-id")
     assert res.status_code == 404
@@ -79,3 +102,12 @@ def test_get_event_not_found():
 def test_get_event_raw_not_found():
     res = client.get("/api/events/invalid-event-id/raw")
     assert res.status_code == 404
+
+
+def test_integrity_verification_endpoint_is_structured():
+    response = client.get("/api/integrity/verify")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] in {"verified", "corrupted", "missing", "unavailable"}
+    assert "reason" in data
+    assert "records" in data
