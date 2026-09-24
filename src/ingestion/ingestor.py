@@ -195,6 +195,7 @@ def ingest_bytes(
     *,
     source_id: Optional[str] = None,
     input_format: Optional[str] = None,
+    profile_version: Optional[str] = None,
     capture_timestamp: Optional[datetime] = None,
     retention_seconds: Optional[float] = None,
     byte_offset_start: Optional[int] = None,
@@ -216,6 +217,8 @@ def ingest_bytes(
     record_index : Optional[int]
         1-based record/line number in the original source input,
         preserved as vault metadata.
+    profile_version : Optional[str]
+        Exact Source Profile version active at ingestion time.
     """
     if not isinstance(raw_bytes, bytes):
         raise MalformedInputError("ingest_bytes requires bytes")
@@ -226,6 +229,7 @@ def ingest_bytes(
         raw_bytes,
         source_id=source_id,
         input_format=input_format,
+        profile_version=profile_version,
         capture_timestamp=capture_timestamp,
         retention_seconds=retention_seconds,
         byte_offset_start=byte_offset_start,
@@ -309,6 +313,7 @@ def ingest_and_parse(
             source_label,
             source_id=source_id,
             input_format=input_format,
+            profile_version=profile_version,
         )
     except IngestionError as exc:
         raise

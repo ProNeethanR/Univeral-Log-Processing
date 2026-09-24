@@ -49,6 +49,8 @@ def canonical_record_bytes(metadata: RawRecordMetadata) -> bytes:
         payload["byte_offset_end"] = metadata.byte_offset_end
     if metadata.record_index is not None:
         payload["record_index"] = metadata.record_index
+    if metadata.profile_version is not None:
+        payload["profile_version"] = metadata.profile_version
     return json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
@@ -86,6 +88,7 @@ class RawRecordMetadata:
     input_format: Optional[str]
     size: int
     locator: str
+    profile_version: Optional[str] = None
     retention_expires_at: Optional[str] = None
     sequence: Optional[int] = None
     previous_record_hash: Optional[str] = None
@@ -96,7 +99,7 @@ class RawRecordMetadata:
     purged_at: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        data = {
             "raw_hash": self.raw_hash,
             "source_id": self.source_id,
             "capture_timestamp": self.capture_timestamp,
@@ -112,6 +115,9 @@ class RawRecordMetadata:
             "record_index": self.record_index,
             "purged_at": self.purged_at,
         }
+        if self.profile_version is not None:
+            data["profile_version"] = self.profile_version
+        return data
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "RawRecordMetadata":
@@ -173,6 +179,7 @@ def _metadata_for(raw_bytes: bytes, locator: str, digest: str, **metadata: Any) 
     return RawRecordMetadata(
         raw_hash=digest,
         source_id=metadata.get("source_id"),
+        profile_version=metadata.get("profile_version"),
         capture_timestamp=capture,
         input_format=metadata.get("input_format"),
         size=len(raw_bytes),

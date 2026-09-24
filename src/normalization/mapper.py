@@ -58,9 +58,34 @@ from src.normalization.ocsf_validator import (
     OCSFValidator,
     OCSFValidationResult,
 )
-from src.registry import get_source_profile, ProfileNotFoundError
+from src.registry import (
+    get_source_profile,
+    get_historical_source_profile,
+    ProfileNotFoundError,
+    ProfileInactiveError,
+)
 import datetime
 import zoneinfo
+
+_EXPLICIT_UTC_IDENTIFIERS = frozenset({"UTC", "Z", "GMT", "Etc/UTC"})
+
+
+def _resolve_capture_timezone(tz_name: Any) -> datetime.tzinfo:
+    """Resolve an authoritative capture_timezone identifier.
+
+    Explicit UTC identifiers ('UTC', 'Z', 'GMT', 'Etc/UTC') map directly to
+    datetime.timezone.utc without requiring an external timezone database.
+    Other identifiers are resolved via zoneinfo.ZoneInfo.
+    """
+    if not isinstance(tz_name, str) or not tz_name.strip():
+        raise ValueError(f"capture_timezone must be a non-empty string, got {tz_name!r}")
+    cleaned = tz_name.strip()
+    if cleaned in _EXPLICIT_UTC_IDENTIFIERS:
+        return datetime.timezone.utc
+    try:
+        return zoneinfo.ZoneInfo(cleaned)
+    except (zoneinfo.ZoneInfoNotFoundError, KeyError) as exc:
+        raise ValueError(f"Invalid or unresolvable capture_timezone: {cleaned!r}") from exc
 
 
 class MappingResult(dict):
@@ -85,7 +110,14 @@ class OCSFMapper:
         self.validator = validator or OCSFValidator(schema_path=schema_path)
 
 
-    def map_syslog(self, fields: Dict[str, Any], source_id: Optional[str] = None, profile_version: Optional[str] = None) -> Dict[str, Any]:
+    def map_syslog(
+        self,
+        fields: Dict[str, Any],
+        source_id: Optional[str] = None,
+        profile_version: Optional[str] = None,
+        *,
+        historical: bool = False,
+    ) -> Dict[str, Any]:
         unmapped = {}
         src_endpoint = {}
         dst_endpoint = {}
@@ -99,13 +131,21 @@ class OCSFMapper:
         profile = None
         if source_id and profile_version:
             # Case E: Will raise ProfileNotFoundError if missing
-            profile = get_source_profile(source_id, profile_version)
+            if historical:
+                profile = get_historical_source_profile(source_id, profile_version)
+            else:
+                profile = get_source_profile(source_id, profile_version)
             profile_id = f"{source_id}:{profile_version}"
             event_profile_id = profile_id
 
             # Construct authoritative metadata
             if 'vendor_name' in profile and 'product_name' in profile:
                 metadata = {
+                    # metadata.version is the OCSF schema version (a structural
+                    # constant required by the frozen OCSF 1.3.0 schema for all
+                    # network_activity events).  It is NOT derived from the raw
+                    # log; it is a schema-verified constant analogous to class_uid.
+                    "version": "1.3.0",
                     "product": {
                         "vendor_name": profile["vendor_name"],
                         "name": profile["product_name"]
@@ -119,6 +159,7 @@ class OCSFMapper:
 
             # Construct authoritative timestamp
             if 'capture_year' in profile and 'capture_timezone' in profile:
+                tz = _resolve_capture_timezone(profile['capture_timezone'])
                 month_str = fields.get('syslog_month')
                 day = fields.get('syslog_day') or fields.get('syslog_day_int')
                 time_str = fields.get('syslog_time')
@@ -127,14 +168,14 @@ class OCSFMapper:
                     try:
                         dt_str = f"{profile['capture_year']} {month_str} {day} {time_str}"
                         dt = datetime.datetime.strptime(dt_str, "%Y %b %d %H:%M:%S")
-                        dt = dt.replace(tzinfo=zoneinfo.ZoneInfo(profile['capture_timezone']))
+                        dt = dt.replace(tzinfo=tz)
                         event_time = int(dt.timestamp())
                         injected_fields.append({
                             "field": "time",
                             "source": "source_profile",
                             "profile_id": profile_id
                         })
-                    except Exception:
+                    except (ValueError, TypeError):
                         pass # Case F: incomplete event without time
 
         tracing = []
@@ -274,6 +315,24 @@ class OCSFMapper:
                 event[base_key] = fields[base_key]
 
         return event
+
+    def replay_syslog(
+        self,
+        fields: Dict[str, Any],
+        source_id: str,
+        profile_version: str,
+    ) -> Dict[str, Any]:
+        """Replay normalization using the exact historical Source Profile version.
+
+        Uses get_historical_source_profile() so that inactive historical profiles
+        can be replayed deterministically without modifying active registry state.
+        """
+        return self.map_syslog(
+            fields,
+            source_id=source_id,
+            profile_version=profile_version,
+            historical=True,
+        )
 
     def enrich_ocsf_headers(self, fields: Dict[str, Any], ocsf_event: Dict[str, Any]) -> Dict[str, Any]:
         """

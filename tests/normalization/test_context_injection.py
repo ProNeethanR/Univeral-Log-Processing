@@ -32,6 +32,19 @@ def test_map_syslog_with_complete_context():
     assert event.get("metadata", {}).get("product", {}).get("vendor_name") == "TestVendor"
     assert event.get("metadata", {}).get("product", {}).get("name") == "TestProduct"
 
+    # Test B — Explicit UTC aliases produce identical epoch without external tzdata
+    for ver, alias in [("1.0.1", "Z"), ("1.0.2", "GMT"), ("1.0.3", "Etc/UTC")]:
+        alias_prof = dict(profile, profile_version=ver, capture_timezone=alias)
+        register_source_profile("test-source-001", ver, alias_prof)
+        alias_event = mapper.map_syslog(fields, source_id="test-source-001", profile_version=ver)
+        assert alias_event.get("time") == 1706745602
+
+    # Test D — Invalid configured timezone must raise error, not silently become UTC
+    inv_prof = dict(profile, profile_version="1.0.9", capture_timezone="UNKNOWN")
+    register_source_profile("test-source-001", "1.0.9", inv_prof)
+    with pytest.raises(ValueError, match="Invalid or unresolvable capture_timezone"):
+        mapper.map_syslog(fields, source_id="test-source-001", profile_version="1.0.9")
+
 def test_map_syslog_missing_profile_raises_error():
     mapper = OCSFMapper()
     fields = {"syslog_month": "Feb", "syslog_day": "1", "syslog_time": "00:00:02"}
