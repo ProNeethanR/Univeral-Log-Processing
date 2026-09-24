@@ -1,9 +1,20 @@
 # ULPF Implementation Roadmap
 
 ## Document status
-- Status: roadmap only; implementation not started
+- Status: historical roadmap; the phase-by-phase plan below is **superseded by
+  the implemented system**.
 - Authority: [ulpf/docs/decisions/approved-decision-record.md](../../docs/decisions/approved-decision-record.md)
 - Scope: This roadmap translates the approved architectural direction into implementation phases and work items without changing current code or configuration.
+- Reconciliation (2026-09-23): the claims "implementation not started" /
+  "reference implementation and demonstrator baseline" no longer describe the
+  repository. Phases 1–6 plan items are implemented and covered by the
+  stabilized test suite (**186 passed**, zero failures); see
+  [`docs/architecture.md`](../architecture.md) for the authoritative
+  description of the implemented system and
+  [`docs/phase6-completion-hardening.md`](../phase6-completion-hardening.md)
+  for the Phase 6 hardening record. The per-decision "Already implemented /
+  Partially implemented / Missing" summaries below are preserved as history and
+  were not retroactively edited.
 
 ## Governing principles
 - The approved decisions in [ulpf/docs/decisions/approved-decision-record.md](../../docs/decisions/approved-decision-record.md) are authoritative.

@@ -9,7 +9,10 @@
 * **Deterministic DSL-Driven Parsing Engine**: Executes declarative YAML parser rules to parse, tokenize, and transform raw unformatted logs into structured JSON without arbitrary code execution.
 * **Air-Gapped OCSF 1.3.0 Runtime Validator**: Validates candidate normalized events strictly against a local, frozen OCSF 1.3.0 schema artifact (`schema/ocsf/ocsf_schema.json`). Works 100% offline without remote network schema lookups.
 * **Cryptographic Schema Integrity**: Automatically verifies the SHA-256 checksum (`6ccff0f70b6216abc8f82be3756a9a167662a535c64a6a60df111b0db363e3e2`) and version (`1.3.0`) of the frozen OCSF schema upon initialization.
-* **Tamper-Evident Raw Log Vault**: Stores raw unparsed logs with SHA-256 payload digests and locator metadata to guarantee end-to-end data provenance.
+* **Tamper-Evident Raw Log Vault**: Stores raw unparsed logs with SHA-256 payload digests, byte-range metadata, and an append-only integrity chain. Retention purge keeps a metadata tombstone so historical chain verification survives ordinary expiry.
+* **Lossless Byte-Level Capture**: Raw records are captured as exact original byte slices (terminators included) before any decoding or parsing; offsets are integrity-protected metadata.
+* **Checkpoint-Anchored Verification**: `GET /api/integrity/verify` reports chain state plus an explicit checkpoint anchor (`valid`/`missing`/`stale`/`invalid`); overall `verified` requires a valid anchor on the current head (`POST /api/integrity/checkpoint`).
+* **Trust Gate & Quarantine**: Envelopes carry a `trusted` flag (validated evidence + verified integrity); rejected events and integrity anomalies are recorded as raw-content-free failure records queryable at `GET /api/quarantine`.
 * **Dynamic Parser Registry**: Versioned registry supporting parser lifecycle management (draft, active, deprecated).
 
 ---
@@ -55,7 +58,11 @@
 ```
 Univeral-Log-Processing/
 ├── contracts/                  # Schema definitions & event contract specification
-│   └── event_contract.schema.json
+│   ├── event_contract.schema.json   # Canonical envelope contract (schema_version 1.1)
+│   └── failure_record.schema.json   # Quarantine failure record contract
+├── docs/
+│   ├── architecture.md              # Implemented-system architecture & runtime contracts
+│   └── phase6-completion-hardening.md  # Hardening pass: design decisions & coverage
 ├── fixtures/                   # Ground-truth evaluation & raw log test fixtures
 │   ├── ground_truth/           # Expected normalized ground truth outputs
 │   ├── raw/                    # Raw sample logs (Syslog, CEF, Fortigate)
@@ -69,6 +76,12 @@ Univeral-Log-Processing/
 │   │   └── README.md           # Schema acquisition metadata
 │   └── OCSF_VERSION.md         # OCSF version freeze declaration
 ├── src/                        # Core Python application packages
+│   ├── api/                    # FastAPI dashboard API
+│   │   ├── main.py             # Endpoints incl. integrity/checkpoint & quarantine
+│   │   ├── models.py           # Envelope, trust gate, failure record models
+│   │   └── services/
+│   │       ├── event_service.py      # Demo/pipeline event service
+│   │       └── quarantine_service.py # In-memory failure record store
 │   ├── ingestion/              # Ingestor pipeline & raw ref generator
 │   │   └── ingestor.py
 │   ├── normalization/          # OCSF mapper & runtime validator
@@ -78,16 +91,18 @@ Univeral-Log-Processing/
 │   │   ├── dsl_validator.py    # DSL syntax validator
 │   │   ├── engine.py           # High-level parser engine interface
 │   │   ├── exceptions.py       # Custom framework exception definitions
-│   │   └── interpreter.py      # Core DSL execution engine
+│   │   └── interpreter.py       # Core DSL execution engine
 │   ├── registry/               # Parser registration & management
 │   │   └── __init__.py
 │   └── vault/                  # Raw log content-addressable storage
-│       └── store.py
+│       └── store.py            # Chain, retention tombstones, checkpoints
 ├── tests/                      # Framework test suites
-│   ├── integration/            # Pipeline integration tests
+│   ├── integration/            # Pipeline & API integration tests
+│   ├── ingestion/              # Lossless capture tests
 │   ├── normalization/          # OCSF validator tests
 │   ├── parsers/                # Interpreter & engine unit tests
-│   └── registry/               # Registry management unit tests
+│   ├── registry/               # Registry management unit tests
+│   └── vault/                  # Chain, retention, checkpoint tests
 └── README.md
 ```
 
@@ -119,35 +134,23 @@ Univeral-Log-Processing/
 
 ## 🧪 Running Tests & Verification
 
-The framework includes comprehensive unit and integration test suites covering the DSL interpreter, parser registry, and OCSF 1.3.0 validator.
+The framework includes comprehensive unit and integration test suites covering the DSL interpreter, parser registry, OCSF 1.3.0 validator, lossless raw capture, integrity chain/retention/checkpoints, quarantine records, and contract alignment.
 
-### 1. Execute All Framework Unit Tests
-
-Run `pytest` to execute all unit tests across normalization, parsers, and registry modules:
+### 1. Execute the Full Test Suite
 
 ```bash
-python -m pytest tests/normalization tests/parsers tests/registry
+PYTHONPATH=. python -m pytest -q
 ```
 
-*Expected Output*:
+*Expected Output*: all tests passing (186 tests as of the Corrective Stabilization pass).
 
-```text
-============================= test session starts =============================
-collected 39 items
-
-tests/normalization/test_ocsf_validator.py .........                     [ 23%]
-tests/parsers/test_interpreter.py ......................                 [ 78%]
-tests/registry/test_registry.py ........                                 [100%]
-
-============================= 39 passed in 0.30s ==============================
-```
-
-### 2. Execute Integration Tests
-
-Run the end-to-end Syslog ingestion pipeline test:
+### 2. Run Test Subsets
 
 ```bash
-python -m pytest tests/integration/test_syslog_pipeline.py
+python -m pytest tests/normalization tests/parsers tests/registry   # unit tests
+python -m pytest tests/vault                                        # chain, retention, checkpoints
+python -m pytest tests/ingestion                                    # lossless capture
+python -m pytest tests/integration                                  # pipeline, API, contracts
 ```
 
 ### 3. Verify Frozen OCSF 1.3.0 Schema Checksum
@@ -213,31 +216,39 @@ except OCSFValidationError as e:
 
 ### 2. Parsing Raw Logs with the DSL Engine
 
+Parser definitions are YAML DSL documents that conform to
+`contracts/parser_mapping.schema.json` (exactly nine operations).
+`ParserEngine` resolves a definition authoritatively through the parser
+registry by `(source, version)`, validates it against that contract, and
+executes it with `DSLInterpreter`. See `parsers/syslog.yaml` for a
+shipped definition.
+
+```python
+from src.registry import register_parser, _clear_registry
+from src.parsers.engine import ParserEngine
+
+# Register the shipped syslog parser definition under (source, version)
+_clear_registry()
+register_parser("syslog-001", "1.0.0", "parsers/syslog.yaml")
+
+# Resolve, contract-validate, and execute
+engine = ParserEngine("syslog-001", "1.0.0")
+raw_log = "Feb  1 00:00:02 bridge kernel: INBOUND TCP: IN=br0 SRC=192.150.249.87 DST=11.11.11.84 PROTO=TCP"
+extracted_fields = engine.parse(raw_log)
+
+print(extracted_fields["syslog_month"], extracted_fields["syslog_host"])
+```
+
+For direct interpreter access without registry resolution, `DSLInterpreter`
+evaluates individual field definitions against a state dict:
+
 ```python
 from src.parsers.interpreter import DSLInterpreter
 
-# Load a YAML DSL parser definition
-dsl_def = {
-    "parser": {
-        "id": "syslog-parser",
-        "version": "1.0.0"
-    },
-    "rules": [
-        {
-            "match": ".*",
-            "actions": [
-                {"grok": "%{SYSLOGTIMESTAMP:syslog_time} %{HOSTNAME:syslog_host} %{GREEDYDATA:message}"}
-            ]
-        }
-    ]
-}
-
-# Instantiate interpreter and parse raw log line
-interpreter = DSLInterpreter(dsl_def)
-raw_log = "Sep 18 14:32:10 firewall-01 IN=eth0 OUT=eth1 SRC=192.168.1.50 DST=10.0.0.1 PROTO=TCP"
-extracted_fields = interpreter.parse(raw_log)
-
-print("Extracted Fields:", extracted_fields)
+interpreter = DSLInterpreter()
+state = {"raw_event": "SRC=192.150.249.87 DST=11.11.11.84"}
+print(interpreter.evaluate({"op": "extract_regex", "source": "raw_event",
+                            "pattern": r"SRC=(?P<val>\S+)"}, state))
 ```
 
 ---

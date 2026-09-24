@@ -5,9 +5,11 @@ from typing import List, Dict, Any, Optional
 
 from src.api.models import (
     EventSummary, EventDetail, EventStatus, DashboardSummary,
-    ValidationResultDetail, ULPFEventEnvelope, RawRef, ProvenanceDetail,
+    ValidationResultDetail, ULPFEventEnvelope, ProvenanceDetail,
     EvidenceClassification, IntegrityDetail, IntegrityStatus,
+    FailureCategory, build_event_envelope,
 )
+from src.api.services import quarantine_service
 
 # In-memory storage for events as ULPF event contract envelopes.
 _events: List[ULPFEventEnvelope] = []
@@ -16,22 +18,32 @@ _active_parsers = 0
 
 # ULPF event contract schema version constant.
 # Must be updated when event_contract.schema.json is versioned.
-_SCHEMA_VERSION = "1.0"
+_SCHEMA_VERSION = "1.1"
 
 def load_demo_data():
-    """Load fixtures and process them if ULPF_DEMO_DATA is true."""
+    """Load fixtures and process them if ULPF_DEMO_DATA is true.
+
+    Deterministic and idempotent: prior in-memory event, summary, and
+    quarantine state is cleared before reloading, so the result is identical
+    regardless of how many times the function is called or in what order the
+    modules were first imported. This function is invoked explicitly by the
+    API entrypoint and by test fixtures; it is never a module-import side
+    effect.
+    """
     global _active_parsers
     if os.environ.get("ULPF_DEMO_DATA", "").lower() != "true":
         return
 
-    if _events:
-        return
+    _events.clear()
+    _summaries.clear()
+    quarantine_service._failures.clear()
+    _active_parsers = 0
 
     from src.parsers.engine import ParserEngine
     from src.normalization.mapper import OCSFMapper
     from src.normalization.ocsf_validator import validate_ocsf_event
     from src.registry import register_parser, _clear_registry
-    from src.ingestion.ingestor import ingest_bytes
+    from src.ingestion.ingestor import ingest_bytes, split_raw_records, strip_record_terminator
 
     try:
         base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
@@ -52,35 +64,56 @@ def load_demo_data():
         with open(raw_path, 'rb') as f:
             raw_bytes = f.read()
 
-        raw_lines = raw_bytes.decode('utf-8').strip().split('\n')
+        # Lossless capture: split at the byte level only. Each record is the
+        # exact original byte slice (terminator included) with its byte range
+        # preserved as vault metadata. No decode/strip/re-encode happens
+        # before vault capture.
+        records = split_raw_records(raw_bytes)
 
-        for i, line in enumerate(raw_lines):
-            line = line.strip()
-            if not line:
+        for record_index, byte_offset_start, byte_offset_end, record_bytes in records:
+            if not strip_record_terminator(record_bytes):
+                # Blank lines carry no record content and are not eventized.
                 continue
 
             # Record ingest timestamp at the moment of processing this line.
             # datetime.utcnow() is deprecated since Python 3.12; use timezone-aware form.
             ingest_timestamp = datetime.now(timezone.utc).isoformat()
 
-            # Vault each raw line individually to produce raw_ref.
-            # This is intentionally per-line, not per-file (per event contract requirements).
+            # Vault the exact original byte slice individually to produce
+            # raw_ref. Offsets are stored as metadata, not merged into bytes.
             ingested = ingest_bytes(
-                line.encode("utf-8"),
+                record_bytes,
                 source_label=raw_path,
                 source_id="syslog-001",
                 input_format="syslog",
+                byte_offset_start=byte_offset_start,
+                byte_offset_end=byte_offset_end,
+                record_index=record_index,
             )
 
-            event_id = f"demo-event-{i+1}-{uuid.uuid4().hex[:8]}"
+            event_id = f"demo-event-{record_index}-{uuid.uuid4().hex[:8]}"
             evidence_classification = EvidenceClassification.RAW
 
+            # Parser input is derived AFTER capture from the preserved bytes.
+            parse_error: Optional[str] = None
             try:
-                parsed_fields = engine.parse(line)
-                status = EventStatus.SUCCESS
-                evidence_classification = EvidenceClassification.PARSED
-            except Exception:
-                parsed_fields = None
+                line = strip_record_terminator(record_bytes).decode("utf-8")
+            except UnicodeDecodeError as exc:
+                line = None
+                parse_error = f"Malformed UTF-8 record: {exc}"
+
+            parsed_fields = None
+            if parse_error is None:
+                try:
+                    parsed_fields = engine.parse(line)
+                    status = EventStatus.SUCCESS
+                    evidence_classification = EvidenceClassification.PARSED
+                except Exception as exc:
+                    parsed_fields = None
+                    status = EventStatus.PARSE_FAILED
+                    evidence_classification = EvidenceClassification.REJECTED
+                    parse_error = f"Parser rejected input: {exc}"
+            else:
                 status = EventStatus.PARSE_FAILED
                 evidence_classification = EvidenceClassification.REJECTED
 
@@ -125,16 +158,13 @@ def load_demo_data():
                 parser_fields_traced=bool(ocsf and "unmapped" in ocsf and "tracing" in ocsf["unmapped"])
             )
 
-            # Assemble the ULPF event contract envelope.
-            envelope = ULPFEventEnvelope(
+            # Assemble the canonical ULPF event contract envelope with the
+            # trust gate applied (validated evidence + verified integrity).
+            envelope = build_event_envelope(
                 event_id=event_id,
                 source_id="syslog-001",
                 ingest_timestamp=ingest_timestamp,
-                raw_ref=RawRef(
-                    store=ingested.raw_ref["store"],
-                    locator=ingested.raw_ref["locator"],
-                    raw_hash=ingested.raw_ref["raw_hash"],
-                ),
+                raw_ref=ingested.raw_ref,
                 integrity=IntegrityDetail(
                     status=IntegrityStatus(ingested.integrity_status),
                     reason=ingested.integrity_reason,
@@ -144,13 +174,54 @@ def load_demo_data():
                 parser_id="syslog-001",
                 parser_version="1.0.0",
                 schema_version=_SCHEMA_VERSION,
-                ocsf_event=ocsf,
                 provenance=provenance,
-                raw_log=line,
+                ocsf_event=ocsf,
+                raw_log=line or "",
                 parsed_dict=parsed_fields,
                 validation=validation_detail,
             )
             _events.append(envelope)
+
+            # Quarantine: pipeline failures and non-verified integrity.
+            source_context = {
+                "input_format": "syslog",
+                "record_index": record_index,
+                "byte_offset_start": byte_offset_start,
+                "byte_offset_end": byte_offset_end,
+            }
+            failure_category = None
+            failure_reason = None
+            if status == EventStatus.PARSE_FAILED:
+                failure_category = FailureCategory.PARSE_FAILED
+                failure_reason = parse_error or "Parser rejected input"
+            elif status == EventStatus.NORM_FAILED:
+                failure_category = FailureCategory.NORMALIZATION_FAILED
+                failure_reason = "Normalization raised an unhandled exception"
+            elif status == EventStatus.VALIDATION_FAILED:
+                failure_category = FailureCategory.VALIDATION_FAILED
+                error_count = len(validation_detail.errors) if validation_detail else 0
+                failure_reason = f"OCSF validation failed with {error_count} error(s)"
+            if failure_category is not None:
+                quarantine_service.record_failure(
+                    category=failure_category,
+                    reason=failure_reason,
+                    source_id="syslog-001",
+                    source_context=source_context,
+                    raw_ref=envelope.raw_ref,
+                    event_id=event_id,
+                )
+            integrity_category = quarantine_service.integrity_failure_category(
+                ingested.integrity_status
+            )
+            if integrity_category is not None:
+                quarantine_service.record_failure(
+                    category=integrity_category,
+                    reason=ingested.integrity_reason or f"Raw integrity status was {ingested.integrity_status}",
+                    source_id="syslog-001",
+                    source_context=source_context,
+                    raw_ref=envelope.raw_ref,
+                    event_id=event_id,
+                )
 
             # Summary uses ingest_timestamp for display; fall back to OCSF time if available.
             display_timestamp = ingest_timestamp
@@ -167,8 +238,6 @@ def load_demo_data():
 
     except Exception as e:
         print(f"Error loading demo data: {e}")
-
-load_demo_data()
 
 
 def get_summary() -> DashboardSummary:

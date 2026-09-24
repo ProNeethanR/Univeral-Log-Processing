@@ -1,4 +1,5 @@
 import os
+from contextlib import asynccontextmanager
 from typing import Optional
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.staticfiles import StaticFiles
@@ -6,12 +7,32 @@ from fastapi.responses import FileResponse
 
 from src.api.models import (
     DashboardSummary, EventDetail, ValidationResultDetail,
-    PipelineRun, PaginatedRuns, PaginatedEvents, ULPFEventEnvelope
+    PipelineRun, PaginatedRuns, PaginatedEvents, PaginatedFailures,
+    ULPFEventEnvelope,
 )
-from src.api.services import event_service, run_service
+from src.api.services import event_service, run_service, quarantine_service
 from src.vault import store as vault
 
-app = FastAPI(title="ULPF Dashboard API")
+
+def bootstrap_demo() -> None:
+    """Deterministically load the demo fixtures when ULPF_DEMO_DATA=true.
+
+    Invoked from the ASGI startup path so a live server loads demo state
+    without depending on module import order. No-op otherwise.
+    """
+    if os.environ.get("ULPF_DEMO_DATA", "").lower() != "true":
+        return
+    event_service.load_demo_data()
+    run_service.ensure_demo_run()
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    bootstrap_demo()
+    yield
+
+
+app = FastAPI(title="ULPF Dashboard API", lifespan=lifespan)
 
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
@@ -107,8 +128,38 @@ def get_event_validation(event_id: str):
 
 @app.get("/api/integrity/verify")
 def verify_integrity():
-    """Return an air-gapped vault verification summary without raw content."""
+    """Return an air-gapped vault verification summary without raw content.
+
+    The report includes an explicit checkpoint anchor block. Overall status
+    is 'verified' only when the chain verifies AND a checkpoint validly
+    anchors the current chain head.
+    """
     return vault.verification_report()
+
+
+@app.post("/api/integrity/checkpoint")
+def create_integrity_checkpoint():
+    """Create a verification checkpoint anchoring the current chain head."""
+    try:
+        return vault.create_checkpoint()
+    except vault.IntegrityError as exc:
+        if "does not support checkpoints" in str(exc):
+            raise HTTPException(status_code=503, detail=str(exc))
+        raise HTTPException(status_code=409, detail=str(exc))
+
+
+# ------------------------------------------------------------------
+# Quarantine (failure records; never raw content)
+# ------------------------------------------------------------------
+
+@app.get("/api/quarantine", response_model=PaginatedFailures)
+def get_quarantine(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(50, ge=1, le=1000),
+    category: Optional[str] = None,
+    event_id: Optional[str] = None,
+):
+    return quarantine_service.get_failures(page, page_size, category, event_id)
 
 
 # ------------------------------------------------------------------

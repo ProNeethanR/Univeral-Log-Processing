@@ -2,6 +2,17 @@
 
 Last updated: 2026-09-18
 
+> **2026-09-23 reconciliation (FI-1)**: SHA-256 digests and byte lengths
+> below were re-verified against the on-disk (committed) fixture corpus and
+> corrected where the 2026-09-18 records were stale. The
+> `fixtures/SHA256SUMS`, `fixtures/manifest.json`, and
+> `fixtures/provenance/README.md` were regenerated to match the committed
+> files, which are authoritative and consistent with `recovery-manifest.md`
+> (2026-09-22). The 2026-09-18 digest values for `cef-real-001.log`
+> (755326d1…/1628), `cef-doc-examples.log` (b80b3a48…/1095), and
+> `fortigate-001.log` (162edcbc…/8905) described pre-edit content and no
+> longer match any file in the repository; they are superseded.
+
 ---
 
 ## OCSF Version
@@ -61,10 +72,10 @@ digests and byte lengths recorded in `fixtures/SHA256SUMS` and in
 
 | file                                              | bytes | sha256 verified |
 |---------------------------------------------------|-------|-----------------|
-| fixtures/raw/cef/cef-real-001.log                 | 1628  | ✓               |
-| fixtures/raw/cef/doc_reference/cef-doc-examples.log | 1095 | ✓              |
+| fixtures/raw/cef/cef-real-001.log                 | 1629  | ✓               |
+| fixtures/raw/cef/doc_reference/cef-doc-examples.log | 1105 | ✓              |
 | fixtures/raw/syslog/syslog-001.log                | 5330  | ✓               |
-| fixtures/raw/vendor/fortigate-001.log             | 8905  | ✓               |
+| fixtures/raw/vendor/fortigate-001.log             | 8926  | ✓               |
 
 ---
 

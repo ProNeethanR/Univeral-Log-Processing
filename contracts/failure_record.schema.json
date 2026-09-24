@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ULPF Failure Record Contract",
+  "description": "Schema for quarantined pipeline failure records. Failure records never carry raw log content; they reference vaulted evidence by locator/hash only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "failure_id",
+    "category",
+    "reason",
+    "timestamp"
+  ],
+  "properties": {
+    "failure_id": {
+      "type": "string",
+      "description": "Unique identifier for the failure record."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "parse_failed",
+        "normalization_failed",
+        "validation_failed",
+        "integrity_corrupted",
+        "integrity_missing",
+        "integrity_unavailable",
+        "integrity_not_captured"
+      ],
+      "description": "Categorical classification of the failure."
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable failure reason. Must not embed raw log content."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when the failure was recorded."
+    },
+    "raw_ref": {
+      "type": ["object", "null"],
+      "description": "Optional reference to the vaulted raw record (no raw content).",
+      "required": ["store", "locator", "raw_hash"],
+      "properties": {
+        "store": { "type": "string" },
+        "locator": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "raw_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "raw_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Bare SHA-256 hex digest of the associated raw record, when known."
+    },
+    "source_id": {
+      "type": ["string", "null"],
+      "description": "Identifier of the log source or origin."
+    },
+    "source_context": {
+      "type": ["object", "null"],
+      "description": "Non-content processing context (e.g., record index, byte offsets).",
+      "additionalProperties": true
+    },
+    "event_id": {
+      "type": ["string", "null"],
+      "description": "Associated event identifier, when the failure occurred after eventization."
+    }
+  }
+}

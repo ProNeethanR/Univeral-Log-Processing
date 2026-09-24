@@ -38,6 +38,17 @@ def canonical_record_bytes(metadata: RawRecordMetadata) -> bytes:
         "source_id": metadata.source_id,
         "version": CHAIN_VERSION,
     }
+    # Byte offsets / record index are integrity-protected when present.
+    # Records captured before offset metadata existed hash identically to
+    # before, keeping historical chains verifiable. ``purged_at`` is
+    # deliberately excluded: it is stamped by retention purge after the
+    # record is already chained.
+    if metadata.byte_offset_start is not None:
+        payload["byte_offset_start"] = metadata.byte_offset_start
+    if metadata.byte_offset_end is not None:
+        payload["byte_offset_end"] = metadata.byte_offset_end
+    if metadata.record_index is not None:
+        payload["record_index"] = metadata.record_index
     return json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
@@ -79,6 +90,10 @@ class RawRecordMetadata:
     sequence: Optional[int] = None
     previous_record_hash: Optional[str] = None
     record_hash: Optional[str] = None
+    byte_offset_start: Optional[int] = None
+    byte_offset_end: Optional[int] = None
+    record_index: Optional[int] = None
+    purged_at: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -92,6 +107,10 @@ class RawRecordMetadata:
             "sequence": self.sequence,
             "previous_record_hash": self.previous_record_hash,
             "record_hash": self.record_hash,
+            "byte_offset_start": self.byte_offset_start,
+            "byte_offset_end": self.byte_offset_end,
+            "record_index": self.record_index,
+            "purged_at": self.purged_at,
         }
 
     @classmethod
@@ -119,9 +138,32 @@ def _timestamp(value: Optional[datetime]) -> str:
 def _parse_timestamp(value: str) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
+
+def _normalize_capture_timestamp(value: Any) -> Optional[datetime]:
+    """Coerce a caller-supplied capture timestamp.
+
+    Accepts a ``datetime`` (assumed UTC when naive) or an ISO-8601 string
+    (``Z`` suffix permitted). Anything else raises ``ValueError`` so a bad
+    timestamp fails loudly instead of silently falling back to "now".
+    Returns ``None`` when no timestamp was supplied.
+    """
+    if value is None:
+        return None
+    if isinstance(value, datetime):
+        return value
+    if isinstance(value, str):
+        try:
+            return _parse_timestamp(value)
+        except ValueError as exc:
+            raise ValueError(f"Invalid capture_timestamp (expected ISO-8601): {value!r}") from exc
+    raise ValueError(
+        f"Invalid capture_timestamp type: {type(value).__name__} "
+        "(expected datetime or ISO-8601 string)"
+    )
+
 def _metadata_for(raw_bytes: bytes, locator: str, digest: str, **metadata: Any) -> RawRecordMetadata:
-    capture_timestamp = metadata.get("capture_timestamp")
-    capture = _timestamp(capture_timestamp if isinstance(capture_timestamp, datetime) else None)
+    capture_timestamp = _normalize_capture_timestamp(metadata.get("capture_timestamp"))
+    capture = _timestamp(capture_timestamp)
     retention_expires_at = metadata.get("retention_expires_at")
     retention_seconds = metadata.get("retention_seconds")
     if retention_expires_at is None and retention_seconds is not None:
@@ -136,28 +178,49 @@ def _metadata_for(raw_bytes: bytes, locator: str, digest: str, **metadata: Any) 
         size=len(raw_bytes),
         locator=locator,
         retention_expires_at=_timestamp(retention_expires_at) if isinstance(retention_expires_at, datetime) else retention_expires_at,
+        byte_offset_start=metadata.get("byte_offset_start"),
+        byte_offset_end=metadata.get("byte_offset_end"),
+        record_index=metadata.get("record_index"),
     )
 
 class InMemoryVaultBackend:
-    """Test backend retaining the same digest and locator semantics."""
+    """Test backend retaining the same digest, locator, and tombstone semantics."""
 
     def __init__(self, clock: Optional[Callable[[], datetime]] = None) -> None:
-        self._records: Dict[str, tuple[bytes, RawRecordMetadata]] = {}
+        self._records: Dict[str, tuple[Optional[bytes], RawRecordMetadata]] = {}
         self._clock = clock or _utc_now
 
     def put(self, raw_bytes: bytes, **metadata: Any) -> tuple[str, str]:
         digest = hashlib.sha256(raw_bytes).hexdigest()
         locator = f"sha256:{digest}"
+        existing = self._records.get(digest)
+        if existing is not None:
+            stored_bytes, stored_metadata = existing
+            if stored_metadata.raw_hash != digest:
+                raise IntegrityError(f"Stored metadata digest mismatch for {locator!r}")
+            if stored_bytes is None:
+                # Tombstone resurrection: restore payload without a new record.
+                restored = RawRecordMetadata(
+                    **{**stored_metadata.to_dict(), "purged_at": None}
+                )
+                self._records[digest] = (bytes(raw_bytes), restored)
+            return locator, digest
         self._records[digest] = (bytes(raw_bytes), _metadata_for(raw_bytes, locator, digest, **metadata))
         return locator, digest
 
-    def _record(self, locator: str) -> tuple[bytes, RawRecordMetadata]:
+    def _metadata(self, locator: str) -> RawRecordMetadata:
         digest = _digest_from_locator(locator)
         if digest not in self._records:
             raise RecordNotFoundError(f"Raw record not found: {locator!r}")
-        raw_bytes, metadata = self._records[digest]
+        return self._records[digest][1]
+
+    def _record(self, locator: str) -> tuple[bytes, RawRecordMetadata]:
+        metadata = self._metadata(locator)
+        if self._records[_digest_from_locator(locator)][0] is None:
+            raise RecordNotFoundError(f"Raw record not found: {locator!r}")
         _check_expiry(metadata, self._clock())
-        return raw_bytes, metadata
+        raw_bytes = self._records[_digest_from_locator(locator)][0]
+        return bytes(raw_bytes), metadata
 
     def get(self, locator: str) -> bytes:
         raw_bytes, metadata = self._record(locator)
@@ -165,10 +228,7 @@ class InMemoryVaultBackend:
         return bytes(raw_bytes)
 
     def metadata(self, locator: str) -> RawRecordMetadata:
-        digest = _digest_from_locator(locator)
-        if digest not in self._records:
-            raise RecordNotFoundError(f"Raw record not found: {locator!r}")
-        return self._records[digest][1]
+        return self._metadata(locator)
 
     def verify(self, locator: str) -> bool:
         try:
@@ -180,10 +240,21 @@ class InMemoryVaultBackend:
 
     def purge_expired(self, now: Optional[datetime] = None) -> int:
         current = now or self._clock()
-        expired = [digest for digest, (_, metadata) in self._records.items() if _is_expired(metadata, current)]
-        for digest in expired:
-            del self._records[digest]
-        return len(expired)
+        purged = 0
+        for digest, (stored_bytes, metadata) in list(self._records.items()):
+            if metadata.purged_at:
+                continue
+            if _is_expired(metadata, current):
+                # Retention removes the payload only; the metadata tombstone
+                # is retained so operational lookups stay explicit.
+                self._records[digest] = (
+                    None,
+                    RawRecordMetadata(
+                        **{**metadata.to_dict(), "purged_at": _timestamp(current)}
+                    ),
+                )
+                purged += 1
+        return purged
 
     def clear(self) -> None:
         self._records.clear()
@@ -193,6 +264,13 @@ class InMemoryVaultBackend:
             "status": "unavailable",
             "reason": "Configured in-memory backend has no persisted integrity chain",
             "records": 0,
+            "checkpoint": {
+                "status": "unavailable",
+                "reason": "Configured in-memory backend does not support checkpoints",
+                "sequence": None,
+                "head_hash": None,
+                "checkpoint_hash": None,
+            },
         }
 
 class FileVaultBackend:
@@ -244,8 +322,37 @@ class FileVaultBackend:
             digest = hashlib.sha256(raw_bytes).hexdigest()
             locator = f"sha256:{digest}"
             raw_path, metadata_path = self._paths(locator)
-            if raw_path.exists() and metadata_path.exists():
+
+            if metadata_path.exists():
+                try:
+                    existing = RawRecordMetadata.from_dict(
+                        json.loads(metadata_path.read_text(encoding="utf-8"))
+                    )
+                except (OSError, json.JSONDecodeError, TypeError, KeyError) as exc:
+                    raise IntegrityError(f"Existing record metadata is unreadable: {locator!r}") from exc
+                if existing.raw_hash != digest:
+                    raise IntegrityError(f"Existing record digest mismatch: {locator!r}")
+                if not raw_path.exists():
+                    # Tombstone resurrection: restore the payload for the
+                    # already-chained record instead of appending a duplicate
+                    # chain entry. purged_at is not part of the canonical
+                    # record hash, so clearing it cannot break the chain.
+                    raw_path.write_bytes(raw_bytes)
+                    metadata_path.write_text(
+                        json.dumps(
+                            RawRecordMetadata(
+                                **{**existing.to_dict(), "purged_at": None}
+                            ).to_dict(),
+                            sort_keys=True,
+                        ),
+                        encoding="utf-8",
+                    )
                 return locator, digest
+
+            if raw_path.exists():
+                # Stray payload without metadata is not a valid record.
+                raw_path.unlink()
+
             chain = self._load_chain()
             sequence = chain["next_sequence"]
             previous = chain["head_hash"]
@@ -309,10 +416,20 @@ class FileVaultBackend:
                 metadata = RawRecordMetadata.from_dict(json.loads(metadata_path.read_text(encoding="utf-8")))
             except (OSError, json.JSONDecodeError, TypeError, KeyError):
                 continue
+            if metadata.purged_at:
+                continue
             if _is_expired(metadata, current):
+                # Retention removes the payload only. The metadata sidecar is
+                # retained and tombstoned so the append-only chain keeps
+                # verifying historical entries after an ordinary purge.
                 raw_path = metadata_path.with_suffix(".raw")
-                metadata_path.unlink(missing_ok=True)
                 raw_path.unlink(missing_ok=True)
+                tombstoned = RawRecordMetadata(
+                    **{**metadata.to_dict(), "purged_at": _timestamp(current)}
+                )
+                metadata_path.write_text(
+                    json.dumps(tombstoned.to_dict(), sort_keys=True), encoding="utf-8"
+                )
                 removed += 1
         return removed
 
@@ -347,8 +464,14 @@ class FileVaultBackend:
                 raise IntegrityError("Integrity chain predecessor link is broken")
             if metadata.record_hash != entry.get("record_hash") or calculate_record_hash(metadata) != metadata.record_hash:
                 raise IntegrityError("Integrity chain record hash is invalid")
-            raw_bytes = self._raw_bytes(entry["locator"])
-            _verify_bytes(entry["locator"], raw_bytes, metadata)
+            if metadata.purged_at:
+                # Retention tombstone: payload intentionally removed under
+                # policy. Metadata linkage still verified above; raw bytes
+                # are absent by design and must not fail historical checks.
+                pass
+            else:
+                raw_bytes = self._raw_bytes(entry["locator"])
+                _verify_bytes(entry["locator"], raw_bytes, metadata)
             previous = metadata.record_hash
         if chain.get("head_hash") != previous:
             raise IntegrityError("Integrity chain head is invalid")
@@ -390,21 +513,104 @@ class FileVaultBackend:
             raise InvalidCheckpointError("Checkpoint head does not match chain boundary")
         return True
 
+    def _checkpoint_status(self, chain_length: int) -> Dict[str, Any]:
+        """Evaluate the latest checkpoint anchor against the current chain."""
+        candidates: list[Dict[str, Any]] = []
+        file_count = 0
+        if self.checkpoints.exists():
+            for path in sorted(self.checkpoints.glob("checkpoint-*.json")):
+                file_count += 1
+                try:
+                    checkpoint = json.loads(path.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError):
+                    continue
+                if isinstance(checkpoint, dict) and "sequence" in checkpoint:
+                    candidates.append(checkpoint)
+
+        if not candidates:
+            if file_count:
+                return {
+                    "status": "invalid",
+                    "reason": "Checkpoint file(s) exist but are unreadable",
+                    "sequence": None,
+                    "head_hash": None,
+                    "checkpoint_hash": None,
+                }
+            return {
+                "status": "missing",
+                "reason": "No checkpoint anchors the integrity chain",
+                "sequence": None,
+                "head_hash": None,
+                "checkpoint_hash": None,
+            }
+
+        latest = max(candidates, key=lambda c: c.get("sequence", -1))
+        summary = {
+            "sequence": latest.get("sequence"),
+            "head_hash": latest.get("head_hash"),
+            "checkpoint_hash": latest.get("checkpoint_hash"),
+        }
+        try:
+            self.verify_checkpoint(latest)
+        except InvalidCheckpointError as exc:
+            return {**summary, "status": "invalid", "reason": str(exc)}
+
+        if latest["sequence"] == chain_length:
+            return {**summary, "status": "valid", "reason": None}
+        return {
+            **summary,
+            "status": "stale",
+            "reason": (
+                f"Checkpoint anchors sequence {latest['sequence']} "
+                f"but the chain head is at {chain_length}"
+            ),
+        }
+
     def verification_report(self) -> Dict[str, Any]:
+        checkpoint_unavailable = {
+            "status": "unavailable",
+            "reason": "Chain verification failed before checkpoint evaluation",
+            "sequence": None,
+            "head_hash": None,
+            "checkpoint_hash": None,
+        }
         try:
             self.verify_chain()
             chain = self._load_chain()
-            return {
-                "status": "verified",
-                "reason": None,
-                "records": len(chain["entries"]),
-                "head_hash": chain["head_hash"],
-                "genesis_hash": chain["genesis_hash"],
-            }
+            checkpoint = self._checkpoint_status(len(chain["entries"]))
         except RecordNotFoundError as exc:
-            return {"status": "missing", "reason": str(exc), "records": None}
+            return {
+                "status": "missing",
+                "reason": str(exc),
+                "records": None,
+                "checkpoint": dict(checkpoint_unavailable),
+            }
         except (CorruptRecordError, IntegrityError, ExpiredRecordError) as exc:
-            return {"status": "corrupted", "reason": str(exc), "records": None}
+            return {
+                "status": "corrupted",
+                "reason": str(exc),
+                "records": None,
+                "checkpoint": dict(checkpoint_unavailable),
+            }
+
+        # Overall status is 'verified' only when the chain verifies AND the
+        # checkpoint validly anchors the current head. Anchor problems are
+        # reported explicitly as missing/stale/invalid.
+        if checkpoint["status"] == "valid":
+            status = "verified"
+            reason = None
+        else:
+            status = checkpoint["status"]
+            reason = checkpoint["reason"]
+
+        return {
+            "status": status,
+            "reason": reason,
+            "records": len(chain["entries"]),
+            "head_hash": chain["head_hash"],
+            "genesis_hash": chain["genesis_hash"],
+            "checkpoint": checkpoint,
+        }
 
 def _digest_from_locator(locator: str) -> str:
     if not isinstance(locator, str) or not locator.startswith("sha256:"):
@@ -491,5 +697,12 @@ def verification_report() -> Dict[str, Any]:
             "status": "unavailable",
             "reason": "Configured vault backend does not expose operational verification",
             "records": None,
+            "checkpoint": {
+                "status": "unavailable",
+                "reason": "Configured vault backend does not expose operational verification",
+                "sequence": None,
+                "head_hash": None,
+                "checkpoint_hash": None,
+            },
         }
     return reporter()

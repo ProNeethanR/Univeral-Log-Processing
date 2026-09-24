@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Mapping
 from enum import Enum
 
 
@@ -37,6 +37,24 @@ class IntegrityDetail(BaseModel):
     status: IntegrityStatus
     reason: Optional[str] = None
     chain_verified: Optional[bool] = None
+
+
+class FailureCategory(str, Enum):
+    """Allowed failure categories for quarantined records."""
+    PARSE_FAILED = "parse_failed"
+    NORMALIZATION_FAILED = "normalization_failed"
+    VALIDATION_FAILED = "validation_failed"
+    INTEGRITY_CORRUPTED = "integrity_corrupted"
+    INTEGRITY_MISSING = "integrity_missing"
+    INTEGRITY_UNAVAILABLE = "integrity_unavailable"
+    INTEGRITY_NOT_CAPTURED = "integrity_not_captured"
+
+
+class RawRef(BaseModel):
+    """Reference to the original raw log in the vault."""
+    store: str = Field(..., description="Storage backend type, e.g. 'vault'")
+    locator: str = Field(..., description="Content-addressed locator, e.g. 'sha256:<hex>'")
+    raw_hash: str = Field(..., description="Bare SHA-256 hex digest of the raw log payload")
 
 
 class DashboardSummary(BaseModel):
@@ -77,12 +95,6 @@ class EventDetail(BaseModel):
 # Matches the structure defined in contracts/event_contract.schema.json
 # ---------------------------------------------------------------------------
 
-class RawRef(BaseModel):
-    """Reference to the original raw log in the vault."""
-    store: str = Field(..., description="Storage backend type, e.g. 'vault'")
-    locator: str = Field(..., description="Content-addressed locator, e.g. 'sha256:<hex>'")
-    raw_hash: str = Field(..., description="Cryptographic hash of the raw log payload")
-
 
 class InjectedField(BaseModel):
     """Describes a single OCSF field injected from the source profile."""
@@ -114,6 +126,10 @@ class ULPFEventEnvelope(BaseModel):
     """
     Complete ULPF event wrapper, conforming to contracts/event_contract.schema.json.
     Stores all pipeline-level metadata alongside the OCSF payload.
+
+    All canonical contract keys are always present (ocsf_event may be null but
+    the key itself is required). Use build_event_envelope() to construct
+    envelopes so the trust gate is applied consistently.
     """
     event_id: str
     source_id: str
@@ -131,8 +147,17 @@ class ULPFEventEnvelope(BaseModel):
     parser_version: str
     schema_version: str
     ocsf_event: Optional[Dict[str, Any]] = None
-    provenance: Optional[ProvenanceDetail] = None
-    # integrity is intentionally omitted until chain implementation is approved
+    provenance: ProvenanceDetail = Field(
+        default_factory=ProvenanceDetail,
+        description="Normalization provenance; always present (empty when unknown).",
+    )
+    trusted: bool = Field(
+        default=False,
+        description=(
+            "Trust gate: true only when evidence is validated AND raw integrity "
+            "is verified AND the chain was not reported broken at capture time."
+        ),
+    )
     # Presentation/debug fields (not in the formal contract; used for dashboard projection)
     raw_log: str = ""
     parsed_dict: Optional[Dict[str, Any]] = None
@@ -147,6 +172,117 @@ class ULPFEventEnvelope(BaseModel):
             ocsf_event=self.ocsf_event,
             validation=self.validation,
         )
+
+
+# Canonical contract keys that must always be present on an envelope
+# (ocsf_event included even when its value is null).
+CANONICAL_ENVELOPE_KEYS = frozenset({
+    "event_id",
+    "source_id",
+    "ingest_timestamp",
+    "raw_ref",
+    "integrity",
+    "evidence_classification",
+    "parser_id",
+    "parser_version",
+    "schema_version",
+    "ocsf_event",
+    "provenance",
+    "trusted",
+})
+
+
+def is_canonical_envelope(candidate: Any) -> bool:
+    """Structural guard distinguishing a canonical envelope from look-alike mappings."""
+    if isinstance(candidate, ULPFEventEnvelope):
+        return True
+    if isinstance(candidate, Mapping):
+        return CANONICAL_ENVELOPE_KEYS.issubset(candidate.keys())
+    return False
+
+
+def compute_trusted(
+    evidence_classification: EvidenceClassification,
+    integrity: IntegrityDetail,
+) -> bool:
+    """Trust gate: validated evidence + verified raw integrity + chain not broken."""
+    return (
+        evidence_classification == EvidenceClassification.VALIDATED
+        and integrity.status == IntegrityStatus.VERIFIED
+        and integrity.chain_verified is not False
+    )
+
+
+def build_event_envelope(
+    *,
+    event_id: str,
+    source_id: str,
+    ingest_timestamp: str,
+    raw_ref: Any,
+    evidence_classification: EvidenceClassification,
+    parser_id: str,
+    parser_version: str,
+    schema_version: str,
+    integrity: Any = None,
+    provenance: Any = None,
+    ocsf_event: Optional[Dict[str, Any]] = None,
+    raw_log: str = "",
+    parsed_dict: Optional[Dict[str, Any]] = None,
+    validation: Optional[ValidationResultDetail] = None,
+) -> ULPFEventEnvelope:
+    """Construct a canonical envelope with the trust gate applied."""
+    if not isinstance(raw_ref, RawRef):
+        raw_ref = RawRef(**raw_ref)
+    if integrity is None:
+        integrity = IntegrityDetail(status=IntegrityStatus.UNAVAILABLE)
+    elif not isinstance(integrity, IntegrityDetail):
+        integrity = IntegrityDetail(**integrity)
+    if provenance is None:
+        provenance = ProvenanceDetail()
+    elif not isinstance(provenance, ProvenanceDetail):
+        provenance = ProvenanceDetail(**provenance)
+
+    trusted = compute_trusted(evidence_classification, integrity)
+
+    envelope = ULPFEventEnvelope(
+        event_id=event_id,
+        source_id=source_id,
+        ingest_timestamp=ingest_timestamp,
+        raw_ref=raw_ref,
+        integrity=integrity,
+        evidence_classification=evidence_classification,
+        parser_id=parser_id,
+        parser_version=parser_version,
+        schema_version=schema_version,
+        ocsf_event=ocsf_event,
+        provenance=provenance,
+        trusted=trusted,
+        raw_log=raw_log,
+        parsed_dict=parsed_dict,
+        validation=validation,
+    )
+    assert is_canonical_envelope(envelope)
+    return envelope
+
+
+class FailureRecord(BaseModel):
+    """Quarantined failure metadata. Never carries raw log content."""
+    failure_id: str
+    category: FailureCategory
+    reason: str
+    timestamp: str
+    raw_ref: Optional[RawRef] = None
+    raw_hash: Optional[str] = None
+    source_id: Optional[str] = None
+    source_context: Optional[Dict[str, Any]] = None
+    event_id: Optional[str] = None
+
+
+class PaginatedFailures(BaseModel):
+    items: List[FailureRecord]
+    total: int
+    page: int
+    page_size: int
 
 
 class PipelineRun(BaseModel):

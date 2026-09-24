@@ -1,4 +1,4 @@
-755326d148ce3f2c456c79c97bec6a6b9981f1a8b3450c2588b5a66c87cf79ad  1628  fixtures/raw/cef/cef-real-001.log
-b80b3a483c6a0a91b1193c9d6c3b2fe9fed58d0f1ee8715ac29fee181ea4e3bc  1095  fixtures/raw/cef/doc_reference/cef-doc-examples.log
+ca37d406d7d67ecfcd864ef0864a7a3727f8f947ad9457448c97c9d5b46608b1  1629  fixtures/raw/cef/cef-real-001.log
+bf84db1e910664e548bc71952fd4699ce497ad9ea4a4e9926462fd18af6826df  1105  fixtures/raw/cef/doc_reference/cef-doc-examples.log
 a3783b7c387f7248d8c90c315b9b06a73bf4f7e6d0a6631b0a2449afd5706552  5330  fixtures/raw/syslog/syslog-001.log
-162edcbc838ed90c1bad712fc485977e43225e1b6ccf715adb0ee7eb1ae00caf  8905  fixtures/raw/vendor/fortigate-001.log
+21a07d34ce4ba0235ea2678bb5ec682dbba0c39cb936f9cdca5772146beaec2f  8926  fixtures/raw/vendor/fortigate-001.log

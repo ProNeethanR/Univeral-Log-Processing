@@ -8,7 +8,8 @@ restarts. There is no database or disk-based run store.
 
 When ULPF_DEMO_DATA=true: a single deterministic demo run is synthesised from
 the in-memory events already loaded by event_service.  It is explicitly marked
-as demo data (is_demo=True, status=DEMO).
+as demo data (is_demo=True, status=DEMO).  The run is (re)built by calling
+ensure_demo_run(); there is no module-import side effect.
 
 When ULPF_DEMO_DATA is not set: the run list is empty.  The API returns an
 empty result and the UI must say so explicitly.
@@ -29,7 +30,7 @@ _run_event_ids: Dict[str, List[str]] = {}
 def _build_demo_run() -> None:
     """
     Synthesise one demo run from the events already loaded by event_service.
-    Called once at module import time, after event_service has populated data.
+    Invoked explicitly via ensure_demo_run(); never a module-import side effect.
     """
     from src.api.services import event_service
     from src.api.models import EventStatus
@@ -80,15 +81,18 @@ def _build_demo_run() -> None:
     _run_event_ids[run_id] = [s.event_id for s in summaries]
 
 
-def _init() -> None:
+def ensure_demo_run() -> None:
+    """Explicitly (re)build the demo run from current event summaries.
+
+    Deterministic and idempotent: prior run state is cleared before rebuilding
+    and the run is only synthesised when ULPF_DEMO_DATA=true. Invoked by the
+    API entrypoint and test fixtures; never a module-import side effect.
+    """
+    _runs.clear()
+    _run_event_ids.clear()
     if os.environ.get("ULPF_DEMO_DATA", "").lower() != "true":
         return
-    if _runs:
-        return
     _build_demo_run()
-
-
-_init()
 
 
 # ---------------------------------------------------------------------------

@@ -1,16 +1,21 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ULPF Event Contract",
-  "description": "Schema for the standard normalized event output.",
+  "description": "Schema for the standard normalized event output. Version 1.1: canonical envelope keys (integrity, parser_id, parser_version, provenance, trusted) are required; ocsf_event may be null but the key is always present.",
   "type": "object",
   "required": [
     "event_id",
     "source_id",
     "ingest_timestamp",
     "raw_ref",
+    "integrity",
     "evidence_classification",
+    "parser_id",
+    "parser_version",
     "schema_version",
-    "ocsf_event"
+    "ocsf_event",
+    "provenance",
+    "trusted"
   ],
   "properties": {
     "event_id": {
@@ -41,11 +46,13 @@
         },
         "locator": {
           "type": "string",
-          "description": "Location or key of the raw log in the store."
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "Content-addressed locator: 'sha256:' prefix followed by the bare hex digest."
         },
         "raw_hash": {
           "type": "string",
-          "description": "Cryptographic hash of the raw log payload (e.g., 'sha256:...')."
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "Bare SHA-256 hex digest of the raw log payload (no 'sha256:' prefix; the prefix appears only on the locator)."
         }
       }
     },
@@ -64,11 +71,11 @@
     },
     "schema_version": {
       "type": "string",
-      "description": "Version of this event contract schema."
+      "description": "Version of this event contract schema (e.g., '1.1')."
     },
     "ocsf_event": {
-      "type": "object",
-      "description": "The normalized event fields conforming to OCSF standard.",
+      "type": ["object", "null"],
+      "description": "The normalized event fields conforming to OCSF standard. May be null before normalization, but the key is always present.",
       "additionalProperties": true
     },
     "provenance": {
@@ -146,6 +153,10 @@
           "description": "Reference to a verifiable checkpoint or Merkle root."
         }
       }
+    },
+    "trusted": {
+      "type": "boolean",
+      "description": "Trust gate: true only when evidence_classification is 'validated' AND integrity.status is 'verified' AND integrity.chain_verified is not false."
     }
   }
 }
