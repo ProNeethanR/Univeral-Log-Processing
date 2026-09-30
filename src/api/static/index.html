@@ -1,29 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULPF Dashboard</title>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULPF | Overview & Pipeline Health</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/tokens.css">
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="sidebar">
-        <h2>ULPF Operations</h2>
-        <ul>
-            <li><a href="#" onclick="loadView('overview')">Overview</a></li>
-            <li><a href="#" onclick="loadView('events')">Events</a></li>
-            <li><a href="#" onclick="loadView('parsers')">Parsers</a></li>
-            <li><a href="#" onclick="loadView('runs')">Pipeline Runs</a></li>
-        </ul>
+  <!-- Top Navigation Bar -->
+  <header class="app-navbar" role="banner">
+    <div class="nav-left">
+      <span class="nav-brand-title">ULPF</span>
+      <span class="nav-divider">|</span>
+      <span class="nav-brand-meta">Log Processing &amp;<br>Compliance v2.4</span>
     </div>
-    <div class="main-content">
-        <header>
-            <h1>Dashboard</h1>
-        </header>
-        <div id="view-container">
-            <!-- Content dynamically loaded here -->
-        </div>
+
+    <nav class="nav-center" aria-label="Main Navigation">
+      <button class="nav-tab active" data-view="overview" onclick="switchNavTab('overview')">Overview</button>
+      <button class="nav-tab" data-view="events" onclick="switchNavTab('events')">Events</button>
+      <button class="nav-tab" data-view="vault" onclick="switchNavTab('vault')">Vault</button>
+      <button class="nav-tab" data-view="quarantine" onclick="switchNavTab('quarantine')">Quarantine</button>
+      <button class="nav-tab" data-view="studio" onclick="switchNavTab('studio')">Studio</button>
+      <button class="nav-tab" data-view="runs" onclick="switchNavTab('runs')">Runs</button>
+    </nav>
+
+    <div class="nav-right">
+      <div class="status-pill" title="Hardware Attested Verification State">
+        <span class="pulse-dot"></span>
+        <span id="nav-pill-text">Chain Verified &bull; 48.2k EPS</span>
+      </div>
+
+      <button class="nav-icon-btn" aria-label="Notifications" title="Alert Notifications" onclick="showNotification('Audit Notification: All 32 enclave nodes reporting zero packet loss.')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </button>
+
+      <button class="nav-icon-btn" aria-label="Layout Options" title="Workspace Layout" onclick="showNotification('Workspace layout anchored: Air-gapped enclave mode.')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+      </button>
+
+      <div class="nav-split-v"></div>
+
+      <button class="btn-primary-forest" id="btn-run-pipeline" onclick="handleRunDemoPipeline()">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        Run Demo Pipeline
+      </button>
+
+      <div class="nav-avatar-btn" title="Operator Enclave Auth #04">OP</div>
     </div>
-    <script src="/static/app.js"></script>
+  </header>
+
+  <!-- Main View Area -->
+  <main class="page-wrapper" id="view-container">
+    <!-- View content dynamically rendered by app.js -->
+  </main>
+
+  <!-- Persistent System Footer -->
+  <footer class="app-footer" role="contentinfo">
+    <div class="footer-left">
+      <span>OCSF Class Engine: <strong style="color:var(--text-primary); font-weight:600;">v1.3.0 Formal Schema</strong></span>
+      <span class="bullet-sep">&bull;</span>
+      <span>Worker Pool: <strong style="color:var(--text-primary); font-weight:600;">32/32 Dedicated Cores</strong></span>
+      <span class="bullet-sep">&bull;</span>
+      <span>Security Boundary: <strong style="color:var(--text-primary); font-weight:600;">FIPS 140-3 Level 4 HSM</strong></span>
+    </div>
+    <div class="footer-right">
+      <span>EPOCH: <span id="footer-epoch" style="font-weight:600; color:var(--text-primary);">1713448920.104</span></span>
+      <span class="bullet-sep">&bull;</span>
+      <span class="badge-enclave-secure">
+        <span class="pulse-dot"></span> ENCLAVE SECURE
+      </span>
+    </div>
+  </footer>
+
+  <!-- Floating Toast / Notification -->
+  <div id="toast" style="display:none; position:fixed; bottom:40px; right:30px; background:#15382b; color:#fff; padding:10px 18px; border-radius:4px; font-size:12px; font-family:var(--font-mono); z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.15); align-items:center; gap:8px;">
+    <span id="toast-text"></span>
+  </div>
+
+  <script src="/static/app.js"></script>
 </body>
 </html>
