@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ULPF | Log Processing &amp; Compliance v2.4</title>
+<!-- Google Fonts: Space Grotesk & JetBrains Mono & IBM Plex Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              surface: '#f6faff',
+              'surface-dim': '#eff4fb',
+              card: '#ffffff',
+              border: '#d5dbe1',
+              'border-subtle': '#e2e8f0',
+              accent: '#133d35',
+              'accent-hover': '#0d2b25',
+              'accent-light': '#e8f3f0',
+              emerald: '#059669',
+              'emerald-bg': '#ecfdf5',
+              warning: '#b45309',
+              'warning-bg': '#fffbeb',
+              'warning-border': '#fef3c7',
+              danger: '#b91c1c',
+              'danger-bg': '#fef2f2',
+              'text-primary': '#0f172a',
+              'text-secondary': '#475569',
+              'text-muted': '#64748b',
+              'code-bg': '#f1f5f9'
+            }
+          },
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            body: ['IBM Plex Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      background-color: #f6faff;
+      color: #0f172a;
+      font-family: 'Space Grotesk', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-mono-tech {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .font-body {
+      font-family: 'IBM Plex Sans', sans-serif;
+    }
+    .tech-border {
+      border: 1px solid #d5dbe1;
+    }
+    .tech-border-b {
+      border-bottom: 1px solid #d5dbe1;
+    }
+    .tech-border-t {
+      border-top: 1px solid #d5dbe1;
+    }
+    .tech-card {
+      background-color: #ffffff;
+      border: 1px solid #d5dbe1;
+      border-radius: 2px;
+    }
+    .tech-tab {
+      cursor: pointer;
+      position: relative;
+      font-weight: 500;
+      color: #475569;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .tech-tab:hover {
+      color: #0f172a;
+    }
+    .tech-tab.active {
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .tech-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #133d35;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    .live-dot {
+      animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    /* Hide scrollbar for clean tab strip */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-[13px] leading-normal pb-16 bg-[#f6faff]">
+<!-- 1. TOP APP HEADER & NAVIGATION -->
+<header class="bg-white tech-border-b sticky top-0 z-50">
+<div class="max-w-[1520px] mx-auto px-6 h-14 flex items-center justify-between gap-4">
+<!-- Brand / Title -->
+<div class="flex items-center space-x-2.5 flex-shrink-0 cursor-pointer" onclick="switchTab('overview')">
+<span class="font-bold text-base tracking-wider text-brand-text-primary">ULPF</span>
+<span class="text-brand-border">|</span>
+<div class="flex flex-col text-[11px] leading-tight">
+<span class="text-brand-text-secondary font-medium whitespace-nowrap">Log Processing</span>
+<span class="text-[10px] text-brand-text-muted font-mono-tech whitespace-nowrap">&amp; Compliance v2.4</span>
+</div>
+</div>
+<!-- Scrollable Horizontal Tab Strip with Left/Right Controls -->
+<div class="flex items-center flex-1 max-w-[620px] mx-2 overflow-hidden relative">
+<!-- Left scroll arrow -->
+<button class="h-8 w-6 flex items-center justify-center text-brand-text-muted hover:text-brand-text-primary hover:bg-slate-100 rounded-[2px] z-10 transition-colors flex-shrink-0" onclick="scrollTabs('left')" title="Scroll tabs left">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<!-- Scrollable Tab Container -->
+<nav class="flex items-center space-x-5 text-xs font-mono-tech overflow-x-auto no-scrollbar scroll-smooth px-2 py-3" id="nav-tab-strip">
+<button class="tech-tab active pb-3 pt-1" id="tab-btn-overview" onclick="switchTab('overview')">Overview</button>
+<button class="tech-tab pb-3 pt-1" id="tab-btn-events" onclick="switchTab('events')">Events</button>
+<button class="tech-tab pb-3 pt-1" id="tab-btn-vault" onclick="switchTab('vault')">Vault</button>
+<button class="tech-tab pb-3 pt-1 flex items-center space-x-1.5" id="tab-btn-quarantine" onclick="switchTab('quarantine')">
+<span>Quarantine</span>
+<span class="px-1.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-[2px] leading-none">1,120</span>
+</button>
+<button class="tech-tab pb-3 pt-1" id="tab-btn-sources" onclick="switchTab('sources')">Sources</button>
+<button class="tech-tab pb-3 pt-1" id="tab-btn-plugins" onclick="switchTab('plugins')">Plugins</button>
+<button class="tech-tab pb-3 pt-1" id="tab-btn-benchmark" onclick="switchTab('benchmark')">Benchmark</button>
+<button class="tech-tab pb-3 pt-1" id="tab-btn-tester" onclick="switchTab('tester')">Ingest Tester</button>
+<button class="tech-tab pb-3 pt-1" id="tab-btn-studio" onclick="switchTab('studio')">Studio</button>
+<button class="tech-tab pb-3 pt-1" id="tab-btn-runs" onclick="switchTab('runs')">Runs</button>
+</nav>
+<!-- Right scroll arrow -->
+<button class="h-8 w-6 flex items-center justify-center text-brand-text-muted hover:text-brand-text-primary hover:bg-slate-100 rounded-[2px] z-10 transition-colors flex-shrink-0" onclick="scrollTabs('right')" title="Scroll tabs right">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<!-- Right Utility Controls -->
+<div class="flex items-center space-x-3.5 flex-shrink-0">
+<!-- Chain Status Indicator Pill -->
+<div class="bg-[#f0fdf4] border border-[#bbf7d0] px-3 py-1.5 flex items-center space-x-2 text-[11px] font-mono-tech rounded-[2px]">
+<span class="w-2 h-2 rounded-full bg-emerald-600 live-dot"></span>
+<span class="text-emerald-800 font-semibold whitespace-nowrap">Chain Verified</span>
+<span class="text-emerald-300">•</span>
+<span class="text-emerald-700 font-bold whitespace-nowrap">48.2k EPS</span>
+</div>
+<div class="h-4 w-px bg-slate-200"></div>
+<!-- Notification Bell -->
+<button class="p-1.5 text-brand-text-secondary hover:text-brand-text-primary hover:bg-slate-50 rounded-[2px] transition-colors" title="Alerts &amp; Telemetry Notifications">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+</button>
+<!-- Split / Layout Toggle Icon -->
+<button class="p-1.5 text-brand-text-secondary hover:text-brand-text-primary hover:bg-slate-50 rounded-[2px] transition-colors" title="Toggle Split Screen View">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+</button>
+<!-- Primary Dark Forest Green CTA -->
+<button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-3.5 py-1.5 flex items-center space-x-2 text-xs font-medium rounded-[2px] transition-colors whitespace-nowrap" onclick="executeDemoRun()">
+<svg class="w-3 h-3 fill-current flex-shrink-0" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+<span>Run Demo Pipeline</span>
+</button>
+<!-- Operator Avatar Badge -->
+<div class="w-7 h-7 bg-brand-text-primary text-white font-mono-tech text-[11px] font-bold flex items-center justify-center rounded-[2px] flex-shrink-0">
+        OP
+      </div>
+</div>
+</div>
+</header>
+<!-- MAIN CONTAINER -->
+<main class="max-w-[1520px] mx-auto px-6 pt-6">
+<!-- ============================================================== -->
+<!-- TAB 1: OVERVIEW & PIPELINE HEALTH (MAIN DASHBOARD)             -->
+<!-- ============================================================== -->
+<div class="tab-content active space-y-5" id="tab-overview">
+<!-- 2. HEADER & ACTION ROW -->
+<div class="flex items-center justify-between flex-wrap gap-4 pb-1">
+<div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-brand-text-muted mb-1">
+<span>SYSTEM TELEMETRY &amp; HEALTH REPORT</span>
+<span>•</span>
+<span class="text-brand-text-secondary">NODE_ID: ENCLAVE_SEC_04</span>
+<span>•</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded-[2px] text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">OCSF 1.3.0 FORMAL</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Overview &amp; Pipeline Health</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">Air-gapped secure enclave instance #04 • Continuous OCSF 1.3.0 compliance audit</p>
+</div>
+<!-- Action buttons -->
+<div class="flex items-center space-x-3">
+<!-- Outlined Export Audit Ledger Button (Single-line, generous padding) -->
+<button class="tech-card h-9 px-4 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-2 transition-colors whitespace-nowrap" onclick="alert('Exporting cryptographically signed audit ledger (JSON-LD)...')">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Export Audit Ledger</span>
+</button>
+<!-- Outlined Reprocess DLQ Button -->
+<button class="tech-card h-9 px-3.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-2 transition-colors whitespace-nowrap" onclick="reprocessDLQ()">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Reprocess DLQ</span>
+</button>
+<!-- Refresh Icon Button -->
+<button class="tech-card h-9 w-9 flex items-center justify-center text-brand-text-secondary hover:text-brand-text-primary hover:bg-slate-50 transition-colors" onclick="refreshTelemetry()" title="Sync Telemetry &amp; Refresh State">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+</button>
+</div>
+</div>
+<!-- 3. KPI METRIC CARDS (UNIFORM HEIGHT, ZERO EMPTY DEAD SPACE) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI 1: LOGS INGESTED -->
+<div class="tech-card p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-[11px] gap-2 mb-2">
+<span class="font-mono-tech uppercase tracking-wider text-brand-text-secondary font-semibold">LOGS INGESTED</span>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-slate-100 text-slate-700 border border-slate-200 rounded-[2px] whitespace-nowrap">Live Flow</span>
+</div>
+<div class="text-2xl font-bold font-mono-tech tracking-tight text-brand-text-primary leading-none">1,428,910</div>
+<div class="text-[11px] font-mono-tech text-emerald-600 font-medium mt-1.5">+12.4k/s real-time ingest rate</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[11px] font-mono-tech text-brand-text-secondary">
+<span>Buffer Occupancy: 14.2%</span>
+<span class="font-semibold text-brand-text-primary">Zero Dropped</span>
+</div>
+</div>
+<!-- KPI 2: PARSING SUCCESS RATE -->
+<div class="tech-card p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-[11px] gap-2 mb-2">
+<span class="font-mono-tech uppercase tracking-wider text-brand-text-secondary font-semibold">PARSING SUCCESS RATE</span>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-slate-100 text-slate-700 border border-slate-200 rounded-[2px] whitespace-nowrap">Target &gt;99.9%</span>
+</div>
+<div class="text-2xl font-bold font-mono-tech tracking-tight text-brand-text-primary leading-none">99.94%</div>
+<div class="text-[11px] font-mono-tech text-brand-text-secondary mt-1.5">Nominal operational baseline</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[11px] font-mono-tech text-brand-text-secondary">
+<span>AST Engine p99: 1.2ms</span>
+<span class="text-amber-700 font-semibold font-mono-tech">856 Unparsed</span>
+</div>
+</div>
+<!-- KPI 3: OCSF 1.3.0 PASS RATE -->
+<div class="tech-card p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-[11px] gap-2 mb-2">
+<span class="font-mono-tech uppercase tracking-wider text-brand-text-secondary font-semibold">OCSF 1.3.0 PASS RATE</span>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-slate-100 text-slate-700 border border-slate-200 rounded-[2px] whitespace-nowrap">Class Verified</span>
+</div>
+<div class="text-2xl font-bold font-mono-tech tracking-tight text-brand-text-primary leading-none">99.82%</div>
+<div class="text-[11px] font-mono-tech text-brand-text-secondary mt-1.5">Strict schema &amp; class map compliance</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[11px] font-mono-tech text-brand-text-secondary">
+<span>Coverage: 18 Categories</span>
+<span class="text-brand-danger font-semibold font-mono-tech">264 Diverted</span>
+</div>
+</div>
+<!-- KPI 4: ACTIVE PARSERS -->
+<div class="tech-card p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-[11px] gap-2 mb-2">
+<span class="font-mono-tech uppercase tracking-wider text-brand-text-secondary font-semibold">ACTIVE PARSERS</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+</div>
+<div class="text-2xl font-bold font-mono-tech tracking-tight text-brand-text-primary leading-none">24 / 24</div>
+<div class="text-[11px] font-mono-tech text-emerald-700 font-medium mt-1.5">All AST engines active &amp; healthy</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[11px] font-mono-tech text-brand-text-secondary">
+<div class="flex items-center space-x-1.5">
+<span class="px-1.5 py-0.5 text-[9px] bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-[2px] font-semibold">AST Verified</span>
+<button class="text-[10px] text-brand-text-muted hover:text-brand-text-primary font-mono-tech" onclick="switchTab('plugins')">2m ago ⟳</button>
+</div>
+<span class="font-mono-tech text-brand-text-primary">Dynamic: 4 JIT</span>
+</div>
+</div>
+</div>
+<!-- 4. PIPELINE STAGE INTEGRITY (EXPANDED TO 6 STAGES) -->
+<section class="tech-card p-5">
+<div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h2 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">PIPELINE STAGE INTEGRITY • REALTIME DURATION</h2>
+</div>
+<div class="px-2.5 py-1 text-[11px] font-mono-tech bg-slate-50 border border-slate-200 text-brand-text-secondary rounded-[2px]">
+          Total Processing Latency: <span class="font-semibold text-brand-text-primary">6.7ms</span>
+</div>
+</div>
+<!-- 6-Stage Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3">
+<!-- STAGE 01: INGEST -->
+<div class="bg-slate-50/70 tech-border p-3.5 flex flex-col justify-between rounded-[2px]">
+<div>
+<div class="flex items-center justify-between text-[10px] font-mono-tech text-brand-text-muted mb-2">
+<span class="font-bold text-brand-text-primary">01 INGEST</span>
+<span class="text-emerald-700 bg-emerald-50 px-1 py-0.5 border border-emerald-200 rounded-[1px] font-semibold">100% OK</span>
+</div>
+<div class="font-semibold text-xs text-brand-text-primary">Raw Ingest Buffer</div>
+<div class="text-[11px] text-brand-text-muted font-mono-tech mt-1">1.43M records captured</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[10px] font-mono-tech text-brand-text-secondary">
+<span>RingBuffer 8MB</span>
+<span class="font-semibold">p50: 0.4ms</span>
+</div>
+</div>
+<!-- STAGE 02: PROVENANCE -->
+<div class="bg-slate-50/70 tech-border p-3.5 flex flex-col justify-between rounded-[2px]">
+<div>
+<div class="flex items-center justify-between text-[10px] font-mono-tech text-brand-text-muted mb-2">
+<span class="font-bold text-brand-text-primary">02 PROVENANCE</span>
+<span class="bg-slate-100 text-slate-700 px-1 py-0.5 border border-slate-200 rounded-[1px] font-semibold">SHA-256</span>
+</div>
+<div class="font-semibold text-xs text-brand-text-primary">Cryptographic Hash</div>
+<div class="text-[11px] text-brand-text-muted font-mono-tech mt-1">Chained sequential state</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[10px] font-mono-tech text-brand-text-secondary">
+<span>Merkle Tree L1</span>
+<span class="font-semibold">p50: 0.9ms</span>
+</div>
+</div>
+<!-- STAGE 03: PARSE -->
+<div class="bg-slate-50/70 tech-border p-3.5 flex flex-col justify-between rounded-[2px]">
+<div>
+<div class="flex items-center justify-between text-[10px] font-mono-tech text-brand-text-muted mb-2">
+<span class="font-bold text-brand-text-primary">03 PARSE</span>
+<span class="text-emerald-700 bg-emerald-50 px-1 py-0.5 border border-emerald-200 rounded-[1px] font-semibold">99.9%</span>
+</div>
+<div class="font-semibold text-xs text-brand-text-primary">AST Lexical Parse</div>
+<div class="text-[11px] text-brand-text-muted font-mono-tech mt-1">1.42M records mapped</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[10px] font-mono-tech text-brand-text-secondary">
+<span>24 Grammar Trees</span>
+<span class="font-semibold">p50: 2.1ms</span>
+</div>
+</div>
+<!-- STAGE 04: ENRICHMENT -->
+<div class="bg-slate-50/70 tech-border p-3.5 flex flex-col justify-between rounded-[2px]">
+<div>
+<div class="flex items-center justify-between text-[10px] font-mono-tech text-brand-text-muted mb-2">
+<span class="font-bold text-brand-text-primary">04 ENRICHMENT</span>
+<span class="text-emerald-700 bg-emerald-50 px-1 py-0.5 border border-emerald-200 rounded-[1px] font-semibold">99.8%</span>
+</div>
+<div class="font-semibold text-xs text-brand-text-primary">GeoIP + Threat Intel</div>
+<div class="text-[11px] text-brand-text-muted font-mono-tech mt-1">1.41M records enriched</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[10px] font-mono-tech text-brand-text-secondary">
+<span>IOC Scoring</span>
+<span class="font-semibold">p50: 1.1ms</span>
+</div>
+</div>
+<!-- STAGE 05: SCHEMA -->
+<div class="bg-slate-50/70 tech-border p-3.5 flex flex-col justify-between rounded-[2px]">
+<div>
+<div class="flex items-center justify-between text-[10px] font-mono-tech text-brand-text-muted mb-2">
+<span class="font-bold text-brand-text-primary">05 SCHEMA</span>
+<span class="bg-slate-100 text-slate-700 px-1 py-0.5 border border-slate-200 rounded-[1px] font-semibold">v1.3.0</span>
+</div>
+<div class="font-semibold text-xs text-brand-text-primary">OCSF Validated</div>
+<div class="text-[11px] text-brand-text-muted font-mono-tech mt-1">1.42M strictly compliant</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[10px] font-mono-tech text-brand-text-secondary">
+<span>Enclave Egress</span>
+<span class="font-semibold">p50: 1.4ms</span>
+</div>
+</div>
+<!-- STAGE 06: OUTCOME -->
+<div class="bg-slate-50/70 tech-border p-3.5 flex flex-col justify-between rounded-[2px]">
+<div>
+<div class="flex items-center justify-between text-[10px] font-mono-tech text-brand-text-muted mb-2">
+<span class="font-bold text-brand-text-primary">06 OUTCOME</span>
+<span class="text-emerald-700 bg-emerald-50 px-1 py-0.5 border border-emerald-200 rounded-[1px] font-semibold">Norm OK</span>
+</div>
+<div class="font-semibold text-xs text-brand-text-primary">Action Resolution</div>
+<div class="text-[11px] text-brand-text-muted font-mono-tech mt-1 truncate" title="Verdict normalization: allow / drop / alert / block">allow / drop / alert / block</div>
+</div>
+<div class="tech-border-t pt-2.5 mt-3 flex items-center justify-between text-[10px] font-mono-tech text-brand-text-secondary">
+<span>Precedence HSM</span>
+<span class="font-semibold">p50: 0.8ms</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. QUARANTINE / DLQ WARNING STRIP -->
+<div class="bg-[#fffdfa] border border-[#fed7aa] p-4 rounded-[2px]">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div class="space-y-1.5 max-w-3xl">
+<div class="flex items-center space-x-2.5">
+<svg class="w-4 h-4 text-[#ea580c] flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div class="text-xs text-brand-text-primary">
+<span class="font-mono-tech font-bold text-[#c2410c]">1,120 records</span> diverted to quarantine isolation store (856 parser syntax errors, 264 schema invalidations).
+            </div>
+</div>
+<div class="pl-6 text-[11px] font-mono-tech text-brand-text-muted flex items-center space-x-2 flex-wrap">
+<span>Low confidence (&lt;0.20): <strong class="text-brand-text-secondary font-semibold">612</strong></span>
+<span>•</span>
+<span>AST syntax failures: <strong class="text-brand-text-secondary font-semibold">244</strong></span>
+<span>•</span>
+<span>Schema validation errors: <strong class="text-brand-text-secondary font-semibold">264</strong></span>
+</div>
+</div>
+<div class="flex items-center space-x-3 flex-shrink-0">
+<button class="bg-white tech-border px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-2 rounded-[2px] transition-colors whitespace-nowrap" onclick="reprocessDLQ()">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Reprocess DLQ</span>
+</button>
+<button class="text-xs font-semibold text-[#c2410c] hover:text-[#9a3412] flex items-center space-x-1.5 px-2 py-1.5 rounded-[2px] transition-colors whitespace-nowrap" onclick="switchTab('quarantine')">
+<span>Review Quarantine</span>
+<span>→</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 6. MANUAL BATCH UPLOAD (FULL WIDTH) -->
+<section class="tech-card p-5">
+<div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<div class="flex items-center space-x-2">
+<h2 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">MANUAL INGEST • BATCH LOG UPLOAD</h2>
+<span class="text-xs text-brand-text-muted hidden sm:inline">— Submit archived log files directly into the ingestion pipeline</span>
+</div>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-slate-100 text-brand-text-muted border border-slate-200 rounded-[2px]">Routes to: 01 INGEST</span>
+</div>
+<!-- Dashed-border Dropzone -->
+<div class="border-2 border-dashed border-slate-300 hover:border-[#133d35] p-6 rounded-[2px] bg-slate-50/40 text-center flex flex-col items-center justify-center transition-colors">
+<div class="w-10 h-10 mb-2 flex items-center justify-center text-brand-text-secondary">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+</svg>
+</div>
+<p class="text-xs font-medium text-brand-text-primary">Drag and drop log archive files here</p>
+<div class="mt-3">
+<label class="tech-card px-4 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50 bg-white border border-brand-border flex items-center space-x-1.5 cursor-pointer">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Browse Files</span>
+<input class="hidden" onchange="handleFileUpload(this)" type="file"/>
+</label>
+</div>
+</div>
+<!-- Helper text -->
+<div class="text-center text-[11px] font-mono-tech text-brand-text-muted mt-2.5">
+        Supported formats: <span class="font-medium text-brand-text-secondary">.log, .json, .csv, .evtx, .zip</span> — up to 25MB per file
+      </div>
+<!-- Uploaded files queue list -->
+<div class="mt-4 space-y-2">
+<!-- File 1: In Progress Uploading -->
+<div class="tech-border p-3 flex items-center justify-between bg-white rounded-[2px] flex-wrap gap-2">
+<div class="flex items-center space-x-3 w-80">
+<span class="w-2.5 h-2.5 bg-amber-500 rounded-[1px] flex-shrink-0"></span>
+<div class="truncate">
+<span class="font-mono-tech text-xs text-brand-text-primary font-medium">auth_audit_enclave_2024-04-18.evtx</span>
+<span class="text-[10px] font-mono-tech text-brand-text-muted ml-2">18.4 MB</span>
+</div>
+</div>
+<div class="flex-1 min-w-[200px] px-4 flex items-center space-x-3">
+<div class="w-full bg-slate-100 h-1.5 rounded-[1px] overflow-hidden">
+<div class="bg-[#133d35] h-full w-[68%]"></div>
+</div>
+<span class="text-[10px] font-mono-tech text-brand-text-secondary whitespace-nowrap">68% (2.4 MB/s)</span>
+</div>
+<button class="p-1 text-brand-text-muted hover:text-brand-danger transition-colors" onclick="this.closest('.tech-border').remove()" title="Cancel Upload">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+</button>
+</div>
+<!-- File 2: Completed and parsed -->
+<div class="tech-border p-3 flex items-center justify-between bg-white rounded-[2px] flex-wrap gap-2">
+<div class="flex items-center space-x-3 w-80">
+<span class="w-2.5 h-2.5 bg-[#133d35] rounded-[1px] flex-shrink-0"></span>
+<div class="truncate">
+<span class="font-mono-tech text-xs text-brand-text-primary font-medium">firewall_traffic_sample_100k.log</span>
+<span class="text-[10px] font-mono-tech text-brand-text-muted ml-2">12.1 MB</span>
+</div>
+</div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-emerald-700">
+<svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+<span>Parsed — routed to AST Engine</span>
+</div>
+<button class="p-1 text-brand-text-muted hover:text-brand-danger transition-colors" onclick="this.closest('.tech-border').remove()" title="Remove File">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+</button>
+</div>
+<!-- File 3: Completed and parsed -->
+<div class="tech-border p-3 flex items-center justify-between bg-white rounded-[2px] flex-wrap gap-2">
+<div class="flex items-center space-x-3 w-80">
+<span class="w-2.5 h-2.5 bg-[#133d35] rounded-[1px] flex-shrink-0"></span>
+<div class="truncate">
+<span class="font-mono-tech text-xs text-brand-text-primary font-medium">cloudtrail_secops_records.json</span>
+<span class="text-[10px] font-mono-tech text-brand-text-muted ml-2">4.8 MB</span>
+</div>
+</div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-emerald-700">
+<svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+<span>Parsed — routed to AST Engine</span>
+</div>
+<button class="p-1 text-brand-text-muted hover:text-brand-danger transition-colors" onclick="this.closest('.tech-border').remove()" title="Remove File">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+</button>
+</div>
+</div>
+</section>
+<!-- 7. NETWORK INGESTION & EGRESS ROW (3 EQUAL COLUMNS) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Column 1: Syslog Listeners -->
+<div class="tech-card p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center space-x-2 mb-3">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Syslog Listeners</h3>
+</div>
+<div class="space-y-2.5 mt-3">
+<div class="flex items-center justify-between text-xs tech-border p-2.5 rounded-[2px] bg-slate-50/40">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-mono-tech font-medium text-brand-text-primary">UDP 514: Listening</span>
+</div>
+<span class="font-mono-tech text-brand-text-secondary font-semibold">24.6k eps</span>
+</div>
+<div class="flex items-center justify-between text-xs tech-border p-2.5 rounded-[2px] bg-slate-50/40">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-mono-tech font-medium text-brand-text-primary">TCP 5514: Listening</span>
+</div>
+<span class="font-mono-tech text-brand-text-secondary font-semibold">18.2k eps</span>
+</div>
+</div>
+</div>
+<div class="tech-border-t pt-3 mt-4 flex items-center justify-between text-[11px] font-mono-tech text-brand-text-muted">
+<span>Interface: eth0 (Bonded)</span>
+<span class="text-emerald-700 font-medium">0 Socket Drops</span>
+</div>
+</div>
+<!-- Column 2: REST API Ingest -->
+<div class="tech-card p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center space-x-2 mb-3">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">REST API Ingest</h3>
+</div>
+<div class="tech-border p-2.5 rounded-[2px] bg-slate-50/40 space-y-2 mt-3">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-mono-tech uppercase text-brand-text-muted">Endpoint</span>
+<span class="font-mono-tech text-xs font-semibold text-[#133d35] bg-emerald-50 px-2 py-0.5 border border-emerald-200 rounded-[2px]">/api/ingest</span>
+</div>
+<div class="flex items-center space-x-2 text-xs pt-1">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-medium text-brand-text-primary">Accepting requests</span>
+</div>
+<div class="text-[11px] font-mono-tech text-brand-text-secondary pt-0.5">
+              Request rate: <span class="font-semibold text-brand-text-primary font-mono-tech">5,420 req/s</span>
+</div>
+</div>
+</div>
+<div class="tech-border-t pt-3 mt-4 flex items-center justify-between text-[11px] font-mono-tech text-brand-text-muted">
+<span>TLS 1.3 Strict Mutual Auth</span>
+<span class="font-semibold text-brand-text-secondary">p99: 3.2ms</span>
+</div>
+</div>
+<!-- Column 3: Downstream Egress -->
+<div class="tech-card p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Downstream Egress</h3>
+</div>
+<span class="text-[10px] font-mono-tech text-brand-text-muted">4 Forwarders</span>
+</div>
+<div class="grid grid-cols-2 gap-2 text-xs">
+<div class="tech-border p-2 rounded-[2px] flex items-center space-x-2 bg-slate-50/30">
+<span class="w-2 h-2 rounded-full bg-emerald-600 flex-shrink-0"></span>
+<span class="font-medium text-brand-text-primary truncate">Splunk HEC</span>
+</div>
+<div class="tech-border p-2 rounded-[2px] flex items-center space-x-2 bg-slate-50/30">
+<span class="w-2 h-2 rounded-full bg-emerald-600 flex-shrink-0"></span>
+<span class="font-medium text-brand-text-primary truncate">Sentinel API</span>
+</div>
+<div class="tech-border p-2 rounded-[2px] flex items-center space-x-2 bg-slate-50/30">
+<span class="w-2 h-2 rounded-full bg-emerald-600 flex-shrink-0"></span>
+<span class="font-medium text-brand-text-primary truncate">OpenSearch</span>
+</div>
+<div class="tech-border p-2 rounded-[2px] flex items-center space-x-2 bg-slate-50/30">
+<span class="w-2 h-2 rounded-full bg-emerald-600 flex-shrink-0"></span>
+<span class="font-medium text-brand-text-primary truncate">MinIO Storage</span>
+</div>
+</div>
+</div>
+<div class="tech-border-t pt-3 mt-4 flex items-center justify-between text-[11px] font-mono-tech">
+<span class="text-brand-text-muted">CEF/LEEF/Parquet</span>
+<span class="font-semibold text-[#133d35] bg-emerald-50 px-1.5 py-0.5 border border-emerald-200 rounded-[2px]">Buffer: 2.1k queued</span>
+</div>
+</div>
+</div>
+<!-- 8. PAYLOAD SYNTAXES & CRYPTOGRAPHIC AUDIT LEDGER (2 COLUMNS) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+<!-- Card 1: Payload Syntaxes & Proportions -->
+<div class="tech-card p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-xs font-mono-tech font-bold text-brand-text-primary uppercase tracking-wider">Payload Syntaxes &amp; Proportions</h3>
+<button class="text-xs text-brand-text-secondary hover:text-brand-text-primary flex items-center space-x-1 font-medium" onclick="switchTab('plugins')">
+<span>Configure Grammars</span>
+<span>→</span>
+</button>
+</div>
+<p class="text-xs text-brand-text-muted mb-4">Active ingest breakdown across registered telemetry grammars</p>
+<!-- Stacked Proportion Bar -->
+<div class="w-full h-3.5 flex overflow-hidden rounded-[1px] mb-5 border border-slate-200">
+<div class="bg-[#133d35]" style="width: 45.0%" title="Syslog RFC 5424 (45.0%)"></div>
+<div class="bg-[#2e6f62]" style="width: 28.0%" title="AWS CloudTrail JSON (28.0%)"></div>
+<div class="bg-[#5c5449]" style="width: 18.0%" title="Windows Event Log XML (18.0%)"></div>
+<div class="bg-[#8c827a]" style="width: 9.0%" title="Zeek Bro TSV (9.0%)"></div>
+</div>
+<!-- Legend Table -->
+<div class="space-y-2.5 text-xs font-mono-tech">
+<div class="flex items-center justify-between tech-border-b pb-2">
+<div class="flex items-center space-x-2.5">
+<span class="w-2.5 h-2.5 bg-[#133d35] rounded-[1px]"></span>
+<span class="font-medium text-brand-text-primary">Syslog RFC 5424</span>
+<span class="text-brand-text-muted">(syslog-v1)</span>
+</div>
+<div class="flex items-center space-x-4">
+<span class="text-brand-text-secondary">643,009 evts</span>
+<span class="font-bold text-brand-text-primary w-12 text-right">45.0%</span>
+</div>
+</div>
+<div class="flex items-center justify-between tech-border-b pb-2">
+<div class="flex items-center space-x-2.5">
+<span class="w-2.5 h-2.5 bg-[#2e6f62] rounded-[1px]"></span>
+<span class="font-medium text-brand-text-primary">AWS CloudTrail JSON</span>
+<span class="text-brand-text-muted">(json-ct-02)</span>
+</div>
+<div class="flex items-center space-x-4">
+<span class="text-brand-text-secondary">400,094 evts</span>
+<span class="font-bold text-brand-text-primary w-12 text-right">28.0%</span>
+</div>
+</div>
+<div class="flex items-center justify-between tech-border-b pb-2">
+<div class="flex items-center space-x-2.5">
+<span class="w-2.5 h-2.5 bg-[#5c5449] rounded-[1px]"></span>
+<span class="font-medium text-brand-text-primary">Windows Event Log XML</span>
+<span class="text-brand-text-muted">(evtx-xml)</span>
+</div>
+<div class="flex items-center space-x-4">
+<span class="text-brand-text-secondary">257,203 evts</span>
+<span class="font-bold text-brand-text-primary w-12 text-right">18.0%</span>
+</div>
+</div>
+<div class="flex items-center justify-between pb-1">
+<div class="flex items-center space-x-2.5">
+<span class="w-2.5 h-2.5 bg-[#8c827a] rounded-[1px]"></span>
+<span class="font-medium text-brand-text-primary">Zeek Bro TSV</span>
+<span class="text-brand-text-muted">(tsv-zeek)</span>
+</div>
+<div class="flex items-center space-x-4">
+<span class="text-brand-text-secondary">128,604 evts</span>
+<span class="font-bold text-brand-text-primary w-12 text-right">9.0%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="tech-border-t pt-3 mt-4 flex items-center justify-between text-[11px] font-mono-tech text-brand-text-muted">
+<span>Grammar Compiler: LLVM JIT v16.0</span>
+<span class="text-brand-text-secondary font-medium">Zero Memory Leak Certified</span>
+</div>
+</div>
+<!-- Card 2: Cryptographic Audit Ledger & Checkpoints -->
+<div class="tech-card p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center space-x-2">
+<h3 class="text-xs font-mono-tech font-bold text-brand-text-primary uppercase tracking-wider">Cryptographic Audit Ledger &amp; Checkpoints</h3>
+<span class="px-1.5 py-0.5 text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-[2px] font-semibold">VALIDATED</span>
+</div>
+<svg class="w-4 h-4 text-brand-text-secondary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+</div>
+<p class="text-xs text-brand-text-muted mb-4">Continuous verifiable hash chain anchored to hardware TPM</p>
+<!-- Merkle Root Head Display -->
+<div class="bg-slate-50 tech-border p-3.5 rounded-[2px] space-y-3 font-mono-tech mb-3">
+<div class="flex items-center justify-between text-[11px] text-brand-text-muted">
+<span>CURRENT MERKLE ROOT HEAD</span>
+<span>Batch #1042</span>
+</div>
+<div class="bg-white tech-border px-3 py-2 flex items-center justify-between text-xs">
+<code class="text-brand-text-primary select-all" id="merkle-hash">0x8f2a4e9bc7190d63ba42901ee198c4e9</code>
+<button class="text-brand-text-secondary hover:text-brand-text-primary p-1" onclick="copyHash()" title="Copy Root Hash">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+</button>
+</div>
+<div class="flex items-center justify-between text-[11px] pt-1">
+<span class="text-brand-text-secondary">Hardware Seal: TPM 2.0 PCR-11</span>
+<span class="text-emerald-700 font-semibold">Consensus Witness: Quorum 5/5 Validated</span>
+</div>
+</div>
+<!-- Immutability lock statement -->
+<div class="bg-[#f8fafc] tech-border p-2.5 rounded-[2px] flex items-center space-x-2 text-[11px] text-brand-text-secondary font-mono-tech">
+<svg class="w-3.5 h-3.5 text-brand-text-muted flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Continuous Immutability Lock: Every 10,000 processed events emit an immutable attestation checkpoint.</span>
+</div>
+</div>
+<!-- Bottom Actions -->
+<div class="flex items-center justify-end space-x-3 pt-4 tech-border-t mt-4">
+<button class="tech-card h-8 px-4 text-xs font-medium text-brand-text-primary hover:bg-slate-50 transition-colors" onclick="alert('Checkpoint #1042 cryptographic signature validated against TPM PCR-11.')">
+            Verify Checkpoint
+          </button>
+<button class="bg-[#133d35] hover:bg-[#0d2b25] text-white h-8 px-4 text-xs font-medium rounded-[2px] transition-colors" onclick="switchTab('vault')">
+            View Merkle Tree
+          </button>
+</div>
+</div>
+</div>
+<!-- 9. OUTCOME RESOLUTION & PLUGIN REGISTRY SUMMARY (2 COLUMNS) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+<!-- Column 1: Outcome Resolution -->
+<div class="tech-card p-5">
+<div class="flex items-center space-x-2 mb-1">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Outcome Resolution</h3>
+</div>
+<p class="text-xs text-brand-text-muted mb-4">Normalized verdict distribution across all registered vendors &amp; firewalls</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+<!-- Donut SVG -->
+<div class="flex flex-col items-center justify-center p-2 relative">
+<svg class="w-40 h-40 transform -rotate-90" viewbox="0 0 120 120">
+<circle cx="60" cy="60" fill="none" r="48" stroke="#f1f5f9" stroke-width="9"></circle>
+<!-- ALLOW 68.2% -->
+<circle cx="60" cy="60" fill="none" r="48" stroke="#133d35" stroke-dasharray="301.6" stroke-dashoffset="96.0" stroke-width="9"></circle>
+<!-- BLOCK 18.4% -->
+<circle cx="60" cy="60" fill="none" r="48" stroke="#b91c1c" stroke-dasharray="301.6" stroke-dashoffset="246.1" stroke-width="9" transform="rotate(245.5 60 60)"></circle>
+<!-- ALERT 8.6% -->
+<circle cx="60" cy="60" fill="none" r="48" stroke="#d97706" stroke-dasharray="301.6" stroke-dashoffset="275.7" stroke-width="9" transform="rotate(311.7 60 60)"></circle>
+<!-- DROP 4.8% -->
+<circle cx="60" cy="60" fill="none" r="48" stroke="#64748b" stroke-dasharray="301.6" stroke-dashoffset="287.1" stroke-width="9" transform="rotate(342.7 60 60)"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="text-lg font-bold font-mono-tech text-brand-text-primary">1.41M</span>
+<span class="text-[10px] font-mono-tech text-brand-text-muted uppercase">Verdicts</span>
+</div>
+</div>
+<!-- Legend -->
+<div class="space-y-2 text-xs font-mono-tech">
+<div class="flex items-center justify-between tech-border-b pb-1.5">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-[#133d35] rounded-[1px]"></span>
+<span class="font-medium text-brand-text-primary">ALLOW</span>
+</div>
+<div class="flex items-center space-x-3">
+<span class="text-brand-text-secondary">961,620</span>
+<span class="font-bold text-brand-text-primary w-11 text-right">68.2%</span>
+</div>
+</div>
+<div class="flex items-center justify-between tech-border-b pb-1.5">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-[#b91c1c] rounded-[1px]"></span>
+<span class="font-medium text-brand-text-primary">BLOCK</span>
+</div>
+<div class="flex items-center space-x-3">
+<span class="text-brand-text-secondary">259,440</span>
+<span class="font-bold text-brand-text-primary w-11 text-right">18.4%</span>
+</div>
+</div>
+<div class="flex items-center justify-between tech-border-b pb-1.5">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-[#d97706] rounded-[1px]"></span>
+<span class="font-medium text-brand-text-primary">ALERT</span>
+</div>
+<div class="flex items-center space-x-3">
+<span class="text-brand-text-secondary">121,260</span>
+<span class="font-bold text-brand-text-primary w-11 text-right">8.6%</span>
+</div>
+</div>
+<div class="flex items-center justify-between pb-0.5">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-[#64748b] rounded-[1px]"></span>
+<span class="font-medium text-brand-text-primary">DROP</span>
+</div>
+<div class="flex items-center space-x-3">
+<span class="text-brand-text-secondary">67,680</span>
+<span class="font-bold text-brand-text-primary w-11 text-right">4.8%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="tech-border-t pt-3 mt-4 text-[11px] font-mono-tech text-brand-text-muted flex items-center justify-between">
+<span>OCSF Activity ID: 1 (Network Activity)</span>
+<span class="text-emerald-700 font-medium">Precedence Matrix: Strict HSM Anchor</span>
+</div>
+</div>
+<!-- Column 2: Plugin Registry Summary -->
+<div class="tech-card p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Plugin Registry Summary</h3>
+</div>
+<button class="text-xs font-semibold text-[#133d35] hover:underline flex items-center space-x-1" onclick="switchTab('plugins')">
+<span>View full registry</span>
+<span>→</span>
+</button>
+</div>
+<p class="text-xs text-brand-text-muted mb-4">Quick status &amp; hot-reload control for active grammar plugins</p>
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div class="bg-slate-50 tech-border p-3 rounded-[2px]">
+<div class="text-[10px] font-mono-tech uppercase text-brand-text-muted mb-1">Active Plugins</div>
+<div class="text-2xl font-bold font-mono-tech text-brand-text-primary">24 <span class="text-xs font-normal text-brand-text-secondary font-sans">modules</span></div>
+<div class="text-[11px] font-mono-tech text-emerald-700 mt-1">100% health check</div>
+</div>
+<div class="bg-slate-50 tech-border p-3 rounded-[2px]">
+<div class="text-[10px] font-mono-tech uppercase text-brand-text-muted mb-1">Pending AST Check</div>
+<div class="text-2xl font-bold font-mono-tech text-brand-text-primary">0 <span class="text-xs font-normal text-brand-text-secondary font-sans">queued</span></div>
+<div class="text-[11px] font-mono-tech text-slate-500 mt-1">Zero sandbox alerts</div>
+</div>
+</div>
+<!-- Quick list snippet -->
+<div class="space-y-1.5 text-xs font-mono-tech">
+<div class="flex items-center justify-between tech-border p-2 bg-white rounded-[2px]">
+<div class="flex items-center space-x-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+<span class="font-medium text-brand-text-primary">cisco_asa_v9.so</span>
+</div>
+<span class="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 border border-emerald-200 rounded-[2px] font-medium">AST Validated</span>
+</div>
+<div class="flex items-center justify-between tech-border p-2 bg-white rounded-[2px]">
+<div class="flex items-center space-x-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+<span class="font-medium text-brand-text-primary">paloalto_panos_v11.so</span>
+</div>
+<span class="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 border border-emerald-200 rounded-[2px] font-medium">AST Validated</span>
+</div>
+</div>
+</div>
+<!-- Bottom Action -->
+<div class="tech-border-t pt-4 mt-4 flex items-center justify-between">
+<span class="text-[11px] font-mono-tech text-brand-text-muted">Last hot-reload: 2m 14s ago</span>
+<button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-1.5 transition-colors" onclick="hotReloadAll(this)">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Hot Reload All</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 2: SOURCES VIEW                                            -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-sources">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-brand-text-muted mb-1">
+<span>PERIMETER INTAKE DIRECTORY</span>
+<span>•</span>
+<span class="text-brand-text-secondary">ACTIVE LISTENERS</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Perimeter Sources</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">Registered log producers and listening endpoints</p>
+</div>
+<div class="flex items-center space-x-3">
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+          ← Back to Overview
+        </button>
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-2 transition-colors" onclick="alert('Register new perimeter ingestion source modal.')">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Add Source</span>
+</button>
+</div>
+</div>
+<!-- Perimeter Sources Table Card -->
+<div class="tech-card p-5">
+<div class="flex items-center space-x-2 mb-4">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h2 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Configured Telemetry Producers (5 Active)</h2>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse text-xs">
+<thead>
+<tr class="tech-border-b bg-slate-50 font-mono-tech text-[11px] text-brand-text-secondary">
+<th class="py-2.5 px-3">STATUS</th>
+<th class="py-2.5 px-3">VENDOR / PRODUCER</th>
+<th class="py-2.5 px-3">CONNECTION TYPE &amp; PORT</th>
+<th class="py-2.5 px-3 text-right">CURRENT EPS</th>
+<th class="py-2.5 px-3 text-right">LAST SEEN</th>
+<th class="py-2.5 px-3 text-center">ACTIONS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 font-mono-tech">
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3 px-3">
+<span class="inline-flex items-center space-x-1.5 text-emerald-700 text-[11px]">
+<span class="w-2 h-2 rounded-full bg-emerald-600 live-dot"></span>
+<span>Live</span>
+</span>
+</td>
+<td class="py-3 px-3 font-sans font-semibold text-brand-text-primary">
+                Cisco ASA Firewall
+                <div class="text-[10px] text-brand-text-muted font-mono-tech">Edge Gateway cluster-us-east</div>
+</td>
+<td class="py-3 px-3 text-brand-text-secondary">Syslog UDP 514</td>
+<td class="py-3 px-3 text-right font-bold text-brand-text-primary">14,240 eps</td>
+<td class="py-3 px-3 text-right text-brand-text-muted">120ms ago</td>
+<td class="py-3 px-3 text-center font-sans">
+<button class="tech-card px-2.5 py-1 text-[11px] hover:bg-slate-100" onclick="alert('Configuring Cisco ASA endpoint...')">Configure</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3 px-3">
+<span class="inline-flex items-center space-x-1.5 text-emerald-700 text-[11px]">
+<span class="w-2 h-2 rounded-full bg-emerald-600 live-dot"></span>
+<span>Live</span>
+</span>
+</td>
+<td class="py-3 px-3 font-sans font-semibold text-brand-text-primary">
+                Palo Alto Networks NGFW
+                <div class="text-[10px] text-brand-text-muted font-mono-tech">PAN-OS v11.1 Series</div>
+</td>
+<td class="py-3 px-3 text-brand-text-secondary">Syslog TCP 5514 (TLS)</td>
+<td class="py-3 px-3 text-right font-bold text-brand-text-primary">18,210 eps</td>
+<td class="py-3 px-3 text-right text-brand-text-muted">45ms ago</td>
+<td class="py-3 px-3 text-center font-sans">
+<button class="tech-card px-2.5 py-1 text-[11px] hover:bg-slate-100" onclick="alert('Configuring Palo Alto endpoint...')">Configure</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3 px-3">
+<span class="inline-flex items-center space-x-1.5 text-emerald-700 text-[11px]">
+<span class="w-2 h-2 rounded-full bg-emerald-600 live-dot"></span>
+<span>Live</span>
+</span>
+</td>
+<td class="py-3 px-3 font-sans font-semibold text-brand-text-primary">
+                Fortinet FortiGate
+                <div class="text-[10px] text-brand-text-muted font-mono-tech">Internal DC Core Segment</div>
+</td>
+<td class="py-3 px-3 text-brand-text-secondary">Syslog UDP 514</td>
+<td class="py-3 px-3 text-right font-bold text-brand-text-primary">8,410 eps</td>
+<td class="py-3 px-3 text-right text-brand-text-muted">310ms ago</td>
+<td class="py-3 px-3 text-center font-sans">
+<button class="tech-card px-2.5 py-1 text-[11px] hover:bg-slate-100" onclick="alert('Configuring Fortinet endpoint...')">Configure</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3 px-3">
+<span class="inline-flex items-center space-x-1.5 text-emerald-700 text-[11px]">
+<span class="w-2 h-2 rounded-full bg-emerald-600 live-dot"></span>
+<span>Live</span>
+</span>
+</td>
+<td class="py-3 px-3 font-sans font-semibold text-brand-text-primary">
+                Check Point Quantum Security
+                <div class="text-[10px] text-brand-text-muted font-mono-tech">R81.20 Take 79</div>
+</td>
+<td class="py-3 px-3 text-brand-text-secondary">Kafka spool (topic: secops.cp)</td>
+<td class="py-3 px-3 text-right font-bold text-brand-text-primary">4,890 eps</td>
+<td class="py-3 px-3 text-right text-brand-text-muted">180ms ago</td>
+<td class="py-3 px-3 text-center font-sans">
+<button class="tech-card px-2.5 py-1 text-[11px] hover:bg-slate-100" onclick="alert('Configuring Check Point endpoint...')">Configure</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3 px-3">
+<span class="inline-flex items-center space-x-1.5 text-emerald-700 text-[11px]">
+<span class="w-2 h-2 rounded-full bg-emerald-600 live-dot"></span>
+<span>Live</span>
+</span>
+</td>
+<td class="py-3 px-3 font-sans font-semibold text-brand-text-primary">
+                Custom Appliance (Bespoke TLS)
+                <div class="text-[10px] text-brand-text-muted font-mono-tech">Air-gapped telemetry relay</div>
+</td>
+<td class="py-3 px-3 text-brand-text-secondary">Webhook /api/ingest</td>
+<td class="py-3 px-3 text-right font-bold text-brand-text-primary">2,450 eps</td>
+<td class="py-3 px-3 text-right text-brand-text-muted">890ms ago</td>
+<td class="py-3 px-3 text-center font-sans">
+<button class="tech-card px-2.5 py-1 text-[11px] hover:bg-slate-100" onclick="alert('Configuring Webhook endpoint...')">Configure</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 3: PLUGINS VIEW                                            -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-plugins">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-brand-text-muted mb-1">
+<span>LLVM JIT GRAMMAR REGISTRY</span>
+<span>•</span>
+<span class="text-brand-text-secondary">HOT-RELOAD ENGINE</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Parser Plugin Registry</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">Dynamic plugin management and hot-reload control</p>
+</div>
+<div class="flex items-center space-x-3">
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+          ← Back to Overview
+        </button>
+<span class="text-xs font-mono-tech text-brand-text-muted hidden sm:inline">Last hot-reload: 2024-04-18 14:32:04 UTC</span>
+<button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-3.5 py-1.5 text-xs font-medium rounded-[2px] flex items-center space-x-1.5 transition-colors" onclick="hotReloadAll(this)">
+<svg class="w-3.5 h-3.5 fill-none stroke-current" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Reload All Plugins</span>
+</button>
+</div>
+</div>
+<!-- Grid of Plugin Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="tech-card p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-sm font-bold text-brand-text-primary">cisco_asa_parser</h3>
+<span class="text-[10px] font-mono-tech text-brand-text-muted">v2.4.1 • libparser_cisco.so</span>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-[2px] font-semibold">AST Validated</span>
+</div>
+<div class="mt-3 text-xs space-y-1 text-brand-text-secondary">
+<div><strong class="font-medium text-brand-text-primary">Format:</strong> Syslog RFC 3164/5424</div>
+<div><strong class="font-medium text-brand-text-primary">Security Sandbox:</strong> Isolated WASM Enclave</div>
+</div>
+</div>
+<div class="tech-border-t pt-3 mt-4 flex items-center justify-between text-xs">
+<span class="text-[11px] font-mono-tech text-brand-text-muted">Latency p50: 0.32ms</span>
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 flex items-center space-x-1" onclick="reloadPlugin(this, 'cisco_asa_parser')">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Reload</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="tech-card p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-sm font-bold text-brand-text-primary">paloalto_panos_parser</h3>
+<span class="text-[10px] font-mono-tech text-brand-text-muted">v3.1.0 • libparser_panos.so</span>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-[2px] font-semibold">AST Validated</span>
+</div>
+<div class="mt-3 text-xs space-y-1 text-brand-text-secondary">
+<div><strong class="font-medium text-brand-text-primary">Format:</strong> CSV Delimited Syslog</div>
+<div><strong class="font-medium text-brand-text-primary">Security Sandbox:</strong> Isolated WASM Enclave</div>
+</div>
+</div>
+<div class="tech-border-t pt-3 mt-4 flex items-center justify-between text-xs">
+<span class="text-[11px] font-mono-tech text-brand-text-muted">Latency p50: 0.41ms</span>
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 flex items-center space-x-1" onclick="reloadPlugin(this, 'paloalto_panos_parser')">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Reload</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="tech-card p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-sm font-bold text-brand-text-primary">aws_cloudtrail_json</h3>
+<span class="text-[10px] font-mono-tech text-brand-text-muted">v1.8.4 • libparser_cloudtrail.so</span>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-[2px] font-semibold">AST Validated</span>
+</div>
+<div class="mt-3 text-xs space-y-1 text-brand-text-secondary">
+<div><strong class="font-medium text-brand-text-primary">Format:</strong> NDJSON / Gzip Bundles</div>
+<div><strong class="font-medium text-brand-text-primary">Security Sandbox:</strong> Isolated WASM Enclave</div>
+</div>
+</div>
+<div class="tech-border-t pt-3 mt-4 flex items-center justify-between text-xs">
+<span class="text-[11px] font-mono-tech text-brand-text-muted">Latency p50: 0.28ms</span>
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 flex items-center space-x-1" onclick="reloadPlugin(this, 'aws_cloudtrail_json')">
+<svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Reload</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 4: BENCHMARK VIEW                                          -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-benchmark">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-brand-text-muted mb-1">
+<span>SYNTHETIC INGEST HARNESS</span>
+<span>•</span>
+<span class="text-brand-text-secondary">HARDWARE PROFILER</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Live Benchmarking Suite</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">EPS stress testing, throughput, and latency profiling</p>
+</div>
+<div class="flex items-center space-x-3">
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+          ← Back to Overview
+        </button>
+<span class="px-2.5 py-1 text-xs font-mono-tech bg-slate-100 tech-border text-brand-text-secondary rounded-[2px]">32/32 Dedicated Cores Ready</span>
+</div>
+</div>
+<!-- Control Panel -->
+<div class="tech-card p-5">
+<div class="flex items-center space-x-2 mb-4">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h2 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Stress Test Parameters</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+<div>
+<label class="block text-[11px] font-mono-tech text-brand-text-secondary uppercase mb-1">Target Rate (EPS)</label>
+<input class="w-full tech-card px-3 py-1.5 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35]" type="text" value="75,000"/>
+</div>
+<div>
+<label class="block text-[11px] font-mono-tech text-brand-text-secondary uppercase mb-1">Duration (Seconds)</label>
+<input class="w-full tech-card px-3 py-1.5 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35]" type="text" value="60"/>
+</div>
+<div>
+<label class="block text-[11px] font-mono-tech text-brand-text-secondary uppercase mb-1">Payload Synthetic Profile</label>
+<select class="w-full tech-card px-3 py-1.5 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35] bg-white">
+<option>Mixed Enterprise (45% Syslog, 28% JSON, 18% XML)</option>
+<option>Pure Syslog RFC 5424 Burst</option>
+<option>Heavy Nested CloudTrail JSON</option>
+</select>
+</div>
+<div>
+<button class="w-full bg-[#133d35] hover:bg-[#0d2b25] text-white py-2 text-xs font-medium rounded-[2px] flex items-center justify-center space-x-1.5 transition-colors" onclick="runBenchmarkSimulation()">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+<span>Run Benchmark</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Results Area -->
+<div class="space-y-4">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="tech-card p-4">
+<div class="text-[11px] font-mono-tech uppercase tracking-wider text-brand-text-secondary font-semibold mb-2">PEAK EPS ACHIEVED</div>
+<div class="text-3xl font-bold font-mono-tech tracking-tight text-brand-text-primary">78,410 <span class="text-xs font-normal text-emerald-700">eps</span></div>
+<div class="text-xs font-mono-tech text-brand-text-muted mt-1">104.5% of target capacity</div>
+<div class="tech-border-t pt-2.5 mt-3 text-[11px] font-mono-tech text-brand-text-secondary">Core Affinity: 100% Locked</div>
+</div>
+<div class="tech-card p-4">
+<div class="text-[11px] font-mono-tech uppercase tracking-wider text-brand-text-secondary font-semibold mb-2">AVG LATENCY</div>
+<div class="text-3xl font-bold font-mono-tech tracking-tight text-brand-text-primary">4.2 <span class="text-xs font-normal text-brand-text-secondary">ms</span></div>
+<div class="text-xs font-mono-tech text-emerald-700 mt-1">Nominal threshold (&lt;10ms)</div>
+<div class="tech-border-t pt-2.5 mt-3 text-[11px] font-mono-tech text-brand-text-secondary">Jitter Variance: ±0.3ms</div>
+</div>
+<div class="tech-card p-4">
+<div class="text-[11px] font-mono-tech uppercase tracking-wider text-brand-text-secondary font-semibold mb-2">P99 LATENCY TAIL</div>
+<div class="text-3xl font-bold font-mono-tech tracking-tight text-brand-text-primary">8.6 <span class="text-xs font-normal text-brand-text-secondary">ms</span></div>
+<div class="text-xs font-mono-tech text-brand-text-muted mt-1">Measured under AST stress</div>
+<div class="tech-border-t pt-2.5 mt-3 text-[11px] font-mono-tech text-brand-text-secondary">GC Pause: Zero (LLVM JIT native)</div>
+</div>
+</div>
+<div class="tech-card p-5">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Throughput &amp; Ingestion Curve Over Time</h3>
+</div>
+<span class="text-xs font-mono-tech text-brand-text-muted">Sampled @ 100ms intervals</span>
+</div>
+<div class="w-full h-56 tech-border bg-slate-50/50 p-4 rounded-[2px] relative flex flex-col justify-between">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 800 160">
+<line stroke="#e2e8f0" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="800" y1="40" y2="40"></line>
+<line stroke="#e2e8f0" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="800" y1="80" y2="80"></line>
+<line stroke="#e2e8f0" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="800" y1="120" y2="120"></line>
+<line stroke="#94a3b8" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="800" y1="45" y2="45"></line>
+<text fill="#94a3b8" font-family="JetBrains Mono" font-size="9" x="10" y="40">Target Threshold 75,000 EPS</text>
+<polyline fill="none" points="
+                0,150 40,140 80,120 120,80 160,50 200,42 240,40 280,44 320,38 360,42 400,39 440,41 480,45 520,38 560,42 600,40 640,43 680,41 720,44 760,42 800,40
+              " stroke="#133d35" stroke-width="2"></polyline>
+<polygon fill="#133d35" fill-opacity="0.05" points="
+                0,150 40,140 80,120 120,80 160,50 200,42 240,40 280,44 320,38 360,42 400,39 440,41 480,45 520,38 560,42 600,40 640,43 680,41 720,44 760,42 800,40 800,160 0,160
+              "></polygon>
+</svg>
+<div class="flex justify-between text-[10px] font-mono-tech text-brand-text-muted pt-2 border-t border-slate-200">
+<span>0s (Ramp-up)</span>
+<span>15s</span>
+<span>30s (Steady peak)</span>
+<span>45s</span>
+<span>60s (Cooldown)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 5: INGEST TESTER VIEW                                      -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-tester">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-brand-text-muted mb-1">
+<span>SYNTAX CLASSIFIER &amp; GRAMMAR DEBUGGER</span>
+<span>•</span>
+<span class="text-brand-text-secondary">SANDBOX TESTBED</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Interactive Ingest Tester</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">Paste a raw log line to preview format detection and field mapping</p>
+</div>
+<div class="flex items-center space-x-3">
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+          ← Back to Overview
+        </button>
+<button class="tech-card px-3 py-1.5 text-xs font-medium hover:bg-slate-50 text-brand-text-secondary" onclick="loadSampleLog()">
+          Insert Sample RFC 5424 Log
+        </button>
+</div>
+</div>
+<div class="tech-card p-5">
+<label class="block text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary mb-2">
+        RAW LOG PAYLOAD INPUT
+      </label>
+<textarea class="w-full tech-card p-3 font-mono-tech text-xs text-brand-text-primary bg-slate-50 focus:bg-white focus:outline-none focus:border-[#133d35] resize-y" id="raw-log-input" rows="4">%ASA-6-302013: Built outbound TCP connection 984712 for outside:198.51.100.22/443 (198.51.100.22/443) to inside:10.0.12.84/51234 (10.0.12.84/51234)</textarea>
+<div class="flex items-center justify-between mt-3 flex-wrap gap-2">
+<span class="text-[11px] font-mono-tech text-brand-text-muted">Payload length: 148 bytes • Encoding: UTF-8</span>
+<button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-4 py-1.5 text-xs font-medium rounded-[2px] flex items-center space-x-1.5 transition-colors" onclick="executeTestParse(this)">
+<svg class="w-3.5 h-3.5 fill-none stroke-current" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Test Parse</span>
+</button>
+</div>
+</div>
+<div class="tech-card p-5 space-y-4">
+<div class="flex items-center justify-between pb-3 tech-border-b flex-wrap gap-2">
+<div class="flex items-center space-x-3">
+<span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+<div>
+<span class="text-xs font-mono-tech uppercase text-brand-text-muted">DETECTED FORMAT &amp; CONFIDENCE:</span>
+<div class="text-sm font-bold font-mono-tech text-brand-text-primary mt-0.5">
+              Syslog RFC 5424 / Cisco ASA — <span class="text-emerald-700">confidence 0.94</span>
+</div>
+</div>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-[2px] font-medium">AST Lexer Match</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse text-xs">
+<thead>
+<tr class="tech-border-b bg-slate-50 font-mono-tech text-[11px] text-brand-text-secondary">
+<th class="py-2 px-3">OCSF CANONICAL FIELD</th>
+<th class="py-2 px-3">DATA TYPE</th>
+<th class="py-2 px-3">EXTRACTED VALUE</th>
+<th class="py-2 px-3">RAW MATCHED SUBSTRING</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 font-mono-tech">
+<tr>
+<td class="py-2.5 px-3 font-semibold text-[#133d35]">activity_id</td>
+<td class="py-2.5 px-3 text-brand-text-muted">Integer</td>
+<td class="py-2.5 px-3 font-bold text-brand-text-primary">1 (Network Activity / Open)</td>
+<td class="py-2.5 px-3 text-brand-text-secondary bg-slate-50/50">"Built outbound TCP connection"</td>
+</tr>
+<tr>
+<td class="py-2.5 px-3 font-semibold text-[#133d35]">dst_endpoint.ip</td>
+<td class="py-2.5 px-3 text-brand-text-muted">IPv4 Address</td>
+<td class="py-2.5 px-3 font-bold text-brand-text-primary">198.51.100.22</td>
+<td class="py-2.5 px-3 text-brand-text-secondary bg-slate-50/50">"outside:198.51.100.22/443"</td>
+</tr>
+<tr>
+<td class="py-2.5 px-3 font-semibold text-[#133d35]">src_endpoint.ip</td>
+<td class="py-2.5 px-3 text-brand-text-muted">IPv4 Address</td>
+<td class="py-2.5 px-3 font-bold text-brand-text-primary">10.0.12.84</td>
+<td class="py-2.5 px-3 text-brand-text-secondary bg-slate-50/50">"inside:10.0.12.84/51234"</td>
+</tr>
+<tr>
+<td class="py-2.5 px-3 font-semibold text-[#133d35]">disposition</td>
+<td class="py-2.5 px-3 text-brand-text-muted">Enum String</td>
+<td class="py-2.5 px-3 font-bold text-emerald-700">"ALLOW"</td>
+<td class="py-2.5 px-3 text-brand-text-secondary bg-slate-50/50">"Built"</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 6: EVENTS                                                  -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-events">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-brand-text-muted mb-1">
+<span>EVENT STREAM LEDGER</span>
+<span>•</span>
+<span class="text-brand-text-secondary">QUERY EXPLORER</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Canonical Events Stream</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">Real-time normalized OCSF 1.3.0 event log stream</p>
+</div>
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+        ← Back to Overview
+      </button>
+</div>
+<div class="tech-card p-6 font-mono-tech text-xs space-y-3">
+<div class="text-brand-text-secondary font-medium">QUERYING ENCLAVE CLUSTER #04 [LIVE TAIL]</div>
+<div class="p-3 bg-slate-50 tech-border text-brand-text-primary space-y-1">
+<div>[14:32:00.104] activity_id=1 src=10.0.12.84 dst=198.51.100.22:443 verdict=ALLOW latency=0.8ms hash=0x39a1c</div>
+<div>[14:32:00.108] activity_id=2 src=192.168.1.12 dst=203.0.113.5:22 verdict=BLOCK latency=1.1ms hash=0x91d4e</div>
+<div>[14:32:00.115] activity_id=1 src=10.14.8.100 dst=172.217.16.206:443 verdict=ALLOW latency=0.6ms hash=0xbc402</div>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 7: VAULT                                                   -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-vault">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-brand-text-muted mb-1">
+<span>CRYPTOGRAPHIC STORE</span>
+<span>•</span>
+<span class="text-brand-text-secondary">FIPS 140-3 LEVEL 4 HSM</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Key Vault &amp; Merkle Root History</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">Air-gapped key management and immutable attestation checkpoints</p>
+</div>
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+        ← Back to Overview
+      </button>
+</div>
+<div class="tech-card p-6 font-mono-tech text-xs space-y-3">
+<div class="text-brand-text-secondary font-medium">HARDWARE SECURITY MODULE (HSM) ACTIVE</div>
+<div class="p-3 bg-slate-50 tech-border text-brand-text-primary space-y-1">
+<div>Root Anchor: TPM 2.0 PCR-11 (Hardware sealed)</div>
+<div>Last Checkpoint: Batch #1042 • 0x8f2a4e9bc7190d63ba42901ee198c4e9</div>
+<div>Signature: Ed25519-Dilithium Hybrid Post-Quantum Attestation</div>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 8: QUARANTINE                                              -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-quarantine">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<div class="flex items-center space-x-2 text-[11px] font-mono-tech text-brand-text-muted mb-1">
+<span>DLQ REPLAY INSPECTOR</span>
+<span>•</span>
+<span class="text-brand-text-secondary">QUARANTINE ISOLATION</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Quarantine &amp; Dead-Letter Queue</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">1,120 diverted records awaiting manual syntax or schema patch</p>
+</div>
+<div class="flex items-center space-x-3">
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+          ← Back to Overview
+        </button>
+<button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-3.5 py-1.5 text-xs font-medium rounded-[2px]" onclick="reprocessDLQ()">
+          Reprocess All (1,120)
+        </button>
+</div>
+</div>
+<div class="tech-card p-6 font-mono-tech text-xs space-y-3">
+<div class="text-amber-800 font-semibold">DIVERTED RECORDS BREAKDOWN</div>
+<div class="p-3 bg-[#fffdfa] border border-[#fed7aa] text-brand-text-primary space-y-1">
+<div>• 612 records: Confidence score &lt; 0.20 (Unknown vendor format)</div>
+<div>• 244 records: Lexer AST parsing syntax failure</div>
+<div>• 264 records: OCSF 1.3.0 strict class validation mismatch</div>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 9: STUDIO                                                  -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-studio">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Pipeline Studio</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">Visual AST graph designer and enrichment workflow builder</p>
+</div>
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+        ← Back to Overview
+      </button>
+</div>
+<div class="tech-card p-12 text-center text-brand-text-muted font-mono-tech">
+      [Pipeline Studio &amp; Transformation Graph Editor — Node Canvas Ready]
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- TAB 10: RUNS                                                   -->
+<!-- ============================================================== -->
+<div class="tab-content space-y-6" id="tab-runs">
+<div class="flex items-center justify-between flex-wrap gap-4">
+<div>
+<h1 class="text-2xl font-bold tracking-tight text-brand-text-primary">Verification Runs</h1>
+<p class="text-xs text-brand-text-secondary mt-0.5">Historic compliance test runs, audits, and formal proofs</p>
+</div>
+<button class="tech-card px-3.5 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">
+        ← Back to Overview
+      </button>
+</div>
+<div class="tech-card p-12 text-center text-brand-text-muted font-mono-tech">
+      [Historic Verification Runs &amp; Audit Logs — All Checkpoints Verified]
+    </div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="tech-border-t bg-white mt-12 py-4">
+<div class="max-w-[1520px] mx-auto px-6 flex items-center justify-between text-[11px] font-mono-tech text-brand-text-muted flex-wrap gap-2">
+<div>
+      OCSF Class Engine: v1.3.0 Formal Schema • Worker Pool: 32/32 Dedicated Cores • Security Boundary: FIPS 140-3 Level 4 HSM
+    </div>
+<div>
+      EPOCH: 1713448920.104 • ENCLAVE SECURE
+    </div>
+</div>
+</footer>
+<!-- SCRIPT LOGIC -->
+<script>
+  function switchTab(tabKey) {
+    // Remove active state from all tab headers
+    document.querySelectorAll('.tech-tab').forEach(btn => btn.classList.remove('active'));
+    // Hide all tab panels
+    document.querySelectorAll('.tab-content').forEach(panel => panel.classList.remove('active'));
+
+    // Highlight current button
+    const btn = document.getElementById('tab-btn-' + tabKey);
+    if (btn) {
+      btn.classList.add('active');
+      btn.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+    }
+
+    // Show current panel
+    const panel = document.getElementById('tab-' + tabKey);
+    if (panel) {
+      panel.classList.add('active');
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function scrollTabs(direction) {
+    const strip = document.getElementById('nav-tab-strip');
+    if (strip) {
+      const scrollAmount = direction === 'left' ? -180 : 180;
+      strip.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
+
+  function copyHash() {
+    const hash = document.getElementById('merkle-hash').innerText;
+    navigator.clipboard.writeText(hash).then(() => {
+      alert("Merkle Root Hash copied to clipboard: " + hash);
+    });
+  }
+
+  function loadSampleLog() {
+    document.getElementById('raw-log-input').value = "%ASA-6-302013: Built outbound TCP connection 984712 for outside:198.51.100.22/443 (198.51.100.22/443) to inside:10.0.12.84/51234 (10.0.12.84/51234)";
+  }
+
+  function executeTestParse(btn) {
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Testing AST...`;
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      alert("AST Parse Verified: Cisco ASA RFC 5424 mapping matched with 94% confidence.");
+    }, 450);
+  }
+
+  function runBenchmarkSimulation() {
+    alert("Synthetic benchmark run initialized. 75,000 EPS target load dispatched across 32 dedicated worker cores.");
+  }
+
+  function executeDemoRun() {
+    alert("Demo Pipeline triggered: 50,000 synthetic multi-vendor logs injected through Stage 01 Ingest.");
+  }
+
+  function reprocessDLQ() {
+    alert("DLQ Reprocess Dispatched: 1,120 quarantined records sent to parser fallback engine.");
+  }
+
+  function refreshTelemetry() {
+    alert("Telemetry State Synced: All 6 stages operating nominally.");
+  }
+
+  function hotReloadAll(btn) {
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Reloading...`;
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      alert("All 24 grammar modules hot-reloaded into WASM sandboxes.");
+    }, 500);
+  }
+
+  function reloadPlugin(btn, pluginName) {
+    const original = btn.innerHTML;
+    btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span>`;
+    setTimeout(() => {
+      btn.innerHTML = original;
+      alert(`Plugin '${pluginName}' hot-reloaded successfully.`);
+    }, 400);
+  }
+
+  function handleFileUpload(input) {
+    if (input.files && input.files[0]) {
+      alert(`File '${input.files[0].name}' queued for AST ingestion verification.`);
+    }
+  }
+</script>
+</body></html>

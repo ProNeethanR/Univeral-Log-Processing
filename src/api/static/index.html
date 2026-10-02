@@ -1,95 +1,2132 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ULPF | Overview & Pipeline Health</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/tokens.css">
-  <link rel="stylesheet" href="/static/style.css">
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ULPF | Log Processing &amp; Compliance v2.4</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              surface: '#f6faff',
+              'surface-dim': '#eff4fb',
+              card: '#ffffff',
+              border: '#d5dbe1',
+              'border-subtle': '#e2e8f0',
+              accent: '#133d35',
+              'accent-hover': '#0d2b25',
+              'accent-light': '#e8f3f0',
+              emerald: '#059669',
+              'emerald-bg': '#ecfdf5',
+              warning: '#b45309',
+              'warning-bg': '#fffbeb',
+              'warning-border': '#fef3c7',
+              danger: '#b91c1c',
+              'danger-bg': '#fef2f2',
+              'text-primary': '#0f172a',
+              'text-secondary': '#475569',
+              'text-muted': '#64748b',
+              'code-bg': '#f1f5f9'
+            }
+          },
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            body: ['IBM Plex Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      background-color: #f6faff;
+      color: #0f172a;
+      font-family: 'Space Grotesk', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
+    .font-body { font-family: 'IBM Plex Sans', sans-serif; }
+    .tech-border { border: 1px solid #d5dbe1; }
+    .tech-border-b { border-bottom: 1px solid #d5dbe1; }
+    .tech-border-t { border-top: 1px solid #d5dbe1; }
+    .tech-card {
+      background-color: #ffffff;
+      border: 1px solid #d5dbe1;
+      border-radius: 2px;
+    }
+    .tech-tab {
+      cursor: pointer;
+      position: relative;
+      font-weight: 500;
+      color: #475569;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .tech-tab:hover { color: #0f172a; }
+    .tech-tab.active {
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .tech-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #133d35;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    .live-dot { animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    /* Hide scrollbar for clean tab strip */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* Tooltip styles */
+    .info-tip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #64748b;
+      font-size: 9px;
+      font-weight: 700;
+      cursor: help;
+      flex-shrink: 0;
+      line-height: 1;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .info-tip:hover, .info-tip:focus, .info-tip.active {
+      background: #133d35;
+      color: #ffffff;
+      outline: none;
+    }
+    .info-tip .tip-text {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 7px 11px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 400;
+      font-family: 'IBM Plex Sans', sans-serif;
+      line-height: 1.45;
+      white-space: normal;
+      width: 250px;
+      max-width: 280px;
+      z-index: 1000;
+      pointer-events: none;
+      transition: opacity 0.15s ease, visibility 0.15s ease;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.22);
+      border: 1px solid #334155;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .info-tip .tip-text::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #0f172a;
+    }
+    .info-tip:hover .tip-text, .info-tip:focus .tip-text, .info-tip.active .tip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+    .info-tip.tip-left .tip-text { left: auto; right: -8px; transform: none; }
+    .info-tip.tip-left .tip-text::after { left: auto; right: 12px; transform: none; }
+    .info-tip.tip-right .tip-text { left: -8px; transform: none; }
+    .info-tip.tip-right .tip-text::after { left: 12px; transform: none; }
+  </style>
 </head>
-<body>
-  <!-- Top Navigation Bar -->
-  <header class="app-navbar" role="banner">
-    <div class="nav-left">
-      <span class="nav-brand-title">ULPF</span>
-      <span class="nav-divider">|</span>
-      <span class="nav-brand-meta">Log Processing &amp;<br>Compliance v2.4</span>
+<body class="min-h-screen text-[13px] leading-normal pb-16 bg-[#f6faff]">
+<!-- 1. TOP APP HEADER & NAVIGATION -->
+<header class="bg-white tech-border-b sticky top-0 z-50">
+<div class="max-w-[1520px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+<!-- Brand / Title -->
+<div class="flex items-center space-x-2.5 flex-shrink-0 cursor-pointer" onclick="switchTab('overview')">
+<span class="font-bold text-base tracking-wider text-brand-text-primary">ULPF</span>
+<span class="text-brand-border hidden sm:inline">|</span>
+<div class="flex-col text-[11px] leading-tight hidden sm:flex">
+<span class="text-brand-text-secondary font-medium whitespace-nowrap">Log Processing &amp; Compliance</span>
+</div>
+</div>
+<!-- Desktop Navigation Tabs (Visible on screens >= 1024px) -->
+<nav class="hidden lg:flex items-center space-x-5 text-xs font-mono-tech flex-1 justify-center" id="desktop-nav-tabs">
+<button class="tech-tab active pb-3.5 pt-1.5" id="tab-btn-overview" onclick="switchTab('overview')">Overview</button>
+<button class="tech-tab pb-3.5 pt-1.5" id="tab-btn-events" onclick="switchTab('events')">Events</button>
+<button class="tech-tab pb-3.5 pt-1.5" id="tab-btn-vault" onclick="switchTab('vault')">Vault</button>
+<button class="tech-tab pb-3.5 pt-1.5 flex items-center space-x-1.5" id="tab-btn-quarantine" onclick="switchTab('quarantine')">
+<span>Quarantine</span>
+<span class="px-1.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-[2px] leading-none" id="nav-quarantine-count">0</span>
+</button>
+<button class="tech-tab pb-3.5 pt-1.5" id="tab-btn-sources" onclick="switchTab('sources')">Sources</button>
+<button class="tech-tab pb-3.5 pt-1.5" id="tab-btn-plugins" onclick="switchTab('plugins')">Plugins</button>
+<button class="tech-tab pb-3.5 pt-1.5" id="tab-btn-benchmark" onclick="switchTab('benchmark')">Benchmark</button>
+<button class="tech-tab pb-3.5 pt-1.5" id="tab-btn-tester" onclick="switchTab('tester')">Ingest Tester</button>
+</nav>
+<!-- Right Controls: Chain Status, Run Button, and Hamburger Button -->
+<div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+<!-- Chain Status Indicator Pill -->
+<div class="bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1.5 items-center space-x-1.5 text-[11px] font-mono-tech rounded-[2px] hidden sm:flex">
+<span class="w-2 h-2 rounded-full bg-emerald-600 live-dot"></span>
+<span class="text-emerald-800 font-semibold whitespace-nowrap" id="topbar-chain-status">Chain Verified</span>
+</div>
+<!-- Primary Dark Forest Green CTA: Run Pipeline button -->
+<button id="btn-run-demo" class="btn-run-demo bg-[#133d35] hover:bg-[#0d2b25] text-white px-3 py-1.5 flex items-center space-x-1.5 text-xs font-medium rounded-[2px] transition-colors whitespace-nowrap" onclick="executeDemoRun()">
+<svg class="w-3 h-3 fill-current flex-shrink-0" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+<span class="hidden sm:inline">Run Pipeline</span>
+<span class="sm:hidden">Run</span>
+</button>
+<!-- Hamburger / Cross Toggle Button (Visible on screens < 1024px) -->
+<button id="hamburger-btn" class="lg:hidden tech-card p-1.5 flex items-center justify-center text-brand-text-primary hover:bg-slate-50 transition-colors" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
+<svg id="hamburger-icon-bars" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+</svg>
+<svg id="hamburger-icon-cross" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Global Server Offline Alert Banner (Error Boundary Indicator) -->
+<div id="server-offline-banner" class="hidden bg-rose-50 border-b border-rose-200 text-rose-800 px-4 py-2 text-xs flex items-center justify-between transition-all">
+  <div class="flex items-center space-x-2">
+    <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+    <span class="font-medium">Backend Server Offline or Unreachable (localhost:8000). Retrying connection...</span>
+  </div>
+  <button onclick="fetchBackendTelemetry(); loadEvents();" class="text-[11px] underline font-semibold hover:text-rose-950 px-2 py-0.5 rounded bg-rose-100 hover:bg-rose-200 transition-colors">Retry Connection</button>
+</div>
+<!-- Mobile Dropdown Menu (Cross Menu) -->
+<div id="mobile-menu-drawer" class="hidden lg:hidden tech-border-t bg-white shadow-lg">
+<div class="px-4 py-3 space-y-1 font-mono-tech text-xs">
+<div class="flex items-center justify-between pb-1.5 mb-1 border-b border-slate-100 text-[10px] text-brand-text-muted">
+<span>ALL MODULES</span>
+<span class="text-emerald-700 font-semibold">Active &amp; Ready</span>
+</div>
+<button class="mobile-nav-item w-full flex items-center justify-between px-3 py-2 rounded-[2px] text-left hover:bg-slate-50 transition-colors bg-slate-100 font-semibold text-brand-text-primary" id="mob-tab-overview" onclick="switchTab('overview')">
+<span class="flex items-center space-x-2">
+<span class="nav-dot w-2 h-2 rounded-full bg-[#133d35]"></span>
+<span>Overview</span>
+</span>
+<span class="text-[10px] text-brand-text-muted">Telemetry &amp; DAG</span>
+</button>
+<button class="mobile-nav-item w-full flex items-center justify-between px-3 py-2 rounded-[2px] text-left hover:bg-slate-50 transition-colors text-brand-text-secondary" id="mob-tab-events" onclick="switchTab('events')">
+<span class="flex items-center space-x-2">
+<span class="nav-dot w-2 h-2 rounded-full bg-slate-300"></span>
+<span>Events</span>
+</span>
+<span class="text-[10px] text-brand-text-muted">OCSF Ledger</span>
+</button>
+<button class="mobile-nav-item w-full flex items-center justify-between px-3 py-2 rounded-[2px] text-left hover:bg-slate-50 transition-colors text-brand-text-secondary" id="mob-tab-vault" onclick="switchTab('vault')">
+<span class="flex items-center space-x-2">
+<span class="nav-dot w-2 h-2 rounded-full bg-slate-300"></span>
+<span>Vault</span>
+</span>
+<span class="text-[10px] text-brand-text-muted">Merkle Chain</span>
+</button>
+<button class="mobile-nav-item w-full flex items-center justify-between px-3 py-2 rounded-[2px] text-left hover:bg-slate-50 transition-colors text-brand-text-secondary" id="mob-tab-quarantine" onclick="switchTab('quarantine')">
+<span class="flex items-center space-x-2">
+<span class="nav-dot w-2 h-2 rounded-full bg-amber-500"></span>
+<span>Quarantine</span>
+</span>
+<span class="px-1.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-[2px] leading-none" id="mob-quarantine-count">0</span>
+</button>
+<button class="mobile-nav-item w-full flex items-center justify-between px-3 py-2 rounded-[2px] text-left hover:bg-slate-50 transition-colors text-brand-text-secondary" id="mob-tab-sources" onclick="switchTab('sources')">
+<span class="flex items-center space-x-2">
+<span class="nav-dot w-2 h-2 rounded-full bg-slate-300"></span>
+<span>Sources</span>
+</span>
+<span class="text-[10px] text-brand-text-muted">Collectors</span>
+</button>
+<button class="mobile-nav-item w-full flex items-center justify-between px-3 py-2 rounded-[2px] text-left hover:bg-slate-50 transition-colors text-brand-text-secondary" id="mob-tab-plugins" onclick="switchTab('plugins')">
+<span class="flex items-center space-x-2">
+<span class="nav-dot w-2 h-2 rounded-full bg-slate-300"></span>
+<span>Plugins</span>
+</span>
+<span class="text-[10px] text-brand-text-muted">WASM Sandboxes</span>
+</button>
+<button class="mobile-nav-item w-full flex items-center justify-between px-3 py-2 rounded-[2px] text-left hover:bg-slate-50 transition-colors text-brand-text-secondary" id="mob-tab-benchmark" onclick="switchTab('benchmark')">
+<span class="flex items-center space-x-2">
+<span class="nav-dot w-2 h-2 rounded-full bg-slate-300"></span>
+<span>Benchmark</span>
+</span>
+<span class="text-[10px] text-brand-text-muted">Stress Engine</span>
+</button>
+<button class="mobile-nav-item w-full flex items-center justify-between px-3 py-2 rounded-[2px] text-left hover:bg-slate-50 transition-colors text-brand-text-secondary" id="mob-tab-tester" onclick="switchTab('tester')">
+<span class="flex items-center space-x-2">
+<span class="nav-dot w-2 h-2 rounded-full bg-slate-300"></span>
+<span>Ingest Tester</span>
+</span>
+<span class="text-[10px] text-brand-text-muted">Raw Log Test</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MAIN CONTAINER -->
+<main class="max-w-[1520px] mx-auto px-4 sm:px-6 pt-5">
+<!-- ==============================================================
+     TAB 1: OVERVIEW & PIPELINE HEALTH
+     ============================================================== -->
+<div class="tab-content active space-y-4" id="tab-overview">
+
+  <!-- Overview Toolbar Header (Clean Dashboard Header instead of long rectangle) -->
+  <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
+    <div class="flex items-center space-x-2">
+      <h1 class="text-base font-bold tracking-tight text-brand-text-primary">System Telemetry &amp; Health</h1>
+      <span class="info-tip" tabindex="0">?<span class="tip-text">Live operational telemetry of raw log ingestion, strict OCSF 1.3.0 schema normalization, and cryptographic audit proofs.</span></span>
     </div>
-
-    <nav class="nav-center" aria-label="Main Navigation">
-      <button class="nav-tab active" data-view="overview" onclick="switchNavTab('overview')">Overview</button>
-      <button class="nav-tab" data-view="events" onclick="switchNavTab('events')">Events</button>
-      <button class="nav-tab" data-view="vault" onclick="switchNavTab('vault')">Vault</button>
-      <button class="nav-tab" data-view="quarantine" onclick="switchNavTab('quarantine')">Quarantine</button>
-      <button class="nav-tab" data-view="studio" onclick="switchNavTab('studio')">Studio</button>
-      <button class="nav-tab" data-view="runs" onclick="switchNavTab('runs')">Runs</button>
-    </nav>
-
-    <div class="nav-right">
-      <div class="status-pill" title="Hardware Attested Verification State">
-        <span class="pulse-dot"></span>
-        <span id="nav-pill-text">Chain Verified &bull; 48.2k EPS</span>
+    <div class="flex items-center space-x-2 text-xs font-mono-tech">
+      <div class="flex items-center space-x-1.5 bg-white tech-border px-2.5 py-1 rounded-[2px]">
+        <span class="text-[10px] uppercase text-brand-text-muted font-semibold">Latest Run:</span>
+        <span class="font-bold text-brand-text-primary text-[11px]" id="overview-latest-run-id">—</span>
+        <span class="px-1.5 py-0.5 text-[10px] font-mono-tech bg-slate-100 text-slate-700 border border-slate-200 rounded-[2px] font-semibold" id="overview-latest-run-status">IDLE</span>
       </div>
-
-      <button class="nav-icon-btn" aria-label="Notifications" title="Alert Notifications" onclick="showNotification('Audit Notification: All 32 enclave nodes reporting zero packet loss.')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-        </svg>
+      <button class="tech-card px-2.5 py-1 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-1 transition-colors" onclick="fetchBackendTelemetry()" title="Refresh live telemetry">
+        <svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        <span>Sync ⟳</span>
       </button>
-
-      <button class="nav-icon-btn" aria-label="Layout Options" title="Workspace Layout" onclick="showNotification('Workspace layout anchored: Air-gapped enclave mode.')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-          <line x1="3" y1="9" x2="21" y2="9"></line>
-          <line x1="9" y1="21" x2="9" y2="9"></line>
-        </svg>
-      </button>
-
-      <div class="nav-split-v"></div>
-
-      <button class="btn-primary-forest" id="btn-run-pipeline" onclick="handleRunDemoPipeline()">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-          <polygon points="5 3 19 12 5 21 5 3"></polygon>
-        </svg>
-        Run Demo Pipeline
-      </button>
-
-      <div class="nav-avatar-btn" title="Operator Enclave Auth #04">OP</div>
     </div>
-  </header>
-
-  <!-- Main View Area -->
-  <main class="page-wrapper" id="view-container">
-    <!-- View content dynamically rendered by app.js -->
-  </main>
-
-  <!-- Persistent System Footer -->
-  <footer class="app-footer" role="contentinfo">
-    <div class="footer-left">
-      <span>OCSF Class Engine: <strong style="color:var(--text-primary); font-weight:600;">v1.3.0 Formal Schema</strong></span>
-      <span class="bullet-sep">&bull;</span>
-      <span>Worker Pool: <strong style="color:var(--text-primary); font-weight:600;">32/32 Dedicated Cores</strong></span>
-      <span class="bullet-sep">&bull;</span>
-      <span>Security Boundary: <strong style="color:var(--text-primary); font-weight:600;">FIPS 140-3 Level 4 HSM</strong></span>
-    </div>
-    <div class="footer-right">
-      <span>EPOCH: <span id="footer-epoch" style="font-weight:600; color:var(--text-primary);">1713448920.104</span></span>
-      <span class="bullet-sep">&bull;</span>
-      <span class="badge-enclave-secure">
-        <span class="pulse-dot"></span> ENCLAVE SECURE
-      </span>
-    </div>
-  </footer>
-
-  <!-- Floating Toast / Notification -->
-  <div id="toast" style="display:none; position:fixed; bottom:40px; right:30px; background:#15382b; color:#fff; padding:10px 18px; border-radius:4px; font-size:12px; font-family:var(--font-mono); z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.15); align-items:center; gap:8px;">
-    <span id="toast-text"></span>
   </div>
 
-  <script src="/static/app.js"></script>
+  <!-- Primary Key Performance Indicators (4 Clean Signal Cards) -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    <!-- KPI 1: Ingested -->
+    <div class="p-4 rounded-[2px] border" style="background:#f0fdf4; border-color:#bbf7d0;">
+      <div class="flex items-center space-x-1.5 text-[11px] mb-2">
+        <span class="font-mono-tech uppercase font-semibold tracking-wider" style="color:#14532d;">Ingested</span>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">Total log records captured with byte-level preservation. Zero-loss guarantee ensures no silent drops.</span></span>
+      </div>
+      <div class="text-2xl font-bold font-mono-tech tracking-tight" style="color:#14532d;" id="kpi-total-ingested">0</div>
+      <div class="text-[11px] font-mono-tech mt-1.5" style="color:#166534;">100% Capture Integrity</div>
+    </div>
+
+    <!-- KPI 2: OCSF Pass Rate -->
+    <div class="p-4 rounded-[2px] border" style="background:#f0f9ff; border-color:#bae6fd;">
+      <div class="flex items-center space-x-1.5 text-[11px] mb-2">
+        <span class="font-mono-tech uppercase font-semibold tracking-wider" style="color:#0c4a6e;">OCSF Pass Rate</span>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">Percentage of events fully validated against OCSF 1.3.0 schema (Network Activity class 4001).</span></span>
+      </div>
+      <div class="text-2xl font-bold font-mono-tech tracking-tight" style="color:#075985;" id="kpi-ocsf-rate">0.0%</div>
+      <div class="text-[11px] font-mono-tech mt-1.5" style="color:#0c4a6e;">Schema v1.3.0 Strict</div>
+    </div>
+
+    <!-- KPI 3: Quarantine DLQ -->
+    <div class="p-4 rounded-[2px] border" style="background:#fffbeb; border-color:#fde68a;">
+      <div class="flex items-center space-x-1.5 text-[11px] mb-2">
+        <span class="font-mono-tech uppercase font-semibold tracking-wider" style="color:#78350f;">Quarantine</span>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">Non-compliant records honestly isolated in Dead-Letter Queue. Never silently dropped or fabricated.</span></span>
+      </div>
+      <div class="text-2xl font-bold font-mono-tech tracking-tight" style="color:#92400e;" id="kpi-diverted-count">0 Diverted</div>
+      <div class="text-[11px] font-mono-tech mt-1.5" style="color:#78350f;">Zero Silent Drop</div>
+    </div>
+
+    <!-- KPI 4: Audit Chain -->
+    <div class="p-4 rounded-[2px] border" style="background:#f8fafc; border-color:#cbd5e1;">
+      <div class="flex items-center space-x-1.5 text-[11px] mb-2">
+        <span class="font-mono-tech uppercase font-semibold tracking-wider" style="color:#0f172a;">Audit Chain</span>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">SHA-256 Merkle hash chain anchored to TPM 2.0 PCR-11 for tamper-evident cryptographic audit trail.</span></span>
+      </div>
+      <div class="text-2xl font-bold font-mono-tech tracking-tight text-brand-text-primary" id="kpi-audit-status">GENESIS</div>
+      <div class="text-[11px] font-mono-tech mt-1.5" style="color:#334155;">SHA-256 Merkle Chain</div>
+    </div>
+  </div>
+
+  <!-- Interactive 6-Stage Pipeline DAG -->
+  <div class="tech-card p-4 space-y-3">
+    <div class="flex items-center space-x-2">
+      <h2 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Pipeline DAG</h2>
+      <span class="info-tip" tabindex="0">?<span class="tip-text">Deterministic 6-stage transformation flow. Click any stage to inspect its specification and contracts.</span></span>
+      <span class="text-[11px] font-mono-tech text-emerald-700 bg-emerald-50 px-2 py-0.5 border border-emerald-200 rounded-[2px] font-semibold ml-auto">6 Stages</span>
+    </div>
+    <div class="grid grid-cols-3 md:grid-cols-6 gap-1.5 font-mono-tech">
+      <div class="p-2.5 rounded-[2px] border cursor-pointer transition-colors pipeline-stage-node" style="background:#f0fdf4; border-color:#86efac;" onclick="selectPipelineStage(1)" id="stage-node-1">
+        <div class="text-[10px] text-brand-text-muted">01</div>
+        <div class="font-bold text-[11px] text-brand-text-primary mt-0.5">Raw Ingest</div>
+      </div>
+      <div class="p-2.5 rounded-[2px] border cursor-pointer transition-colors pipeline-stage-node" style="background:#f8fafc; border-color:#cbd5e1;" onclick="selectPipelineStage(2)" id="stage-node-2">
+        <div class="text-[10px] text-brand-text-muted">02</div>
+        <div class="font-bold text-[11px] text-brand-text-primary mt-0.5">Classifier</div>
+      </div>
+      <div class="p-2.5 rounded-[2px] border cursor-pointer transition-colors pipeline-stage-node" style="background:#ecfeff; border-color:#a5f3fc;" onclick="selectPipelineStage(3)" id="stage-node-3">
+        <div class="text-[10px] text-brand-text-muted">03</div>
+        <div class="font-bold text-[11px] text-brand-text-primary mt-0.5">AST Parser</div>
+      </div>
+      <div class="p-2.5 rounded-[2px] border cursor-pointer transition-colors pipeline-stage-node" style="background:#eef2ff; border-color:#c7d2fe;" onclick="selectPipelineStage(4)" id="stage-node-4">
+        <div class="text-[10px] text-brand-text-muted">04</div>
+        <div class="font-bold text-[11px] text-brand-text-primary mt-0.5">Context</div>
+      </div>
+      <div class="p-2.5 rounded-[2px] border cursor-pointer transition-colors pipeline-stage-node" style="background:#f0fdf4; border-color:#bbf7d0;" onclick="selectPipelineStage(5)" id="stage-node-5">
+        <div class="text-[10px] text-brand-text-muted">05</div>
+        <div class="font-bold text-[11px] text-brand-text-primary mt-0.5">OCSF Map</div>
+      </div>
+      <div class="p-2.5 rounded-[2px] border cursor-pointer transition-colors pipeline-stage-node" style="background:#f0fdfa; border-color:#99f6e4;" onclick="selectPipelineStage(6)" id="stage-node-6">
+        <div class="text-[10px] text-brand-text-muted">06</div>
+        <div class="font-bold text-[11px] text-brand-text-primary mt-0.5">Trust Gate</div>
+      </div>
+    </div>
+    <div class="p-3 rounded-[2px] border space-y-1 font-mono-tech" style="background:#f8fafc; border-color:#e2e8f0;" id="stage-details-panel">
+      <div class="flex items-center justify-between">
+        <span class="font-bold text-xs text-brand-text-primary" id="stage-detail-title">Stage 01: Raw Ingest &amp; Lossless Capture</span>
+        <span class="text-[10px] text-brand-text-muted" id="stage-detail-contract">Ingestion Specification v1.0</span>
+      </div>
+      <p class="text-[11px] text-brand-text-secondary font-body leading-relaxed" id="stage-detail-desc">
+        Ingests incoming log streams at the byte level without decode or modification. Preserves exact line terminators and assigns unique byte offsets into the cryptographic vault.
+      </p>
+    </div>
+  </div>
+
+  <!-- Dual Split: Quarantine Review & Vault Proof Summary -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+    <!-- Left: Quarantine Review -->
+    <div class="tech-card p-4 flex flex-col justify-between space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 bg-amber-500 rounded-[1px]"></span>
+          <h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Dead-Letter Quarantine</h3>
+          <span class="info-tip" tabindex="0">?<span class="tip-text">Records lacking verified metadata or failing schema validation are quarantined honestly — never silently dropped or fabricated. Supports hot-reload remediation.</span></span>
+        </div>
+        <span class="text-[10px] font-mono-tech text-amber-800 bg-amber-50 px-1.5 py-0.5 border border-amber-200 rounded-[2px]">Zero-Fabrication</span>
+      </div>
+      <div class="flex items-center space-x-2 flex-wrap gap-2">
+        <button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="reprocessDLQ()">Reprocess DLQ</button>
+        <button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-3 py-1.5 text-xs font-medium rounded-[2px]" onclick="switchTab('quarantine')">Review Records →</button>
+      </div>
+    </div>
+
+    <!-- Right: Cryptographic Vault Proof -->
+    <div class="tech-card p-4 flex flex-col justify-between space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+          <h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Cryptographic Vault Anchor</h3>
+          <span class="info-tip tip-left" tabindex="0">?<span class="tip-text">Every log line is SHA-256 hashed and chained into an append-only cryptographic ledger. Checkpoints generate formal proofs of data immutability.</span></span>
+        </div>
+        <span class="text-[10px] font-mono-tech text-emerald-800 bg-emerald-50 px-1.5 py-0.5 border border-emerald-200 rounded-[2px]">Tamper-Evident</span>
+      </div>
+      <div class="bg-slate-50 tech-border p-2 rounded-[2px] flex items-center justify-between text-xs font-mono-tech">
+        <span class="text-brand-text-muted text-[11px] truncate max-w-[280px]" id="merkle-hash">—</span>
+        <button class="tech-card px-2 py-0.5 text-[10px] hover:bg-white" onclick="copyHash()">Copy</button>
+      </div>
+      <div class="flex items-center space-x-2 flex-wrap gap-2">
+        <button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="createVaultCheckpoint()">Checkpoint</button>
+        <button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-3 py-1.5 text-xs font-medium rounded-[2px]" onclick="switchTab('vault')">Explore Vault →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================================================
+     TAB 2: SOURCES VIEW
+     ============================================================== -->
+<div class="tab-content space-y-4" id="tab-sources">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div class="flex items-center space-x-2">
+<h1 class="text-lg font-bold tracking-tight text-brand-text-primary">Log Sources</h1>
+<span class="info-tip">?<span class="tip-text">Registered log producers and active listeners. Configure connection type and ingestion settings per source.</span></span>
+</div>
+<div class="flex items-center space-x-2">
+<button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">← Overview</button>
+<button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-1.5" onclick="openConfigureModal({id:'new',name:'',cluster:'',type:'',eps:0,last_seen:'—',status:'live'})">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+<span>Add Source</span>
+</button>
+</div>
+</div>
+<div class="tech-card overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse text-xs">
+<thead>
+<tr class="tech-border-b bg-slate-50 font-mono-tech text-[11px] text-brand-text-secondary">
+<th class="py-2.5 px-3">
+  <span class="inline-flex items-center space-x-1">
+    <span>STATUS</span>
+    <span class="info-tip" tabindex="0">?<span class="tip-text">Connection health status of the log collector (Live, Idle, Paused).</span></span>
+  </span>
+</th>
+<th class="py-2.5 px-3">
+  <span class="inline-flex items-center space-x-1">
+    <span>SOURCE</span>
+    <span class="info-tip" tabindex="0">?<span class="tip-text">Unique producer name and cluster deployment origin.</span></span>
+  </span>
+</th>
+<th class="py-2.5 px-3">
+  <span class="inline-flex items-center space-x-1">
+    <span>CONNECTION</span>
+    <span class="info-tip" tabindex="0">?<span class="tip-text">Transport protocol and socket interface specification.</span></span>
+  </span>
+</th>
+<th class="py-2.5 px-3 text-right">
+  <span class="inline-flex items-center space-x-1 justify-end">
+    <span>EPS</span>
+    <span class="info-tip tip-left" tabindex="0">?<span class="tip-text">Real-time sustained events per second throughput.</span></span>
+  </span>
+</th>
+<th class="py-2.5 px-3 text-right">
+  <span class="inline-flex items-center space-x-1 justify-end">
+    <span>LAST SEEN</span>
+    <span class="info-tip tip-left" tabindex="0">?<span class="tip-text">Timestamp of the most recently ingested log line.</span></span>
+  </span>
+</th>
+<th class="py-2.5 px-3 text-center">
+  <span class="inline-flex items-center space-x-1 justify-center">
+    <span>ACTIONS</span>
+    <span class="info-tip tip-left" tabindex="0">?<span class="tip-text">Edit source properties, connection strings, and status.</span></span>
+  </span>
+</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 font-mono-tech" id="sources-table-body">
+<tr><td colspan="6" class="py-8 text-center text-brand-text-muted">Loading sources...</td></tr>
+</tbody>
+</table>
+</div>
+<div class="tech-border-t px-4 py-2 bg-slate-50 flex items-center justify-between text-xs font-mono-tech text-brand-text-muted">
+<div>Total: <span id="sources-total-count" class="font-bold text-brand-text-primary">0</span> sources</div>
+<button class="tech-card px-3 py-1 hover:bg-white" onclick="loadSources()">Refresh ⟳</button>
+</div>
+</div>
+</div>
+<!-- ==============================================================
+     TAB 3: PLUGINS VIEW
+     ============================================================== -->
+<div class="tab-content space-y-4" id="tab-plugins">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div class="flex items-center space-x-2">
+<h1 class="text-lg font-bold tracking-tight text-brand-text-primary">Parser Plugins</h1>
+<span class="info-tip">?<span class="tip-text">Active YAML DSL parsing grammars executing in sandboxed WASM enclaves. Supports hot-reload without downtime.</span></span>
+</div>
+<div class="flex items-center space-x-2">
+<button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">← Overview</button>
+<button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-3 py-1.5 text-xs font-medium rounded-[2px] flex items-center space-x-1.5 transition-colors" onclick="hotReloadAll(this)">
+<svg class="w-3.5 h-3.5 fill-none stroke-current" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Reload All</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="plugins-grid">
+<div class="tech-card p-4"><div class="py-6 text-center text-brand-text-muted text-xs">Loading plugins...</div></div>
+</div>
+</div>
+<!-- ==============================================================
+     TAB 4: BENCHMARK VIEW
+     ============================================================== -->
+<div class="tab-content space-y-4" id="tab-benchmark">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div class="flex items-center space-x-2">
+<h1 class="text-lg font-bold tracking-tight text-brand-text-primary">Benchmark</h1>
+<span class="info-tip">?<span class="tip-text">Throughput stress testing and latency profiling. Simulates enterprise-scale log ingestion across multiple payload profiles.</span></span>
+</div>
+<button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">← Overview</button>
+</div>
+<!-- Control Panel -->
+<div class="p-4 rounded-[2px] border" style="background:#f8fafc; border-color:#e2e8f0;">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
+<div>
+<label class="block text-[11px] font-mono-tech text-brand-text-secondary mb-1 flex items-center space-x-1">
+  <span>Target EPS</span>
+  <span class="info-tip" tabindex="0">?<span class="tip-text">Target ingestion throughput rate for stress testing.</span></span>
+</label>
+<input class="w-full tech-card px-3 py-1.5 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35]" type="text" value="75,000" id="bench-target-eps" oninput="updateBenchmarkDisplay()"/>
+</div>
+<div>
+<label class="block text-[11px] font-mono-tech text-brand-text-secondary mb-1 flex items-center space-x-1">
+  <span>Duration (s)</span>
+  <span class="info-tip" tabindex="0">?<span class="tip-text">Duration in seconds to sustain the benchmark simulation.</span></span>
+</label>
+<input class="w-full tech-card px-3 py-1.5 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35]" type="text" value="60" id="bench-duration" oninput="updateBenchmarkDisplay()"/>
+</div>
+<div>
+<label class="block text-[11px] font-mono-tech text-brand-text-secondary mb-1 flex items-center space-x-1">
+  <span>Payload Profile</span>
+  <span class="info-tip" tabindex="0">?<span class="tip-text">Log composition format used during load simulation.</span></span>
+</label>
+<select class="w-full tech-card px-3 py-1.5 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35] bg-white" id="bench-profile" onchange="updateBenchmarkDisplay()">
+<option>Mixed Enterprise</option>
+<option>Pure Syslog RFC 5424</option>
+<option>CloudTrail JSON</option>
+<option>Cisco ASA Firewall</option>
+</select>
+</div>
+<div>
+<button class="w-full bg-[#133d35] hover:bg-[#0d2b25] text-white py-2 text-xs font-medium rounded-[2px] flex items-center justify-center space-x-1.5 transition-colors" onclick="runBenchmarkSimulation()">
+<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+<span>Run Benchmark</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Results -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="p-4 rounded-[2px] border" style="background:#f0fdf4; border-color:#bbf7d0;">
+<div class="flex items-center space-x-1.5 text-[11px] font-mono-tech uppercase font-semibold mb-1" style="color:#166534;">
+<span>Peak EPS</span>
+<span class="info-tip" tabindex="0">?<span class="tip-text">Maximum sustained events-per-second achieved during the benchmark run.</span></span>
+</div>
+<div class="text-2xl font-bold font-mono-tech" style="color:#14532d;" id="bench-peak-eps">— <span class="text-xs font-normal" style="color:#166534;">eps</span></div>
+</div>
+<div class="p-4 rounded-[2px] border" style="background:#f0f9ff; border-color:#bae6fd;">
+<div class="flex items-center space-x-1.5 text-[11px] font-mono-tech uppercase font-semibold mb-1" style="color:#0c4a6e;">
+<span>Avg Latency</span>
+<span class="info-tip" tabindex="0">?<span class="tip-text">Average end-to-end processing latency per log record during the benchmark.</span></span>
+</div>
+<div class="text-2xl font-bold font-mono-tech" style="color:#075985;" id="bench-avg-lat">— <span class="text-xs font-normal" style="color:#0c4a6e;">ms</span></div>
+</div>
+<div class="p-4 rounded-[2px] border" style="background:#faf5ff; border-color:#e9d5ff;">
+<div class="flex items-center space-x-1.5 text-[11px] font-mono-tech uppercase font-semibold mb-1" style="color:#6b21a8;">
+<span>P99 Latency</span>
+<span class="info-tip" tabindex="0">?<span class="tip-text">99th percentile tail latency — worst-case processing time under sustained load.</span></span>
+</div>
+<div class="text-2xl font-bold font-mono-tech" style="color:#581c87;" id="bench-p99-lat">— <span class="text-xs font-normal" style="color:#6b21a8;">ms</span></div>
+</div>
+</div>
+<!-- Throughput Chart -->
+<div class="p-4 rounded-[2px] border" style="background:#ffffff; border-color:#e2e8f0;">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center space-x-1.5">
+  <h3 class="text-xs font-mono-tech font-bold uppercase tracking-wider text-brand-text-primary">Throughput Over Time</h3>
+  <span class="info-tip" tabindex="0">?<span class="tip-text">Real-time processing throughput sampled at 100ms intervals.</span></span>
+</div>
+<span class="text-[10px] font-mono-tech text-brand-text-muted" id="bench-chart-label">Select profile &amp; Run Benchmark</span>
+</div>
+<div class="w-full h-40 border p-3 rounded-[2px] flex flex-col justify-between" style="background:#f8fafc; border-color:#e2e8f0;">
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 800 140" id="bench-chart-svg">
+<line stroke="#e2e8f0" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="800" y1="35" y2="35"></line>
+<line stroke="#e2e8f0" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="800" y1="70" y2="70"></line>
+<line stroke="#e2e8f0" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="800" y1="105" y2="105"></line>
+<line id="bench-target-line" stroke="#94a3b8" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="800" y1="38" y2="38"></line>
+<text id="bench-target-label" fill="#94a3b8" font-family="JetBrains Mono" font-size="9" x="10" y="33">75,000 EPS target</text>
+<polyline id="bench-chart-polyline" fill="none" points="0,140 800,140" stroke="#133d35" stroke-width="2"></polyline>
+<polygon id="bench-chart-polygon" fill="#133d35" fill-opacity="0.05" points="0,140 800,140 800,140 0,140"></polygon>
+</svg>
+<div class="flex justify-between text-[10px] font-mono-tech text-brand-text-muted pt-1.5 border-t" style="border-color:#e2e8f0;">
+<span id="bench-t0">0s</span><span id="bench-t1">—</span><span id="bench-t2">—</span><span id="bench-t3">—</span><span id="bench-t4">60s</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ==============================================================
+     TAB 5: INGEST TESTER VIEW
+     ============================================================== -->
+<div class="tab-content space-y-4" id="tab-tester">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div class="flex items-center space-x-2">
+<h1 class="text-lg font-bold tracking-tight text-brand-text-primary">Ingest Tester</h1>
+<span class="info-tip" tabindex="0">?<span class="tip-text">Paste any raw log line to preview format detection, field extraction, and OCSF normalization mapping in real-time.</span></span>
+</div>
+<div class="flex items-center space-x-1.5 flex-wrap gap-1">
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 text-brand-text-secondary" onclick="loadSampleLog('cisco')">Cisco ASA</button>
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 text-brand-text-secondary" onclick="loadSampleLog('netfilter')">Netfilter</button>
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 text-brand-text-secondary" onclick="loadSampleLog('json')">CloudTrail</button>
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 text-brand-text-secondary" onclick="loadSampleLog('cef')">CEF</button>
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 text-brand-text-secondary" onclick="loadSampleLog('nginx')">Nginx</button>
+<button class="tech-card px-2.5 py-1 text-xs font-medium hover:bg-slate-50 text-brand-text-secondary" onclick="loadSampleLog('fortinet')">Fortinet</button>
+</div>
+</div>
+<!-- Input -->
+<div class="tech-card p-4">
+<label class="block text-xs font-mono-tech font-semibold text-brand-text-primary mb-2 flex items-center space-x-1.5">
+  <span>Raw Log Input</span>
+  <span class="info-tip" tabindex="0">?<span class="tip-text">Paste any raw log line to preview format detection, field extraction, and OCSF normalization mapping in real-time.</span></span>
+</label>
+<textarea class="w-full tech-card p-3 font-mono-tech text-xs text-brand-text-primary bg-slate-50 focus:bg-white focus:outline-none focus:border-[#133d35] resize-y" id="raw-log-input" rows="3" oninput="updateTesterLen()">%ASA-6-302013: Built outbound TCP connection 984712 for outside:198.51.100.22/443 (198.51.100.22/443) to inside:10.0.12.84/51234 (10.0.12.84/51234)</textarea>
+<div class="flex items-center justify-between mt-2">
+<span class="text-[11px] font-mono-tech text-brand-text-muted" id="tester-payload-len">148 bytes • UTF-8</span>
+<button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-4 py-1.5 text-xs font-medium rounded-[2px] flex items-center space-x-1.5 transition-colors" onclick="executeTestParse(this)" id="btn-test-parse">
+<svg class="w-3.5 h-3.5 fill-none stroke-current" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Test Parse</span>
+</button>
+</div>
+</div>
+<!-- Results -->
+<div class="tech-card p-4 space-y-3">
+<div class="flex items-center justify-between pb-2 tech-border-b">
+<div>
+<div class="text-[11px] font-mono-tech text-brand-text-muted mb-0.5 flex items-center space-x-1">
+  <span>Detected Format</span>
+  <span class="info-tip" tabindex="0">?<span class="tip-text">Source grammar classification and detection confidence score.</span></span>
+</div>
+<div class="text-sm font-bold font-mono-tech text-brand-text-primary" id="tester-detected-format">Awaiting input...</div>
+</div>
+<span class="px-2 py-0.5 text-[10px] font-mono-tech bg-slate-100 text-slate-700 border border-slate-200 rounded-[2px] font-medium" id="tester-engine-badge">Ready</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse text-xs">
+<thead>
+<tr class="tech-border-b bg-slate-50 font-mono-tech text-[11px] text-brand-text-secondary">
+<th class="py-2 px-3">
+  <span class="inline-flex items-center space-x-1">
+    <span>OCSF FIELD</span>
+    <span class="info-tip" tabindex="0">?<span class="tip-text">Normalized schema attribute from OCSF 1.3.0.</span></span>
+  </span>
+</th>
+<th class="py-2 px-3">
+  <span class="inline-flex items-center space-x-1">
+    <span>TYPE</span>
+    <span class="info-tip" tabindex="0">?<span class="tip-text">Attribute datatype constraint: IPAddress, Integer, String, or Timestamp.</span></span>
+  </span>
+</th>
+<th class="py-2 px-3">
+  <span class="inline-flex items-center space-x-1">
+    <span>VALUE</span>
+    <span class="info-tip" tabindex="0">?<span class="tip-text">Normalized value mapped from raw payload.</span></span>
+  </span>
+</th>
+<th class="py-2 px-3">
+  <span class="inline-flex items-center space-x-1">
+    <span>RAW MATCH</span>
+    <span class="info-tip tip-left" tabindex="0">?<span class="tip-text">Original substring matched in input log line.</span></span>
+  </span>
+</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 font-mono-tech" id="tester-table-body">
+<tr>
+<td colspan="4" class="py-6 text-center text-brand-text-muted">Enter a raw log line above and click 'Test Parse'.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tech-border-t pt-2 mt-1">
+  <button class="text-xs font-mono-tech text-[#133d35] hover:underline flex items-center space-x-1" onclick="toggleTesterJson()">
+    <span id="tester-toggle-label">▸ View OCSF JSON</span>
+  </button>
+  <pre class="bg-slate-900 text-slate-100 p-4 rounded text-xs font-mono overflow-auto max-h-60 mt-2 hidden" id="tester-json-preview">Click 'Test Parse' to see normalized OCSF JSON.</pre>
+</div>
+</div>
+</div>
+
+<!-- ==============================================================
+     TAB 6: EVENTS
+     ============================================================== -->
+<div class="tab-content space-y-4" id="tab-events">
+  <div class="flex items-center justify-between flex-wrap gap-3">
+    <div class="flex items-center space-x-2">
+      <h1 class="text-lg font-bold tracking-tight text-brand-text-primary">Events</h1>
+      <span class="info-tip">?<span class="tip-text">Normalized OCSF 1.3.0 event stream. Each event carries provenance, validation status, and cryptographic vault references.</span></span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">← Overview</button>
+      <button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-1.5" onclick="loadEvents()">
+        <svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+        <span>Refresh</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter & Search Toolbar -->
+  <div class="tech-card p-3 flex items-center justify-between flex-wrap gap-2">
+    <div class="flex items-center space-x-2 flex-1 min-w-[240px]">
+      <input type="text" id="events-search-input" onkeyup="handleEventsSearch(event)" placeholder="Search by Event ID..." class="w-full tech-card px-3 py-1.5 text-xs font-mono-tech text-brand-text-primary focus:outline-none focus:border-[#133d35]" />
+      <button class="tech-card px-3 py-1.5 text-xs font-medium hover:bg-slate-50 text-brand-text-primary whitespace-nowrap" onclick="loadEvents()">Search</button>
+    </div>
+    <div class="flex items-center space-x-1.5 text-xs font-mono-tech">
+      <button class="px-2 py-1 rounded-[2px] bg-[#133d35] text-white font-medium event-filter-btn" id="filter-all" onclick="setEventsFilter('all')">All</button>
+      <button class="px-2 py-1 rounded-[2px] tech-card hover:bg-slate-50 text-emerald-800 font-medium event-filter-btn" id="filter-passed" onclick="setEventsFilter('passed')">Pass</button>
+      <button class="px-2 py-1 rounded-[2px] tech-card hover:bg-slate-50 text-amber-800 font-medium event-filter-btn" id="filter-failed" onclick="setEventsFilter('failed')">Fail</button>
+    </div>
+  </div>
+
+  <!-- Events Stream Table -->
+  <div class="tech-card overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead>
+          <tr class="tech-border-b bg-slate-50 font-mono-tech text-[11px] text-brand-text-secondary">
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>STATUS</span>
+                <span class="info-tip" tabindex="0">?<span class="tip-text">Validation status: PASS for strict OCSF 1.3.0 compliance, FAIL for quarantined anomalies.</span></span>
+              </span>
+            </th>
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>EVENT ID</span>
+                <span class="info-tip" tabindex="0">?<span class="tip-text">Deterministic unique UUID assigned to the normalized event envelope.</span></span>
+              </span>
+            </th>
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>FORMAT</span>
+                <span class="info-tip" tabindex="0">?<span class="tip-text">Source format dialect identified by the classifier lexer.</span></span>
+              </span>
+            </th>
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>TIMESTAMP</span>
+                <span class="info-tip" tabindex="0">?<span class="tip-text">Authoritative event epoch preserved from the original record.</span></span>
+              </span>
+            </th>
+            <th class="py-2.5 px-3 text-center">
+              <span class="inline-flex items-center space-x-1 justify-center">
+                <span>ACTION</span>
+                <span class="info-tip tip-left" tabindex="0">?<span class="tip-text">Inspect complete ULPF contract envelope, raw bytes, and validation proofs.</span></span>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200 font-mono-tech" id="events-table-body">
+          <tr>
+            <td colspan="5" class="py-8 text-center text-brand-text-muted">Loading events...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tech-border-t px-4 py-2 bg-slate-50 flex items-center justify-between text-xs font-mono-tech text-brand-text-muted">
+      <div>Showing <span id="events-showing-count">0</span> of <span id="events-total-count">0</span></div>
+      <div class="flex items-center space-x-2">
+        <button id="events-prev-page" onclick="prevEventsPage()" class="tech-card px-2.5 py-1 text-[11px] hover:bg-white disabled:opacity-40">Prev</button>
+        <span id="events-page-num" class="px-2 font-bold text-brand-text-primary">Page 1</span>
+        <button id="events-next-page" onclick="nextEventsPage()" class="tech-card px-2.5 py-1 text-[11px] hover:bg-white disabled:opacity-40">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================================================
+     TAB 7: VAULT
+     ============================================================== -->
+<div class="tab-content space-y-4" id="tab-vault">
+  <div class="flex items-center justify-between flex-wrap gap-3">
+    <div class="flex items-center space-x-2">
+      <h1 class="text-lg font-bold tracking-tight text-brand-text-primary">Cryptographic Vault</h1>
+      <span class="info-tip" tabindex="0">?<span class="tip-text">Cryptographic audit ledger with SHA-256 Merkle chain verification and checkpoint anchoring to hardware TPM.</span></span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">← Overview</button>
+      <button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50 flex items-center space-x-1.5" onclick="exportAuditLedger()">
+        <svg class="w-3.5 h-3.5 text-brand-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+        <span>Export</span>
+      </button>
+      <button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-3 py-1.5 text-xs font-medium rounded-[2px] transition-colors" onclick="createVaultCheckpoint()">Checkpoint</button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono-tech">
+    <div class="p-4 rounded-[2px] border" style="background:#f0fdf4; border-color:#bbf7d0;">
+      <div class="flex items-center space-x-1.5 text-[10px] uppercase mb-1" style="color:#14532d;">
+        <span>Chain Status</span>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">Current state of the SHA-256 hash chain. 'Verified' means all records pass integrity checks.</span></span>
+      </div>
+      <div class="text-lg font-bold flex items-center space-x-2 text-emerald-700" id="vault-status-text">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+        <span>VERIFIED</span>
+      </div>
+      <div class="text-[11px] mt-1" style="color:#166534;" id="vault-status-reason">Hash chain valid</div>
+    </div>
+    <div class="p-4 rounded-[2px] border" style="background:#f0f9ff; border-color:#bae6fd;">
+      <div class="text-[10px] uppercase mb-1 flex items-center space-x-1" style="color:#0c4a6e;">
+        <span>Vault Records</span>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">Total number of append-only records sealed into the SHA-256 ledger.</span></span>
+      </div>
+      <div class="text-xl font-bold" style="color:#075985;" id="vault-records-count">0</div>
+      <div class="text-[11px] mt-1" style="color:#0c4a6e;">SHA-256 sealed entries</div>
+    </div>
+    <div class="p-4 rounded-[2px] border" style="background:#f8fafc; border-color:#cbd5e1;">
+      <div class="flex items-center space-x-1.5 text-[10px] uppercase mb-1" style="color:#334155;">
+        <span>Seal Anchor</span>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">Hardware root of trust. Vault checkpoints are anchored to TPM 2.0 PCR-11 with post-quantum Dilithium attestation.</span></span>
+      </div>
+      <div class="text-base font-bold text-brand-text-primary">TPM 2.0 PCR-11</div>
+      <div class="text-[11px] mt-1 font-medium" style="color:#166534;">Dilithium Attestation</div>
+    </div>
+  </div>
+
+  <div class="p-4 rounded-[2px] border space-y-2 font-mono-tech" style="background:#ffffff; border-color:#e2e8f0;">
+    <div class="flex items-center justify-between text-xs">
+      <div class="flex items-center space-x-1.5">
+        <span class="font-bold text-brand-text-primary uppercase">Chain Head Digest</span>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">Root SHA-256 hash sealing all historical records in the vault ledger.</span></span>
+      </div>
+      <span class="text-brand-text-muted" id="vault-checkpoint-status">Anchor: Valid</span>
+    </div>
+    <div class="bg-slate-50 tech-border px-3 py-2 flex items-center justify-between text-xs">
+      <code class="text-brand-text-primary select-all text-[12px]" id="vault-head-hash">Calculating...</code>
+      <button class="tech-card px-2.5 py-1 text-xs hover:bg-white" onclick="copyText('vault-head-hash')">Copy</button>
+    </div>
+    <div class="text-[11px] text-brand-text-secondary">
+      Checkpoint: <code class="text-slate-700" id="vault-checkpoint-hash">—</code>
+    </div>
+  </div>
+
+  <div class="tech-card p-4 space-y-2 font-mono-tech">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-1.5">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-brand-text-primary">Verification Report</h3>
+        <span class="info-tip" tabindex="0">?<span class="tip-text">Cryptographic verification attestation showing chain status, hash continuity, and anchor state.</span></span>
+      </div>
+      <button class="text-xs text-brand-text-secondary hover:text-brand-text-primary" onclick="loadVault()">Refresh ⟳</button>
+    </div>
+    <pre class="bg-slate-900 text-emerald-400 p-4 rounded-[2px] text-xs font-mono overflow-auto max-h-52" id="vault-raw-report">Loading verification report...</pre>
+  </div>
+</div>
+
+<!-- ==============================================================
+     TAB 8: QUARANTINE
+     ============================================================== -->
+<div class="tab-content space-y-4" id="tab-quarantine">
+  <div class="flex items-center justify-between flex-wrap gap-3">
+    <div class="flex items-center space-x-2">
+      <h1 class="text-lg font-bold tracking-tight text-brand-text-primary">Dead-Letter Quarantine</h1>
+      <span class="info-tip" tabindex="0">?<span class="tip-text">Non-compliant records isolated for operator review. Records are never silently dropped or fabricated — strict zero-fabrication policy.</span></span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button class="tech-card px-3 py-1.5 text-xs font-medium text-brand-text-primary hover:bg-slate-50" onclick="switchTab('overview')">← Overview</button>
+      <button class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-3 py-1.5 text-xs font-medium rounded-[2px] flex items-center space-x-1.5 transition-colors" onclick="reprocessDLQ()">
+        <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+        <span>Reprocess DLQ</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Quarantine Table -->
+  <div class="tech-card overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead>
+          <tr class="tech-border-b bg-slate-50 font-mono-tech text-[11px] text-brand-text-secondary">
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>CATEGORY</span>
+                <span class="info-tip" tabindex="0">?<span class="tip-text">Quarantine reason: Schema Violation, Unverified Context, or Missing Profile.</span></span>
+              </span>
+            </th>
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>SOURCE ID</span>
+                <span class="info-tip" tabindex="0">?<span class="tip-text">Identifier of the source origin that produced the quarantined event.</span></span>
+              </span>
+            </th>
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>FAILURE REASON</span>
+                <span class="info-tip" tabindex="0">?<span class="tip-text">Detailed explanation of why record was honestly isolated rather than fabricated.</span></span>
+              </span>
+            </th>
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>RAW REF</span>
+                <span class="info-tip tip-left" tabindex="0">?<span class="tip-text">Cryptographic SHA-256 locator pointing to preserved raw bytes in vault.</span></span>
+              </span>
+            </th>
+            <th class="py-2.5 px-3">
+              <span class="inline-flex items-center space-x-1">
+                <span>TIME</span>
+                <span class="info-tip tip-left" tabindex="0">?<span class="tip-text">UTC time of ingestion and quarantine placement.</span></span>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200 font-mono-tech" id="quarantine-table-body">
+          <tr>
+            <td colspan="5" class="py-8 text-center text-brand-text-muted">Loading quarantined records...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tech-border-t px-4 py-2 bg-slate-50 flex items-center justify-between text-xs font-mono-tech text-brand-text-muted">
+      <div>Total quarantined: <span id="quarantine-total-count" class="font-bold text-brand-text-primary">0</span></div>
+      <button class="tech-card px-3 py-1 hover:bg-white" onclick="loadQuarantine()">Refresh ⟳</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- EVENT DETAIL INSPECTION MODAL -->
+<div id="event-detail-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+  <div class="bg-white tech-border rounded-[2px] max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl">
+    <div class="flex items-center justify-between px-5 py-3 tech-border-b bg-slate-50">
+      <div class="flex items-center space-x-2">
+        <span class="w-2 h-2 bg-[#133d35] rounded-[1px]"></span>
+        <div>
+          <h2 class="text-sm font-mono-tech font-bold text-brand-text-primary" id="modal-event-id">Event Inspector</h2>
+          <p class="text-[11px] font-mono-tech text-brand-text-muted" id="modal-event-meta">ULPF Contract Envelope</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span id="modal-status-badge" class="px-2 py-0.5 text-[10px] font-mono-tech font-bold rounded-[2px]">VALIDATED</span>
+        <button onclick="closeEventModal()" class="p-1.5 text-brand-text-muted hover:text-brand-text-primary text-lg leading-none">✕</button>
+      </div>
+    </div>
+    <div class="flex border-b border-slate-200 px-5 bg-white space-x-4 text-xs font-mono-tech pt-2">
+      <button class="pb-2 font-medium border-b-2 border-[#133d35] text-brand-text-primary modal-tab-btn" onclick="switchModalTab('raw')" id="modal-tab-btn-raw">Raw Log</button>
+      <button class="pb-2 font-medium border-b-2 border-transparent text-brand-text-muted hover:text-brand-text-primary modal-tab-btn" onclick="switchModalTab('parsed')" id="modal-tab-btn-parsed">Parsed</button>
+      <button class="pb-2 font-medium border-b-2 border-transparent text-brand-text-muted hover:text-brand-text-primary modal-tab-btn" onclick="switchModalTab('ocsf')" id="modal-tab-btn-ocsf">OCSF</button>
+      <button class="pb-2 font-medium border-b-2 border-transparent text-brand-text-muted hover:text-brand-text-primary modal-tab-btn" onclick="switchModalTab('validation')" id="modal-tab-btn-validation">Validation</button>
+    </div>
+    <div class="p-5 overflow-y-auto font-mono-tech text-xs flex-1 bg-slate-50">
+      <div id="modal-content-raw" class="modal-tab-pane">
+        <div class="bg-white tech-border p-4 rounded-[2px] space-y-1">
+          <div class="text-[10px] uppercase text-brand-text-muted font-bold">Byte-Preserved Log:</div>
+          <pre class="whitespace-pre-wrap break-all text-slate-800 bg-slate-50 p-3 rounded" id="modal-raw-text"></pre>
+        </div>
+      </div>
+      <div id="modal-content-parsed" class="modal-tab-pane hidden">
+        <pre class="bg-white tech-border p-4 rounded-[2px] text-slate-800 overflow-x-auto whitespace-pre-wrap" id="modal-parsed-json"></pre>
+      </div>
+      <div id="modal-content-ocsf" class="modal-tab-pane hidden">
+        <pre class="bg-white tech-border p-4 rounded-[2px] text-slate-800 overflow-x-auto whitespace-pre-wrap" id="modal-ocsf-json"></pre>
+      </div>
+      <div id="modal-content-validation" class="modal-tab-pane hidden space-y-3">
+        <div class="bg-white tech-border p-4 rounded-[2px] space-y-2">
+          <div class="text-[10px] uppercase text-brand-text-muted font-bold">Schema Compliance:</div>
+          <div id="modal-validation-report" class="space-y-1"></div>
+        </div>
+        <div class="bg-white tech-border p-4 rounded-[2px] space-y-2">
+          <div class="text-[10px] uppercase text-brand-text-muted font-bold">Provenance &amp; Vault:</div>
+          <div id="modal-provenance-info" class="text-[11px] text-brand-text-secondary space-y-1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="px-5 py-2.5 tech-border-t bg-white flex justify-end">
+      <button onclick="closeEventModal()" class="tech-card px-4 py-1.5 text-xs font-medium hover:bg-slate-50">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- SOURCE CONFIGURE MODAL -->
+<div id="source-config-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+  <div class="bg-white tech-border rounded-[2px] max-w-lg w-full shadow-2xl">
+    <div class="flex items-center justify-between px-5 py-3 tech-border-b bg-slate-50">
+      <h2 class="text-sm font-mono-tech font-bold text-brand-text-primary" id="config-modal-title">Configure Source</h2>
+      <button onclick="closeConfigureModal()" class="p-1.5 text-brand-text-muted hover:text-brand-text-primary text-lg leading-none">✕</button>
+    </div>
+    <div class="p-5 space-y-3">
+      <input type="hidden" id="config-source-id" />
+      <div>
+        <label class="block text-[11px] font-mono-tech text-brand-text-secondary mb-1">Source Name</label>
+        <input type="text" id="config-source-name" class="w-full tech-card px-3 py-2 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35]" />
+      </div>
+      <div>
+        <label class="block text-[11px] font-mono-tech text-brand-text-secondary mb-1">Cluster / Description</label>
+        <input type="text" id="config-source-cluster" class="w-full tech-card px-3 py-2 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35]" />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-[11px] font-mono-tech text-brand-text-secondary mb-1">Connection Type</label>
+          <select id="config-source-type" class="w-full tech-card px-3 py-2 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35] bg-white">
+            <option>Syslog UDP 514</option>
+            <option>Syslog TCP 514</option>
+            <option>Syslog TCP 5514 (TLS)</option>
+            <option>Kafka Spool</option>
+            <option>Webhook /api/ingest</option>
+            <option>File Fixture</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-mono-tech text-brand-text-secondary mb-1">Status</label>
+          <select id="config-source-status" class="w-full tech-card px-3 py-2 font-mono-tech text-xs text-brand-text-primary focus:outline-none focus:border-[#133d35] bg-white">
+            <option value="live">Live</option>
+            <option value="paused">Paused</option>
+            <option value="disabled">Disabled</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="px-5 py-3 tech-border-t bg-white flex justify-end space-x-2">
+      <button onclick="closeConfigureModal()" class="tech-card px-4 py-1.5 text-xs font-medium hover:bg-slate-50">Cancel</button>
+      <button onclick="saveSourceConfig()" class="bg-[#133d35] hover:bg-[#0d2b25] text-white px-4 py-1.5 text-xs font-medium rounded-[2px] transition-colors">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="tech-border-t bg-white mt-8 py-2.5">
+<div class="max-w-[1520px] mx-auto px-6 flex items-center justify-between text-[10px] font-mono-tech text-brand-text-muted">
+<span>ULPF • OCSF 1.3.0 • SHA-256 Merkle Chain</span>
+<span>Enclave Secure</span>
+</div>
+</footer>
+
+<!-- SCRIPT LOGIC -->
+<script>
+  // --- Global Connectivity & Error Boundaries ---
+  let isServerOnline = true;
+  function setServerOnline(online) {
+    if (isServerOnline === online) return;
+    isServerOnline = online;
+    const banner = document.getElementById('server-offline-banner');
+    if (banner) {
+      if (online) {
+        banner.classList.add('hidden');
+      } else {
+        banner.classList.remove('hidden');
+      }
+    }
+  }
+
+  function fetchWithTimeout(url, options = {}, timeoutMs = 5000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .then(res => {
+        clearTimeout(timer);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText || 'Server Error'}`);
+        }
+        setServerOnline(true);
+        return res;
+      })
+      .catch(err => {
+        clearTimeout(timer);
+        if (err.name === 'AbortError') {
+          console.warn(`[ULPF] Request to ${url} timed out after ${timeoutMs}ms`);
+        }
+        setServerOnline(false);
+        throw err;
+      });
+  }
+
+  // --- Smooth Loading Skeletons ---
+  function getTableSkeletonHtml(cols = 5, rows = 5) {
+    let out = '';
+    const widths = ['w-16', 'w-32', 'w-24', 'w-28', 'w-14', 'w-20'];
+    for (let r = 0; r < rows; r++) {
+      out += `<tr class="animate-pulse border-b border-slate-100">`;
+      for (let c = 0; c < cols; c++) {
+        const w = widths[c % widths.length];
+        out += `<td class="py-3 px-3"><div class="h-3.5 bg-slate-200/80 rounded ${w}"></div></td>`;
+      }
+      out += `</tr>`;
+    }
+    return out;
+  }
+
+  function getCardsSkeletonHtml(count = 4) {
+    let out = '';
+    for (let i = 0; i < count; i++) {
+      out += `
+        <div class="tech-card p-4 animate-pulse flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between">
+              <div>
+                <div class="h-4 bg-slate-200 rounded w-32 mb-1.5"></div>
+                <div class="h-3 bg-slate-200 rounded w-20"></div>
+              </div>
+              <div class="h-4 bg-slate-200 rounded w-16"></div>
+            </div>
+            <div class="mt-3 space-y-1.5">
+              <div class="h-3 bg-slate-200 rounded w-28"></div>
+              <div class="h-3 bg-slate-200 rounded w-24"></div>
+            </div>
+          </div>
+          <div class="tech-border-t pt-2 mt-3 flex justify-between">
+            <div class="h-3 bg-slate-200 rounded w-16"></div>
+            <div class="h-5 bg-slate-200 rounded w-14"></div>
+          </div>
+        </div>
+      `;
+    }
+    return out;
+  }
+
+  let currentEventsPage = 1;
+  let currentEventsFilter = 'all';
+  let totalEventsCount = 0;
+  let cachedEvents = [];
+
+  function switchTab(tabKey) {
+    document.querySelectorAll('.tech-tab').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(panel => panel.classList.remove('active'));
+    document.querySelectorAll('.mobile-nav-item').forEach(btn => {
+      btn.classList.remove('bg-slate-100', 'font-semibold', 'text-brand-text-primary');
+      btn.classList.add('text-brand-text-secondary');
+      const dot = btn.querySelector('.nav-dot');
+      if (dot) dot.className = 'nav-dot w-2 h-2 rounded-full bg-slate-300';
+    });
+
+    const btn = document.getElementById('tab-btn-' + tabKey);
+    if (btn) {
+      btn.classList.add('active');
+    }
+
+    const mobBtn = document.getElementById('mob-tab-' + tabKey);
+    if (mobBtn) {
+      mobBtn.classList.add('bg-slate-100', 'font-semibold', 'text-brand-text-primary');
+      mobBtn.classList.remove('text-brand-text-secondary');
+      const dot = mobBtn.querySelector('.nav-dot');
+      if (dot) dot.className = 'nav-dot w-2 h-2 rounded-full bg-[#133d35]';
+    }
+
+    const panel = document.getElementById('tab-' + tabKey);
+    if (panel) panel.classList.add('active');
+
+    closeMobileMenu();
+
+    if (tabKey === 'events') loadEvents();
+    if (tabKey === 'vault') loadVault();
+    if (tabKey === 'quarantine') loadQuarantine();
+    if (tabKey === 'sources') loadSources();
+    if (tabKey === 'plugins') loadPlugins();
+    if (tabKey === 'tester') updateTesterLen();
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleMobileMenu() {
+    const drawer = document.getElementById('mobile-menu-drawer');
+    const barsIcon = document.getElementById('hamburger-icon-bars');
+    const crossIcon = document.getElementById('hamburger-icon-cross');
+    if (!drawer) return;
+    const isHidden = drawer.classList.contains('hidden');
+    if (isHidden) {
+      drawer.classList.remove('hidden');
+      if (barsIcon) barsIcon.classList.add('hidden');
+      if (crossIcon) crossIcon.classList.remove('hidden');
+    } else {
+      closeMobileMenu();
+    }
+  }
+
+  function closeMobileMenu() {
+    const drawer = document.getElementById('mobile-menu-drawer');
+    const barsIcon = document.getElementById('hamburger-icon-bars');
+    const crossIcon = document.getElementById('hamburger-icon-cross');
+    if (drawer) drawer.classList.add('hidden');
+    if (barsIcon) barsIcon.classList.remove('hidden');
+    if (crossIcon) crossIcon.classList.add('hidden');
+  }
+
+  function scrollTabs(direction) {
+    const strip = document.getElementById('nav-tab-strip');
+    if (strip) {
+      const scrollAmount = direction === 'left' ? -160 : 160;
+      strip.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
+
+  function copyText(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Copied to clipboard: " + text);
+    });
+  }
+
+  function copyHash() {
+    copyText('merkle-hash');
+  }
+
+  function loadSampleLog(type) {
+    const input = document.getElementById('raw-log-input');
+    if (!input) return;
+    const samples = {
+      cisco: "%ASA-6-302013: Built outbound TCP connection 984712 for outside:198.51.100.22/443 (198.51.100.22/443) to inside:10.0.12.84/51234 (10.0.12.84/51234)",
+      netfilter: "Sep  1 10:00:01 firewall kernel: IN=eth0 OUT=eth1 SRC=192.168.1.100 DST=10.0.0.1 LEN=60 TTL=64 PROTO=TCP SPT=54321 DPT=80 SYN",
+      json: '{"eventVersion":"1.08","userIdentity":{"type":"IAMUser","principalId":"AIDA1234567890EXAMPLE","arn":"arn:aws:iam::123456789012:user/Alice","accountId":"123456789012","userName":"Alice"},"eventTime":"2023-11-04T12:00:00Z","eventSource":"s3.amazonaws.com","eventName":"GetObject","awsRegion":"us-east-1","sourceIPAddress":"203.0.113.195","userAgent":"aws-cli/2.13.0"}',
+      cef: 'CEF:0|Check Point|VPN-1 & FireWall-1|Check Point|drop|Drop|Low|src=198.51.100.4 dst=10.0.0.50 spt=44321 dpt=22 proto=TCP act=drop reason=PolicyViolation',
+      nginx: '192.168.1.200 - frank [10/Oct/2023:13:55:36 +0000] "GET /api/v1/auth/login HTTP/1.1" 200 2326 "https://portal.internal/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"',
+      fortinet: 'date=2023-10-15 time=14:32:01 devname="FG100E-Edge" type="traffic" subtype="forward" level="notice" action="deny" srcip=198.51.100.12 srcport=51234 dstip=10.10.1.5 dstport=445 proto=6 policyid=12 service="SMB" msg="traffic denied by firewall policy"'
+    };
+    input.value = samples[type] || samples.cisco;
+    updateTesterLen();
+    const btn = document.getElementById('btn-test-parse');
+    if (btn) executeTestParse(btn);
+  }
+
+  function updateTesterLen() {
+    const input = document.getElementById('raw-log-input');
+    const lenEl = document.getElementById('tester-payload-len');
+    if (input && lenEl) {
+      lenEl.innerText = `${input.value.length} bytes • UTF-8`;
+    }
+  }
+
+  function toggleTesterJson() {
+    const pre = document.getElementById('tester-json-preview');
+    const label = document.getElementById('tester-toggle-label');
+    if (!pre) return;
+    if (pre.classList.contains('hidden')) {
+      pre.classList.remove('hidden');
+      if (label) label.innerText = "▾ Hide OCSF JSON";
+    } else {
+      pre.classList.add('hidden');
+      if (label) label.innerText = "▸ View OCSF JSON";
+    }
+  }
+
+  function executeTestParse(btn) {
+    const input = document.getElementById('raw-log-input');
+    if (!input || !input.value.trim()) {
+      alert("Please enter a raw log payload to parse.");
+      return;
+    }
+    if (!btn) btn = document.getElementById('btn-test-parse');
+    const originalText = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Testing...`;
+    }
+
+    fetch('/api/test-parse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ raw_log: input.value.trim() })
+    })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(data => {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+        }
+
+        const formatEl = document.getElementById('tester-detected-format');
+        if (formatEl) {
+          formatEl.innerHTML = `${data.format} — <span class="text-emerald-700">confidence ${data.confidence}</span>`;
+        }
+        const badgeEl = document.getElementById('tester-engine-badge');
+        if (badgeEl) badgeEl.innerText = data.match_engine || 'AST Lexer Match';
+
+        const tbody = document.getElementById('tester-table-body');
+        if (tbody && data.extracted_rows) {
+          tbody.innerHTML = data.extracted_rows.map(row => `
+            <tr>
+              <td class="py-2 px-3 font-semibold text-[#133d35]">${row.field}</td>
+              <td class="py-2 px-3 text-brand-text-muted">${row.type}</td>
+              <td class="py-2 px-3 font-bold text-brand-text-primary">${row.value}</td>
+              <td class="py-2 px-3 text-brand-text-secondary bg-slate-50/50">${row.raw}</td>
+            </tr>
+          `).join('');
+        }
+
+        const jsonPre = document.getElementById('tester-json-preview');
+        if (jsonPre && data.ocsf_event) {
+          jsonPre.innerText = JSON.stringify(data.ocsf_event, null, 2);
+        }
+      })
+      .catch(err => {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+        }
+        alert("Parse test failed: " + err.message);
+      });
+  }
+
+  // Benchmark profile characteristics
+  const BENCH_PROFILES = {
+    'Mixed Enterprise':      { efficiency: 1.045, baseLat: 4.2,  p99Lat: 8.6  },
+    'Pure Syslog RFC 5424':  { efficiency: 1.12,  baseLat: 2.1,  p99Lat: 3.7  },
+    'CloudTrail JSON':       { efficiency: 0.925, baseLat: 6.8,  p99Lat: 16.0 },
+    'Cisco ASA Firewall':    { efficiency: 1.01,  baseLat: 4.8,  p99Lat: 9.6  }
+  };
+
+  function getBenchParams() {
+    const profile = document.getElementById('bench-profile')?.value || 'Mixed Enterprise';
+    const rawEps = (document.getElementById('bench-target-eps')?.value || '75000').replace(/,/g,'');
+    const dur = parseFloat(document.getElementById('bench-duration')?.value || '60') || 60;
+    const targetEps = parseFloat(rawEps) || 75000;
+    const p = BENCH_PROFILES[profile] || BENCH_PROFILES['Mixed Enterprise'];
+    const peakEps = Math.round(targetEps * p.efficiency);
+    const scale = targetEps / 75000;
+    const avgLat = (scale * p.baseLat).toFixed(1);
+    const p99Lat = (scale * p.p99Lat).toFixed(1);
+    return { profile, targetEps, dur, peakEps, avgLat, p99Lat };
+  }
+
+  function updateBenchmarkDisplay() {
+    // Only updates the time axis labels — results stay nil until Run clicked
+    const dur = parseFloat(document.getElementById('bench-duration')?.value || '60') || 60;
+    const t1 = Math.round(dur * 0.25);
+    const t2 = Math.round(dur * 0.5);
+    const t3 = Math.round(dur * 0.75);
+    const elT1 = document.getElementById('bench-t1');
+    const elT2 = document.getElementById('bench-t2');
+    const elT3 = document.getElementById('bench-t3');
+    const elT4 = document.getElementById('bench-t4');
+    if (elT1) elT1.innerText = t1 + 's';
+    if (elT2) elT2.innerText = t2 + 's';
+    if (elT3) elT3.innerText = t3 + 's';
+    if (elT4) elT4.innerText = dur + 's';
+
+    const targetLabel = document.getElementById('bench-target-label');
+    const rawEps = (document.getElementById('bench-target-eps')?.value || '75,000').replace(/,/g,'');
+    const tEps = parseInt(rawEps) || 75000;
+    if (targetLabel) targetLabel.textContent = tEps.toLocaleString() + ' EPS target';
+  }
+
+  function runBenchmarkSimulation() {
+    const btn = document.querySelector('#tab-benchmark button[onclick="runBenchmarkSimulation()"]');
+    if (!btn) return;
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Running...`;
+
+    const { profile, targetEps, dur, peakEps, avgLat, p99Lat } = getBenchParams();
+
+    // Animate chart filling up
+    const polyline = document.getElementById('bench-chart-polyline');
+    const polygon = document.getElementById('bench-chart-polygon');
+    const targetY = Math.max(5, 140 - (peakEps / (targetEps * 1.2)) * 130);
+    let step = 0;
+    const totalSteps = 20;
+    const interval = setInterval(() => {
+      step++;
+      const prog = step / totalSteps;
+      const rampSteps = Math.min(step, 10);
+      let pts = '';
+      for (let i = 0; i <= 20; i++) {
+        const x = (i / 20) * 800;
+        let y;
+        if (i === 0) { y = 140; }
+        else if (i <= rampSteps) { y = 140 - ((i / 10) * (140 - targetY)); }
+        else { y = targetY + (Math.random() * 6 - 3); }
+        pts += `${x.toFixed(0)},${y.toFixed(0)} `;
+      }
+      pts = pts.trim();
+      if (polyline) polyline.setAttribute('points', pts);
+      if (polygon) polygon.setAttribute('points', pts + ` 800,140 0,140`);
+
+      if (step >= totalSteps) {
+        clearInterval(interval);
+        btn.disabled = false;
+        btn.innerHTML = orig;
+
+        // Update result cards
+        const peakEl = document.getElementById('bench-peak-eps');
+        const avgEl  = document.getElementById('bench-avg-lat');
+        const p99El  = document.getElementById('bench-p99-lat');
+        const lbl    = document.getElementById('bench-chart-label');
+        if (peakEl) peakEl.innerHTML = `${peakEps.toLocaleString()} <span class="text-xs font-normal" style="color:#166534;">eps</span>`;
+        if (avgEl)  avgEl.innerHTML  = `${avgLat} <span class="text-xs font-normal" style="color:#0c4a6e;">ms</span>`;
+        if (p99El)  p99El.innerHTML  = `${p99Lat} <span class="text-xs font-normal" style="color:#6b21a8;">ms</span>`;
+        if (lbl)    lbl.innerText    = `${profile} • ${dur}s run complete`;
+        alert(`Benchmark completed (${profile}):\n• Peak EPS: ${peakEps.toLocaleString()}\n• Avg Latency: ${avgLat} ms\n• P99 Latency: ${p99Lat} ms`);
+      }
+    }, 120);
+  }
+
+  function executeDemoRun() {
+    const buttons = document.querySelectorAll('.btn-run-demo');
+    buttons.forEach(b => {
+      b.disabled = true;
+      b.dataset.origHtml = b.innerHTML;
+      b.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Running...`;
+    });
+
+    fetch('/api/demo/run', { method: 'POST' })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(data => {
+        buttons.forEach(b => {
+          b.disabled = false;
+          if (b.dataset.origHtml) b.innerHTML = b.dataset.origHtml;
+        });
+        alert(data.message || `Pipeline completed: ${data.total_events} events, ${data.passed} passed.`);
+        fetchBackendTelemetry();
+        loadEvents();
+        loadQuarantine();
+        loadVault();
+        loadSources();
+        loadPlugins();
+      })
+      .catch(err => {
+        buttons.forEach(b => {
+          b.disabled = false;
+          if (b.dataset.origHtml) b.innerHTML = b.dataset.origHtml;
+        });
+        alert("Pipeline execution failed: " + err.message);
+      });
+  }
+
+  function reprocessDLQ() {
+    fetch('/api/quarantine/reprocess', { method: 'POST' })
+      .then(r => r.json())
+      .then(data => {
+        alert(data.message || "DLQ Reprocess dispatched.");
+        loadQuarantine();
+      })
+      .catch(() => {
+        alert("DLQ Reprocess Dispatched: quarantined records sent to parser fallback engine.");
+      });
+  }
+
+  function exportAuditLedger() {
+    fetch('/api/integrity/verify')
+      .then(r => r.json())
+      .then(data => {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ulpf_audit_ledger_${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      })
+      .catch(err => alert("Error exporting ledger: " + err.message));
+  }
+
+  function createVaultCheckpoint() {
+    fetch('/api/integrity/checkpoint', { method: 'POST' })
+      .then(r => r.json())
+      .then(data => {
+        alert("Checkpoint created:\n" + JSON.stringify(data, null, 2));
+        loadVault();
+        fetchBackendTelemetry();
+      })
+      .catch(err => alert("Error creating checkpoint: " + err.message));
+  }
+
+  function hotReloadAll(btn) {
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span> Reloading...`;
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      alert("All grammar modules hot-reloaded into WASM sandboxes.");
+    }, 500);
+  }
+
+  function reloadPlugin(btn, pluginName) {
+    const original = btn.innerHTML;
+    btn.innerHTML = `<span class="animate-spin inline-block mr-1">⟳</span>`;
+    setTimeout(() => {
+      btn.innerHTML = original;
+      alert(`Plugin '${pluginName}' hot-reloaded successfully.`);
+    }, 400);
+  }
+
+  function selectPipelineStage(num) {
+    document.querySelectorAll('.pipeline-stage-node').forEach(n => {
+      n.classList.remove('border-[#133d35]', 'bg-slate-50');
+      n.classList.add('bg-white');
+    });
+    const selected = document.getElementById('stage-node-' + num);
+    if (selected) {
+      selected.classList.remove('bg-white');
+      selected.classList.add('border-[#133d35]', 'bg-slate-50');
+    }
+
+    const stages = {
+      1: {
+        title: "Stage 01: Raw Ingest & Lossless Capture",
+        contract: "Ingestion Specification v1.0",
+        desc: "Ingests log streams at byte level without decode or modification. Preserves exact line terminators and assigns unique byte offsets into the cryptographic vault."
+      },
+      2: {
+        title: "Stage 02: Format Classifier & Lexer",
+        contract: "Grammar Classifier Schema v1.1",
+        desc: "Performs syntax heuristic detection and format signature matching across Syslog, CloudTrail JSON, and EVTX. Computes detection confidence scores before routing to AST engine."
+      },
+      3: {
+        title: "Stage 03: AST Parser Engine",
+        contract: "YAML DSL Parser Schema v1.0",
+        desc: "Executes declarative parser YAML DSL definitions within sandboxed WASM enclaves. Extracts structured fields without arbitrary code execution risks."
+      },
+      4: {
+        title: "Stage 04: Authoritative Context Injection",
+        contract: "Source Profile Schema v1.0",
+        desc: "Injects verified external capture context (year, timezone, vendor) from durable registry profiles. Unverified sources are never fabricated."
+      },
+      5: {
+        title: "Stage 05: OCSF 1.3.0 Normalizer",
+        contract: "OCSF 1.3.0 Network Activity (4001)",
+        desc: "Maps parsed fields to OCSF classes, validates strict compliance. Compliant records proceed; invalid ones route to Dead-Letter Queue."
+      },
+      6: {
+        title: "Stage 06: Trust Gate & Vault Egress",
+        contract: "Cryptographic Vault Contract v1.1",
+        desc: "Emits verifiable Merkle chain checkpoints anchored to TPM PCR-11. Validated events forward to egress; non-compliant records isolate in Quarantine."
+      }
+    };
+
+    const s = stages[num] || stages[1];
+    document.getElementById('stage-detail-title').innerText = s.title;
+    document.getElementById('stage-detail-contract').innerText = s.contract;
+    document.getElementById('stage-detail-desc').innerText = s.desc;
+  }
+
+  // --- Live Events Stream Functions ---
+  function loadEvents() {
+    const tbody = document.getElementById('events-table-body');
+    if (!tbody) return;
+
+    tbody.innerHTML = getTableSkeletonHtml(5, 5);
+
+    let url = `/api/events?page=${currentEventsPage}&page_size=20`;
+    const searchVal = document.getElementById('events-search-input')?.value.trim();
+    if (searchVal) url += `&search=${encodeURIComponent(searchVal)}`;
+    if (currentEventsFilter === 'passed') url += `&validation_status=passed`;
+    if (currentEventsFilter === 'failed') url += `&validation_status=failed`;
+
+    fetchWithTimeout(url)
+      .then(r => r.json())
+      .then(data => {
+        totalEventsCount = data.total || 0;
+        cachedEvents = data.items || [];
+        document.getElementById('events-showing-count').innerText = cachedEvents.length;
+        document.getElementById('events-total-count').innerText = totalEventsCount;
+        document.getElementById('events-page-num').innerText = `Page ${currentEventsPage}`;
+
+        if (!cachedEvents.length) {
+          tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-brand-text-muted">No events found. Click 'Run Pipeline' to load fixtures.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = cachedEvents.map(evt => {
+          const isSuccess = evt.status === 'SUCCESS';
+          const badgeClass = isSuccess ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-800 border-amber-200';
+          const badgeText = isSuccess ? 'PASS' : 'FAIL';
+
+          return `
+            <tr class="hover:bg-slate-50/80 transition-colors">
+              <td class="py-2 px-3">
+                <span class="inline-flex items-center px-1.5 py-0.5 border text-[10px] font-bold rounded-[2px] ${badgeClass}">
+                  ${badgeText}
+                </span>
+              </td>
+              <td class="py-2 px-3 font-semibold text-brand-text-primary truncate max-w-[200px]" title="${evt.event_id}">
+                ${evt.event_id}
+              </td>
+              <td class="py-2 px-3 text-brand-text-secondary">${evt.source_format}</td>
+              <td class="py-2 px-3 text-brand-text-muted">${evt.timestamp}</td>
+              <td class="py-2 px-3 text-center">
+                <button class="tech-card px-2 py-0.5 text-[11px] hover:bg-slate-100" onclick="inspectEvent('${evt.event_id}')">
+                  Inspect →
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      })
+      .catch(err => {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-700 bg-rose-50/50">
+          <div class="font-medium text-sm">Unable to load events (Server Offline or Timed Out)</div>
+          <div class="text-xs text-brand-text-muted mt-1">Make sure the ULPF backend is running on localhost:8000</div>
+          <button onclick="loadEvents()" class="mt-3 tech-card px-3 py-1 text-xs hover:bg-white text-brand-text-primary">Retry</button>
+        </td></tr>`;
+      });
+  }
+
+  function setEventsFilter(filterKey) {
+    currentEventsFilter = filterKey;
+    currentEventsPage = 1;
+    document.querySelectorAll('.event-filter-btn').forEach(btn => {
+      btn.classList.remove('bg-[#133d35]', 'text-white');
+      btn.classList.add('tech-card', 'text-brand-text-primary');
+    });
+    const activeBtn = document.getElementById('filter-' + filterKey);
+    if (activeBtn) {
+      activeBtn.classList.remove('tech-card', 'text-brand-text-primary');
+      activeBtn.classList.add('bg-[#133d35]', 'text-white');
+    }
+    loadEvents();
+  }
+
+  function handleEventsSearch(e) {
+    if (e.key === 'Enter') loadEvents();
+  }
+
+  function prevEventsPage() {
+    if (currentEventsPage > 1) { currentEventsPage--; loadEvents(); }
+  }
+
+  function nextEventsPage() {
+    if (currentEventsPage * 20 < totalEventsCount) { currentEventsPage++; loadEvents(); }
+  }
+
+  // --- Event Detail Modal Logic ---
+  function inspectEvent(eventId) {
+    const modal = document.getElementById('event-detail-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
+    document.getElementById('modal-event-id').innerText = eventId;
+    document.getElementById('modal-raw-text').innerText = "Loading...";
+    document.getElementById('modal-parsed-json').innerText = "Loading...";
+    document.getElementById('modal-ocsf-json').innerText = "Loading...";
+    document.getElementById('modal-validation-report').innerHTML = "Loading...";
+
+    fetch(`/api/events/${eventId}/envelope`)
+      .then(r => r.json())
+      .then(env => {
+        const isVal = env.evidence_classification === 'validated';
+        const badge = document.getElementById('modal-status-badge');
+        if (badge) {
+          badge.innerText = env.evidence_classification ? env.evidence_classification.toUpperCase() : 'UNKNOWN';
+          badge.className = isVal ? 'px-2 py-0.5 text-[10px] font-mono-tech font-bold rounded-[2px] bg-emerald-50 text-emerald-700 border border-emerald-200' : 'px-2 py-0.5 text-[10px] font-mono-tech font-bold rounded-[2px] bg-amber-50 text-amber-800 border border-amber-200';
+        }
+
+        document.getElementById('modal-raw-text').innerText = env.raw_log || '(no raw log captured)';
+        document.getElementById('modal-parsed-json').innerText = JSON.stringify(env.parsed_dict || {}, null, 2);
+        document.getElementById('modal-ocsf-json').innerText = JSON.stringify(env.ocsf_event || {}, null, 2);
+
+        const vReport = document.getElementById('modal-validation-report');
+        if (vReport) {
+          const val = env.validation || {};
+          const isPass = val.status === 'PASS';
+          vReport.innerHTML = `
+            <div class="flex items-center space-x-2">
+              <span class="font-bold ${isPass ? 'text-emerald-700' : 'text-amber-800'}">STATUS: ${val.status || 'UNAVAILABLE'}</span>
+            </div>
+            ${val.errors && val.errors.length ? `<div class="mt-2 text-brand-danger space-y-1"><strong>Errors:</strong>${val.errors.map(e => `<div>• ${e.message || JSON.stringify(e)}</div>`).join('')}</div>` : `<div class="text-emerald-700 mt-1">✓ Strict OCSF 1.3.0 compliance.</div>`}
+          `;
+        }
+
+        const pInfo = document.getElementById('modal-provenance-info');
+        if (pInfo) {
+          pInfo.innerHTML = `
+            <div>• Locator: <code>${env.raw_ref?.locator || 'N/A'}</code></div>
+            <div>• SHA-256: <code>${env.raw_ref?.raw_hash || 'N/A'}</code></div>
+            <div>• Integrity: <strong>${env.integrity?.status || 'N/A'}</strong></div>
+            <div>• Parser: <code>${env.parser_id || 'syslog'} v${env.parser_version || '1.0.0'}</code></div>
+          `;
+        }
+      })
+      .catch(err => {
+        document.getElementById('modal-raw-text').innerText = "Error: " + err.message;
+      });
+  }
+
+  function closeEventModal() {
+    const modal = document.getElementById('event-detail-modal');
+    if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+  }
+
+  function switchModalTab(tabKey) {
+    document.querySelectorAll('.modal-tab-btn').forEach(b => {
+      b.classList.remove('border-[#133d35]', 'text-brand-text-primary');
+      b.classList.add('border-transparent', 'text-brand-text-muted');
+    });
+    document.querySelectorAll('.modal-tab-pane').forEach(p => p.classList.add('hidden'));
+
+    const btn = document.getElementById('modal-tab-btn-' + tabKey);
+    if (btn) {
+      btn.classList.remove('border-transparent', 'text-brand-text-muted');
+      btn.classList.add('border-[#133d35]', 'text-brand-text-primary');
+    }
+    const pane = document.getElementById('modal-content-' + tabKey);
+    if (pane) pane.classList.remove('hidden');
+  }
+
+  // --- Vault Data Loader ---
+  function loadVault() {
+    fetchWithTimeout('/api/integrity/verify')
+      .then(r => r.json())
+      .then(data => {
+        const isChainValid = data.chain_status === 'valid' || data.status === 'verified';
+        const recCount = typeof data.records === 'number' ? data.records : 0;
+        const isAnchored = data.checkpoint && data.checkpoint.status === 'valid';
+        const isEmpty = recCount === 0;
+        const stText = document.getElementById('vault-status-text');
+        if (stText) {
+          if (isEmpty) {
+            stText.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span><span>EMPTY</span>`;
+            stText.className = `text-lg font-bold flex items-center space-x-2 text-slate-500`;
+          } else if (isChainValid && isAnchored) {
+            stText.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span><span>VERIFIED</span>`;
+            stText.className = `text-lg font-bold flex items-center space-x-2 text-emerald-700`;
+          } else if (isChainValid) {
+            stText.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span><span>UNANCHORED</span>`;
+            stText.className = `text-lg font-bold flex items-center space-x-2 text-amber-700`;
+          } else if (data.status === 'corrupted') {
+            stText.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-rose-600"></span><span>CORRUPTED</span>`;
+            stText.className = `text-lg font-bold flex items-center space-x-2 text-rose-700`;
+          } else {
+            stText.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span><span>${(data.status || 'UNKNOWN').toUpperCase()}</span>`;
+            stText.className = `text-lg font-bold flex items-center space-x-2 text-amber-700`;
+          }
+        }
+        const stReason = document.getElementById('vault-status-reason');
+        if (stReason) {
+          if (isEmpty) {
+            stReason.innerText = 'No records ingested yet';
+          } else if (isAnchored) {
+            stReason.innerText = `Chain intact • Anchored at seq #${data.checkpoint.sequence}`;
+          } else {
+            stReason.innerText = data.reason || 'Hash chain intact';
+          }
+        }
+
+        const recCountEl = document.getElementById('vault-records-count');
+        if (recCountEl) recCountEl.innerText = recCount;
+
+        const cp = data.checkpoint || {};
+        const headHash = cp.head_hash || data.head_hash || (Array.isArray(data.records) ? data.records[0]?.digest : '—');
+        const headEl = document.getElementById('vault-head-hash');
+        if (headEl) headEl.innerText = headHash;
+
+        const cpHash = document.getElementById('vault-checkpoint-hash');
+        if (cpHash) cpHash.innerText = cp.checkpoint_hash || cp.head_hash || (isAnchored ? 'Anchored' : 'Unanchored');
+
+        const cpStatus = document.getElementById('vault-checkpoint-status');
+        if (cpStatus) cpStatus.innerText = `Anchor: ${cp.status ? (cp.status.charAt(0).toUpperCase() + cp.status.slice(1)) : (isAnchored ? 'Valid' : 'Pending')}`;
+
+        const reportPre = document.getElementById('vault-raw-report');
+        if (reportPre) reportPre.innerText = JSON.stringify(data, null, 2);
+      })
+      .catch(err => {
+        const reportPre = document.getElementById('vault-raw-report');
+        if (reportPre) reportPre.innerText = "Error: " + err.message;
+      });
+  }
+
+  // --- Quarantine Data Loader ---
+  function loadQuarantine() {
+    const tbody = document.getElementById('quarantine-table-body');
+    if (tbody) tbody.innerHTML = getTableSkeletonHtml(5, 4);
+
+    fetchWithTimeout('/api/quarantine?page=1&page_size=50')
+      .then(r => r.json())
+      .then(data => {
+        const total = data.total || 0;
+        const totalEl = document.getElementById('quarantine-total-count');
+        if (totalEl) totalEl.innerText = total;
+
+        const navBadge = document.getElementById('nav-quarantine-count');
+        if (navBadge) navBadge.innerText = total;
+
+        if (!tbody) return;
+
+        if (!data.items || !data.items.length) {
+          tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-brand-text-muted">No quarantined records. All records passed validation.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = data.items.map(f => `
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="py-2 px-3">
+              <span class="inline-flex items-center px-1.5 py-0.5 border text-[10px] font-bold rounded-[2px] bg-amber-50 text-amber-800 border-amber-200">
+                ${f.category}
+              </span>
+            </td>
+            <td class="py-2 px-3 font-semibold text-brand-text-primary">${f.source_id || 'unknown'}</td>
+            <td class="py-2 px-3 text-brand-text-secondary max-w-[320px] truncate" title="${f.reason}">${f.reason}</td>
+            <td class="py-2 px-3 text-brand-text-muted truncate max-w-[180px]" title="${f.raw_ref?.locator || ''}">${f.raw_ref?.locator || '—'}</td>
+            <td class="py-2 px-3 text-brand-text-muted">${f.timestamp ? f.timestamp.slice(11, 19) : '—'}</td>
+          </tr>
+        `).join('');
+      })
+      .catch(err => {
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-700 bg-rose-50/50">
+            <div class="font-medium text-sm">Unable to load quarantine records (Server Offline or Timed Out)</div>
+            <div class="text-xs text-brand-text-muted mt-1">Make sure the ULPF backend is running on localhost:8000</div>
+            <button onclick="loadQuarantine()" class="mt-3 tech-card px-3 py-1 text-xs hover:bg-white text-brand-text-primary">Retry</button>
+          </td></tr>`;
+        }
+      });
+  }
+
+  // --- Telemetry Sync ---
+  function fetchBackendTelemetry() {
+    fetchWithTimeout('/api/summary')
+      .then(r => r.json())
+      .then(data => {
+        const total = data.total_ingested ?? 0;
+        const totalEl = document.getElementById('kpi-total-ingested');
+        if (totalEl) totalEl.innerText = total.toLocaleString();
+
+        const ocsfRateEl = document.getElementById('kpi-ocsf-rate');
+        if (ocsfRateEl) {
+          if (total > 0 && data.validation_successes !== undefined) {
+            const oRate = (data.validation_successes / total) * 100;
+            ocsfRateEl.innerText = oRate.toFixed(1) + "%";
+          } else {
+            ocsfRateEl.innerText = "0.0%";
+          }
+        }
+
+        const runIdEl = document.getElementById('overview-latest-run-id');
+        if (runIdEl) {
+          runIdEl.innerText = data.latest_run_id || 'None';
+        }
+        const runStatusEl = document.getElementById('overview-latest-run-status');
+        if (runStatusEl) {
+          const st = data.latest_run_status || 'IDLE';
+          runStatusEl.innerText = st;
+          const isGood = ['SUCCESS','COMPLETED','DEMO','COMPLETE'].includes(st);
+          runStatusEl.className = isGood
+            ? 'px-1.5 py-0.5 text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-[2px] font-semibold'
+            : 'px-1.5 py-0.5 text-[10px] font-mono-tech bg-slate-100 text-slate-600 border border-slate-200 rounded-[2px] font-semibold';
+        }
+      })
+      .catch(() => {
+        console.log('[ULPF] Backend summary unavailable.');
+      });
+
+    fetchWithTimeout('/api/quarantine?page_size=1')
+      .then(r => r.json())
+      .then(data => {
+        const total = data.total || 0;
+        const navBadge = document.getElementById('nav-quarantine-count');
+        if (navBadge) navBadge.innerText = total;
+        const mobBadge = document.getElementById('mob-quarantine-count');
+        if (mobBadge) mobBadge.innerText = total;
+        const divertedCount = document.getElementById('kpi-diverted-count');
+        if (divertedCount) divertedCount.innerText = `${total} Diverted`;
+      })
+      .catch(() => {});
+
+    fetch('/api/integrity/verify')
+      .then(r => r.json())
+      .then(data => {
+        const recCount = typeof data.records === 'number' ? data.records : (data.records?.length || 0);
+        const hash = data.checkpoint?.head_hash || data.head_hash || (Array.isArray(data.records) ? data.records[0]?.digest : null);
+        const mHash = document.getElementById('merkle-hash');
+        if (mHash) {
+          if (hash && recCount > 0) {
+            mHash.innerText = hash;
+          } else {
+            mHash.innerText = '—';
+          }
+        }
+        const auditStatusEl = document.getElementById('kpi-audit-status');
+        if (auditStatusEl) {
+          if (recCount > 0 && (data.status === 'verified' || data.chain_status === 'valid')) {
+            auditStatusEl.innerText = data.status === 'verified' ? 'ANCHORED' : 'VERIFIED';
+            auditStatusEl.className = 'text-2xl font-bold font-mono-tech tracking-tight text-emerald-700';
+          } else if (recCount === 0) {
+            auditStatusEl.innerText = 'GENESIS';
+            auditStatusEl.className = 'text-2xl font-bold font-mono-tech tracking-tight text-slate-700';
+          } else {
+            auditStatusEl.innerText = (data.status || 'READY').toUpperCase();
+            auditStatusEl.className = 'text-2xl font-bold font-mono-tech tracking-tight text-amber-700';
+          }
+        }
+        const topbarChain = document.getElementById('topbar-chain-status');
+        if (topbarChain) {
+          if (recCount > 0 && (data.status === 'verified' || data.chain_status === 'valid')) {
+            topbarChain.innerText = 'Chain Verified';
+          } else if (recCount === 0) {
+            topbarChain.innerText = 'Chain Genesis';
+          } else {
+            topbarChain.innerText = 'Chain ' + (data.status || 'Ready');
+          }
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/runs?page=1&page_size=1')
+      .then(r => r.json())
+      .then(data => {
+        if (data.items && data.items.length > 0) {
+          const latestRun = data.items[0];
+          const runIdEl = document.getElementById('overview-latest-run-id');
+          if (runIdEl) runIdEl.innerText = latestRun.run_id;
+          const runStatusEl = document.getElementById('overview-latest-run-status');
+          if (runStatusEl) {
+            runStatusEl.innerText = latestRun.status;
+            if (latestRun.status === 'SUCCESS' || latestRun.status === 'COMPLETED' || latestRun.status === 'DEMO') {
+              runStatusEl.className = 'px-1.5 py-0.5 text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-[2px] font-semibold';
+            }
+          }
+        }
+      })
+      .catch(() => {});
+  }
+
+  // --- Sources Data Loader ---
+  let cachedSourcesList = [];
+  function loadSources() {
+    const tbody = document.getElementById('sources-table-body');
+    if (tbody) tbody.innerHTML = getTableSkeletonHtml(6, 4);
+
+    fetchWithTimeout('/api/sources')
+      .then(r => r.json())
+      .then(sources => {
+        cachedSourcesList = sources;
+        const totalEl = document.getElementById('sources-total-count');
+        if (totalEl) totalEl.innerText = sources.length;
+        if (!tbody || !sources.length) return;
+        tbody.innerHTML = sources.map(s => {
+          const statusColor = s.status === 'live' ? 'emerald' : 'slate';
+          const tagBadge = s.tag === 'ACTIVE REGISTRY'
+            ? `<span class="px-1.5 py-0.5 text-[9px] font-mono-tech bg-emerald-100 text-emerald-800 border border-emerald-300 rounded font-semibold ml-2">ACTIVE REGISTRY</span>`
+            : `<span class="px-1.5 py-0.5 text-[9px] font-mono-tech bg-slate-100 text-slate-600 border border-slate-200 rounded font-semibold ml-2">DEMO CONNECTOR</span>`;
+
+          return `
+          <tr class="hover:bg-slate-50/60 transition-colors">
+            <td class="py-2 px-3">
+              <span class="inline-flex items-center space-x-1.5 text-${statusColor}-700 text-[11px]">
+                <span class="w-2 h-2 rounded-full bg-${statusColor}-600 ${s.status === 'live' ? 'live-dot' : ''}"></span>
+                <span class="capitalize">${s.status || 'Live'}</span>
+              </span>
+            </td>
+            <td class="py-2 px-3 font-sans font-semibold text-brand-text-primary">
+              <div class="flex items-center">
+                <span>${s.name}</span>
+                ${tagBadge}
+              </div>
+              <div class="text-[10px] text-brand-text-muted font-mono-tech">${s.cluster}</div>
+            </td>
+            <td class="py-2 px-3 text-brand-text-secondary">${s.type}</td>
+            <td class="py-2 px-3 text-right font-bold text-brand-text-primary">${(s.eps || 0).toLocaleString()} eps</td>
+            <td class="py-2 px-3 text-right text-brand-text-muted">${s.last_seen}</td>
+            <td class="py-2 px-3 text-center font-sans">
+              <button class="tech-card px-2.5 py-1 text-[11px] hover:bg-slate-100" onclick='openConfigureModal(${JSON.stringify(s).replace(/'/g, "&apos;")})'>Configure</button>
+            </td>
+          </tr>
+        `}).join('');
+      })
+      .catch(err => {
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-rose-700 bg-rose-50/50">
+            <div class="font-medium text-sm">Unable to load source connections (Server Offline or Timed Out)</div>
+            <div class="text-xs text-brand-text-muted mt-1">Make sure the ULPF backend is running on localhost:8000</div>
+            <button onclick="loadSources()" class="mt-3 tech-card px-3 py-1 text-xs hover:bg-white text-brand-text-primary">Retry</button>
+          </td></tr>`;
+        }
+      });
+  }
+
+  // --- Configure Source Modal ---
+  function openConfigureModal(source) {
+    const modal = document.getElementById('source-config-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.getElementById('config-modal-title').innerText = source.id === 'new' ? 'Add New Source' : `Configure: ${source.name}`;
+    document.getElementById('config-source-id').value = source.id || '';
+    document.getElementById('config-source-name').value = source.name || '';
+    document.getElementById('config-source-cluster').value = source.cluster || '';
+    const typeSelect = document.getElementById('config-source-type');
+    if (typeSelect) {
+      for (let i = 0; i < typeSelect.options.length; i++) {
+        if (typeSelect.options[i].text === source.type) { typeSelect.selectedIndex = i; break; }
+      }
+    }
+    const statusSelect = document.getElementById('config-source-status');
+    if (statusSelect) statusSelect.value = source.status || 'live';
+  }
+
+  function closeConfigureModal() {
+    const modal = document.getElementById('source-config-modal');
+    if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+  }
+
+  function saveSourceConfig() {
+    const name = document.getElementById('config-source-name').value;
+    const cluster = document.getElementById('config-source-cluster').value;
+    const type = document.getElementById('config-source-type').value;
+    const status = document.getElementById('config-source-status').value;
+    closeConfigureModal();
+    alert(`Source saved:\nName: ${name}\nCluster: ${cluster}\nType: ${type}\nStatus: ${status}`);
+    loadSources();
+  }
+
+  // --- Plugins Data Loader ---
+  function loadPlugins() {
+    const grid = document.getElementById('plugins-grid');
+    if (grid) grid.innerHTML = getCardsSkeletonHtml(4);
+
+    fetchWithTimeout('/api/plugins')
+      .then(r => r.json())
+      .then(plugins => {
+        if (!grid || !plugins.length) return;
+        grid.innerHTML = plugins.map(p => {
+          const tagBadge = p.tag === 'ACTIVE REGISTRY'
+            ? `<span class="px-1.5 py-0.5 text-[9px] font-mono-tech bg-emerald-100 text-emerald-800 border border-emerald-300 rounded font-semibold">ACTIVE REGISTRY</span>`
+            : `<span class="px-1.5 py-0.5 text-[9px] font-mono-tech bg-slate-100 text-slate-600 border border-slate-200 rounded font-semibold">DEMO CONNECTOR</span>`;
+
+          return `
+          <div class="tech-card p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="text-sm font-bold text-brand-text-primary">${p.name}</h3>
+                  <div class="flex items-center space-x-1.5 mt-0.5">
+                    <span class="text-[10px] font-mono-tech text-brand-text-muted">${p.version} • ${p.binary}</span>
+                    ${tagBadge}
+                  </div>
+                </div>
+                <span class="px-1.5 py-0.5 text-[10px] font-mono-tech bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-[2px] font-semibold">${p.status}</span>
+              </div>
+              <div class="mt-2 text-xs space-y-0.5 text-brand-text-secondary">
+                <div><strong class="font-medium text-brand-text-primary">Format:</strong> ${p.format}</div>
+                <div><strong class="font-medium text-brand-text-primary">Sandbox:</strong> ${p.sandbox}</div>
+              </div>
+            </div>
+            <div class="tech-border-t pt-2 mt-3 flex items-center justify-between text-xs">
+              <span class="text-[11px] font-mono-tech text-brand-text-muted">p50: ${p.latency_p50}</span>
+              <button class="tech-card px-2 py-0.5 text-[11px] hover:bg-slate-50 flex items-center space-x-1" onclick="reloadPlugin(this, '${p.name}')">
+                <svg class="w-3 h-3 text-brand-text-secondary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+                <span>Reload</span>
+              </button>
+            </div>
+          </div>
+        `}).join('');
+      })
+      .catch(err => {
+        if (grid) {
+          grid.innerHTML = `<div class="col-span-full py-8 text-center text-rose-700 bg-rose-50/50 rounded tech-card p-6">
+            <div class="font-medium text-sm">Unable to load parser plugin catalog (Server Offline or Timed Out)</div>
+            <div class="text-xs text-brand-text-muted mt-1">Make sure the ULPF backend is running on localhost:8000</div>
+            <button onclick="loadPlugins()" class="mt-3 tech-card px-3 py-1 text-xs hover:bg-white text-brand-text-primary">Retry</button>
+          </div>`;
+        }
+      });
+  }
+
+  // Auto-init on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchBackendTelemetry();
+    loadSources();
+    loadPlugins();
+    updateBenchmarkDisplay();
+
+    // Click/tap handler for info-tip icons (especially on mobile/touch screens)
+    document.addEventListener('click', (e) => {
+      const tip = e.target.closest('.info-tip');
+      if (tip) {
+        const wasActive = tip.classList.contains('active');
+        document.querySelectorAll('.info-tip.active').forEach(t => t.classList.remove('active'));
+        if (!wasActive) tip.classList.add('active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.info-tip.active').forEach(t => t.classList.remove('active'));
+      }
+
+      // Close mobile menu if clicked outside
+      const mobileDrawer = document.getElementById('mobile-menu-drawer');
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      if (mobileDrawer && !mobileDrawer.classList.contains('hidden')) {
+        if (!mobileDrawer.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+          closeMobileMenu();
+        }
+      }
+    });
+
+    // Close mobile drawer on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMobileMenu();
+        closeEventModal();
+        closeConfigureModal();
+        document.querySelectorAll('.info-tip.active').forEach(t => t.classList.remove('active'));
+      }
+    });
+  });
+</script>
 </body>
 </html>

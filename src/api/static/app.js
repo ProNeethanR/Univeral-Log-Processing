@@ -14,38 +14,7 @@ let currentFilters = {
   validation_status: ''
 };
 
-// Default Telemetry State matching the reference screenshot exactly
-const DEFAULT_METRICS = {
-  logs_ingested: '1,428,910',
-  ingest_rate: '+12.4k/s real-time ingest rate',
-  buffer_occupancy: '14.2%',
-  dropped_status: 'Zero Dropped',
-  
-  parse_rate: '99.94%',
-  parse_baseline: 'Nominal operational baseline',
-  parse_p99: '1.2ms',
-  unparsed_count: '856 Unparsed',
-  
-  ocsf_rate: '99.82%',
-  ocsf_baseline: 'Strict schema & class map compliance',
-  coverage_categories: '18 Categories',
-  diverted_count: '264 Diverted',
-  
-  active_parsers: '24 / 24',
-  parsers_sub: 'All AST engines active & healthy',
-  dynamic_grammars: '4',
-  compiler_status: 'JIT Compiled',
-  
-  total_latency: '4.8ms',
-  quarantine_total: '1,120 records',
-  quarantine_detail: 'diverted to quarantine isolation store (856 parser syntax errors, 264 schema invalidations).',
-  
-  merkle_root: '0x8f2a4e9bc7190d63ba42901ee198c4e9',
-  batch_id: 'Batch #1042',
-  tpm_seal: 'TPM 2.0 PCR-11',
-  witness_quorum: 'Quorum 5/5 Validated',
-  epoch: '1713448920.104'
-};
+// Telemetry state managed dynamically via index.html
 
 // ============================================================================
 // INITIALIZATION & ROUTING
@@ -54,7 +23,7 @@ const DEFAULT_METRICS = {
 document.addEventListener('DOMContentLoaded', () => {
   // Sync router with initial URL hash
   const hash = window.location.hash.replace('#', '').toLowerCase();
-  const validTabs = ['overview', 'events', 'vault', 'quarantine', 'studio', 'runs'];
+  const validTabs = ['overview', 'events', 'vault', 'quarantine', 'sources', 'plugins', 'benchmark', 'tester'];
   const initialTab = validTabs.includes(hash) ? hash : 'overview';
   
   switchNavTab(initialTab, false);
@@ -69,50 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Attempt real live telemetry enrichment in the background
   fetchLiveTelemetry();
 });
-
-function switchNavTab(tabName, updateHash = true) {
-  currentTab = tabName;
-  if (updateHash) {
-    window.location.hash = tabName;
-  }
-
-  // Update tab indicators
-  document.querySelectorAll('.nav-tab').forEach(tab => {
-    if (tab.getAttribute('data-view') === tabName) {
-      tab.classList.add('active');
-    } else {
-      tab.classList.remove('active');
-    }
-  });
-
-  const container = document.getElementById('view-container');
-  if (!container) return;
-
-  switch (tabName) {
-    case 'overview':
-      renderOverviewView(container);
-      break;
-    case 'events':
-      renderEventsView(container);
-      break;
-    case 'vault':
-      renderVaultView(container);
-      break;
-    case 'quarantine':
-      renderQuarantineView(container);
-      break;
-    case 'studio':
-      renderStudioView(container);
-      break;
-    case 'runs':
-      renderRunsView(container);
-      break;
-    default:
-      renderOverviewView(container);
-  }
-
-  window.scrollTo({ top: 0, behavior: 'instant' });
-}
 
 // ============================================================================
 // VIEW 1: OVERVIEW & PIPELINE HEALTH (PIXEL-PERFECT REPLICA)
@@ -383,10 +308,10 @@ function renderOverviewView(container) {
         <div class="merkle-head-box">
           <div class="merkle-box-hdr">
             <span>CURRENT MERKLE ROOT HEAD</span>
-            <span>${DEFAULT_METRICS.batch_id}</span>
+            <span>${'Batch #1042'}</span>
           </div>
           <div class="hash-inner-box">
-            <span class="hash-text" id="merkle-hash-text">${DEFAULT_METRICS.merkle_root}</span>
+            <span class="hash-text" id="merkle-hash-text">${'0x8f2a4e9bc7190d63ba42901ee198c4e9'}</span>
             <button class="copy-btn" onclick="copyMerkleHash()" title="Copy Merkle Hash to clipboard" aria-label="Copy Hash">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -397,11 +322,11 @@ function renderOverviewView(container) {
           <div class="merkle-sub-stats">
             <div>
               <div style="color:var(--text-muted); font-size:9.5px; margin-bottom:2px;">Hardware Seal</div>
-              <div style="font-weight:600; color:var(--text-primary);">${DEFAULT_METRICS.tpm_seal}</div>
+              <div style="font-weight:600; color:var(--text-primary);">${'TPM 2.0 PCR-11'}</div>
             </div>
             <div style="text-align:right;">
               <div style="color:var(--text-muted); font-size:9.5px; margin-bottom:2px;">Consensus Witness</div>
-              <div style="font-weight:600; color:var(--text-primary);">${DEFAULT_METRICS.witness_quorum}</div>
+              <div style="font-weight:600; color:var(--text-primary);">${'Quorum 5/5 Validated'}</div>
             </div>
           </div>
         </div>
@@ -678,7 +603,7 @@ function renderVaultView(container) {
         <div class="card-subtitle">Level-1 Merkle tree head anchored in enclave HSM memory</div>
         
         <div class="hash-inner-box" style="margin-bottom:12px;">
-          <span class="hash-text">${DEFAULT_METRICS.merkle_root}</span>
+          <span class="hash-text">${'0x8f2a4e9bc7190d63ba42901ee198c4e9'}</span>
           <button class="copy-btn" onclick="copyMerkleHash()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
 
@@ -845,187 +770,11 @@ function renderQuarantineView(container) {
 }
 
 // ============================================================================
-// VIEW 5: STUDIO (ROUTED PAGE)
-// ============================================================================
-
-function renderStudioView(container) {
-  container.innerHTML = `
-    <div class="page-header-row">
-      <div>
-        <div class="header-meta">DEVELOPMENT WORKBENCH &bull; LLVM JIT COMPILER</div>
-        <h1 class="page-title">Grammar &amp; Schema Studio</h1>
-        <div class="page-subtitle">Configure AST lexical parser grammars, compile LLVM tokenizers, and map into OCSF 1.3.0 classes</div>
-      </div>
-      <div class="header-actions">
-        <button class="btn-secondary-stone" onclick="showNotification('Running test suite against all 24 active grammars...')">
-          Test All Grammars
-        </button>
-        <button class="btn-forest-sm" onclick="showNotification('New Grammar Editor opened.')">
-          + New Grammar
-        </button>
-      </div>
-    </div>
-
-    <div class="stage-cards-grid" style="margin-bottom:20px;">
-      <div class="stage-card">
-        <div class="stage-card-top">
-          <span>GRAMMAR 01</span>
-          <span class="stage-pill-ok">ACTIVE</span>
-        </div>
-        <div class="stage-title">Syslog RFC 5424</div>
-        <div class="stage-sub">Version: syslog-v1.4 &bull; 45% volume</div>
-        <div class="stage-bottom">
-          <span>LLVM JIT: Ready</span>
-          <span>p99: 0.8ms</span>
-        </div>
-      </div>
-
-      <div class="stage-card">
-        <div class="stage-card-top">
-          <span>GRAMMAR 02</span>
-          <span class="stage-pill-ok">ACTIVE</span>
-        </div>
-        <div class="stage-title">AWS CloudTrail JSON</div>
-        <div class="stage-sub">Version: json-ct-02 &bull; 28% volume</div>
-        <div class="stage-bottom">
-          <span>SimdJSON: Ready</span>
-          <span>p99: 1.1ms</span>
-        </div>
-      </div>
-
-      <div class="stage-card">
-        <div class="stage-card-top">
-          <span>GRAMMAR 03</span>
-          <span class="stage-pill-ok">ACTIVE</span>
-        </div>
-        <div class="stage-title">Windows Event Log XML</div>
-        <div class="stage-sub">Version: evtx-xml-v2 &bull; 18% volume</div>
-        <div class="stage-bottom">
-          <span>Expat JIT: Ready</span>
-          <span>p99: 1.6ms</span>
-        </div>
-      </div>
-
-      <div class="stage-card">
-        <div class="stage-card-top">
-          <span>GRAMMAR 04</span>
-          <span class="stage-pill-ok">ACTIVE</span>
-        </div>
-        <div class="stage-title">Zeek Bro TSV</div>
-        <div class="stage-sub">Version: tsv-zeek-01 &bull; 9% volume</div>
-        <div class="stage-bottom">
-          <span>Ragel Lexer: Ready</span>
-          <span>p99: 0.4ms</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="scaffold-card">
-      <div class="scaffold-header">
-        <span class="section-title-text">ACTIVE AST LEXICAL DEFINITION: SYSLOG-V1</span>
-        <button class="btn-forest-sm" style="font-size:11px; padding:4px 10px;" onclick="showNotification('Grammar compiled cleanly with zero memory leaks.')">Compile Grammar</button>
-      </div>
-
-      <pre style="background:var(--bg-card-subtle); border:1px solid var(--border-subtle); border-radius:4px; padding:14px; font-family:var(--font-mono); font-size:11.5px; color:var(--text-primary); line-height:1.5;">
-grammar SyslogRFC5424;
-
-options {
-    language = LLVM_JIT;
-    zero_copy = true;
-}
-
-SYSLOG_MSG     : PRI HEADER STRUCTURED_DATA? MSG? ;
-PRI            : '<' [0-9]+ '>' ;
-HEADER         : TIMESTAMP SP HOSTNAME SP APP_NAME SP PROC_ID SP MSG_ID ;
-STRUCTURED_DATA: '-' | ('[' SD_ID (SP SD_PARAM)* ']')+ ;
-MSG            : UTF8_STRING ;
-
-// Automatic OCSF 1.3.0 Projection Target: Class 4001 (Network Activity)
-target_ocsf_class: 4001;
-      </pre>
-    </div>
-  `;
-}
-
-// ============================================================================
-// VIEW 6: RUNS (ROUTED PAGE)
-// ============================================================================
-
-function renderRunsView(container) {
-  container.innerHTML = `
-    <div class="page-header-row">
-      <div>
-        <div class="header-meta">EXECUTION TELEMETRY &bull; WORKER POOL 32/32 CORES</div>
-        <h1 class="page-title">Pipeline Execution Runs</h1>
-        <div class="page-subtitle">Batch ingestion tasks, hardware core allocation, and sustained throughput benchmarks</div>
-      </div>
-      <div class="header-actions">
-        <button class="btn-secondary-stone" onclick="showNotification('Syncing run status with 32 worker threads...')">
-          Refresh Runs
-        </button>
-        <button class="btn-forest-sm" onclick="handleRunDemoPipeline()">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-          Trigger Execution Run
-        </button>
-      </div>
-    </div>
-
-    <div class="scaffold-card">
-      <div class="scaffold-header">
-        <span class="section-title-text">HISTORICAL PIPELINE RUNS</span>
-        <span class="badge-outline">Worker Pool Load: 34.2%</span>
-      </div>
-
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Run ID</th>
-            <th>Started At</th>
-            <th>Total Records</th>
-            <th>Throughput (EPS)</th>
-            <th>Validation Rate</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="font-family:var(--font-mono); font-weight:600;">RUN-2026-1042</td>
-            <td style="font-family:var(--font-mono); color:var(--text-secondary);">2026-09-26 00:15:00</td>
-            <td style="font-family:var(--font-mono);">1,428,910</td>
-            <td style="font-family:var(--font-mono); font-weight:600; color:var(--green-primary);">48,210 EPS</td>
-            <td style="font-family:var(--font-mono);">99.82%</td>
-            <td><span class="stage-pill-ok">● COMPLETED</span></td>
-          </tr>
-          <tr>
-            <td style="font-family:var(--font-mono); font-weight:600;">RUN-2026-1041</td>
-            <td style="font-family:var(--font-mono); color:var(--text-secondary);">2026-09-26 00:00:00</td>
-            <td style="font-family:var(--font-mono);">1,250,000</td>
-            <td style="font-family:var(--font-mono); font-weight:600; color:var(--green-primary);">47,890 EPS</td>
-            <td style="font-family:var(--font-mono);">99.80%</td>
-            <td><span class="stage-pill-ok">● COMPLETED</span></td>
-          </tr>
-          <tr>
-            <td style="font-family:var(--font-mono); font-weight:600;">RUN-2026-1040</td>
-            <td style="font-family:var(--font-mono); color:var(--text-secondary);">2026-09-25 23:45:00</td>
-            <td style="font-family:var(--font-mono);">1,100,000</td>
-            <td style="font-family:var(--font-mono); font-weight:600; color:var(--green-primary);">46,950 EPS</td>
-            <td style="font-family:var(--font-mono);">99.85%</td>
-            <td><span class="stage-pill-ok">● COMPLETED</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  `;
-}
-
-// ============================================================================
 // ACTIONS & INTERACTION HANDLERS
 // ============================================================================
 
 function copyMerkleHash() {
-  const hash = DEFAULT_METRICS.merkle_root;
+  const hash = '0x8f2a4e9bc7190d63ba42901ee198c4e9';
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(hash).then(() => {
       showNotification('Merkle root copied to clipboard: ' + hash.slice(0, 18) + '...');
@@ -1082,12 +831,12 @@ function handleExportLedger() {
   const exportData = {
     report_title: "ULPF Cryptographic Audit Ledger",
     timestamp: new Date().toISOString(),
-    epoch: DEFAULT_METRICS.epoch,
+    epoch: '1713448920.104',
     node_id: "ENCLAVE_SEC_04",
-    merkle_root: DEFAULT_METRICS.merkle_root,
-    batch: DEFAULT_METRICS.batch_id,
-    hardware_seal: DEFAULT_METRICS.tpm_seal,
-    consensus_witness: DEFAULT_METRICS.witness_quorum,
+    merkle_root: '0x8f2a4e9bc7190d63ba42901ee198c4e9',
+    batch: 'Batch #1042',
+    hardware_seal: 'TPM 2.0 PCR-11',
+    consensus_witness: 'Quorum 5/5 Validated',
     ocsf_schema: "v1.3.0 Formal Schema",
     total_ingested: 1428910,
     parsing_success_rate: "99.94%",
@@ -1147,37 +896,6 @@ function handleRefreshOverview() {
   }
 }
 
-// Background live telemetry poller
-async function fetchLiveTelemetry() {
-  try {
-    const res = await fetch('/api/summary');
-    if (res.ok) {
-      const data = await res.json();
-      if (data.total_ingested && data.total_ingested > 0) {
-        // If live backend has data, update metrics seamlessly
-        const total = Number(data.total_ingested);
-        DEFAULT_METRICS.logs_ingested = total.toLocaleString();
-        if (data.active_parsers) {
-          DEFAULT_METRICS.active_parsers = `${data.active_parsers} / 24`;
-        }
-        if (data.parse_successes && total > 0) {
-          const rate = ((data.parse_successes / total) * 100).toFixed(2);
-          DEFAULT_METRICS.parse_rate = `${rate}%`;
-        }
-        if (data.validation_successes && total > 0) {
-          const rate = ((data.validation_successes / total) * 100).toFixed(2);
-          DEFAULT_METRICS.ocsf_rate = `${rate}%`;
-        }
-        if (currentTab === 'overview') {
-          const elIngested = document.getElementById('metric-ingested');
-          if (elIngested) elIngested.textContent = DEFAULT_METRICS.logs_ingested;
-        }
-      }
-    }
-  } catch (e) {
-    // Retain default pixel-perfect screenshot telemetry
-  }
-}
 
 // Floating Toast Notification
 let toastTimeout = null;

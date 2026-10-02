@@ -88,3 +88,9 @@ def get_failures(
 
 def clear_failures() -> None:
     _failures.clear()
+
+
+def reprocess_failures() -> Dict[str, Any]:
+    """Reprocess quarantined failure records through fallback parsers and source profiles."""
+    from src.api.services import event_service
+    return event_service.reprocess_quarantine()

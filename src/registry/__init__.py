@@ -76,6 +76,14 @@ def configure_profile_storage(storage_path: Optional[Union[str, Path]]) -> None:
         _load_persisted_profiles()
 
 
+def _profile_key(source: str, profile_version: str) -> tuple[str, str]:
+    if not isinstance(source, str) or not source.strip():
+        raise AmbiguousProfileError("Source profile lookup requires a non-empty source")
+    if not isinstance(profile_version, str) or not profile_version.strip():
+        raise AmbiguousProfileError("Source profile lookup requires an exact profile version")
+    return source, profile_version
+
+
 def _profile_file_path(source: str, profile_version: str) -> Path:
     filename = f"{source}__{profile_version}.json"
     return _get_storage_dir() / filename
@@ -162,14 +170,6 @@ def get_parser(source: str, version: str) -> str:
         raise FileNotFoundError(f"Registered parser path does not exist: {path}")
 
     return path
-
-
-def _profile_key(source: str, profile_version: str) -> tuple[str, str]:
-    if not isinstance(source, str) or not source.strip():
-        raise AmbiguousProfileError("Source profile lookup requires a non-empty source")
-    if not isinstance(profile_version, str) or not profile_version.strip():
-        raise AmbiguousProfileError("Source profile lookup requires an exact profile version")
-    return source, profile_version
 
 
 def register_source_profile(

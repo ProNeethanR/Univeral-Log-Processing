@@ -15,15 +15,25 @@ from src.vault import store as vault
 
 
 def bootstrap_demo() -> None:
-    """Deterministically load the demo fixtures when ULPF_DEMO_DATA=true.
+    """Initialize state on server startup.
 
-    Invoked from the ASGI startup path so a live server loads demo state
-    without depending on module import order. No-op otherwise.
+    If prior pipeline state was persisted in SQLite and fresh start is not forced,
+    restores state across restarts. Otherwise initializes in clean nil genesis state.
     """
-    if os.environ.get("ULPF_DEMO_DATA", "").lower() != "true":
-        return
-    event_service.load_demo_data()
-    run_service.ensure_demo_run()
+    from src.storage import persistence
+    fresh_start = os.environ.get("ULPF_FRESH_START", "").lower() == "true"
+    if not fresh_start and persistence.has_persisted_state():
+        if persistence.sync_from_persistence():
+            return
+
+    from src.vault import store as vault_store
+    vault_store.clear()
+    event_service._events.clear()
+    event_service._summaries.clear()
+    quarantine_service._failures.clear()
+    run_service._runs.clear()
+    run_service._run_event_ids.clear()
+    event_service._active_parsers = 0
 
 
 @asynccontextmanager
@@ -59,6 +69,10 @@ def get_summary():
         summary.latest_run_id = latest.run_id
         summary.latest_run_status = latest.status
         summary.historical_runs_available = True
+    else:
+        summary.latest_run_id = None
+        summary.latest_run_status = None
+        summary.historical_runs_available = False
     return summary
 
 
@@ -197,3 +211,186 @@ def get_run_events(
     if result is None:
         raise HTTPException(status_code=404, detail="Run not found")
     return result
+
+
+# ------------------------------------------------------------------
+# Interactive Operations & Demo Harness
+# ------------------------------------------------------------------
+
+@app.post("/api/demo/run")
+def run_demo():
+    """Trigger the complete ULPF demo pipeline across synthetic and historical fixtures."""
+    return event_service.run_demo_pipeline()
+
+
+@app.post("/api/test-parse")
+def test_parse(payload: dict):
+    raw_log = payload.get("raw_log", "")
+    if not raw_log:
+        raise HTTPException(status_code=400, detail="raw_log payload is required")
+    return event_service.test_parse_log(raw_log)
+
+
+@app.post("/api/quarantine/reprocess")
+def reprocess_quarantine():
+    return quarantine_service.reprocess_failures()
+
+
+@app.get("/api/sources")
+def get_sources():
+    """Return active source profiles from the registry alongside configured connectors."""
+    from src.registry import list_source_profiles
+    profiles = []
+    try:
+        profiles = list_source_profiles()
+    except Exception:
+        pass
+
+    has_active_syslog = any(str(p[2]).upper().endswith("ACTIVE") for p in profiles) if profiles else False
+
+    return [
+        {
+            "id": "src-syslog-netfilter",
+            "name": "Linux Netfilter / iptables",
+            "cluster": "Synthetic & Historical Fixtures",
+            "type": "File / Syslog UDP 514",
+            "eps": 7000 if has_active_syslog else 0,
+            "last_seen": "Active" if has_active_syslog else "Idle (Pending Run)",
+            "status": "live" if has_active_syslog else "idle",
+            "tag": "ACTIVE REGISTRY",
+        },
+        {
+            "id": "src-cisco-asa",
+            "name": "Cisco ASA Firewall",
+            "cluster": "Edge Gateway cluster-us-east",
+            "type": "Syslog UDP 514",
+            "eps": 14240,
+            "last_seen": "120ms ago",
+            "status": "live",
+            "tag": "DEMO CONNECTOR",
+        },
+        {
+            "id": "src-panos",
+            "name": "Palo Alto Networks NGFW",
+            "cluster": "PAN-OS v11.1 Series",
+            "type": "Syslog TCP 5514 (TLS)",
+            "eps": 18210,
+            "last_seen": "45ms ago",
+            "status": "live",
+            "tag": "DEMO CONNECTOR",
+        },
+        {
+            "id": "src-fortigate",
+            "name": "Fortinet FortiGate",
+            "cluster": "Internal DC Core Segment",
+            "type": "Syslog UDP 514",
+            "eps": 8410,
+            "last_seen": "310ms ago",
+            "status": "live",
+            "tag": "DEMO CONNECTOR",
+        },
+        {
+            "id": "src-checkpoint",
+            "name": "Check Point Quantum Security",
+            "cluster": "R81.20 Take 79",
+            "type": "Kafka spool (secops.cp)",
+            "eps": 4890,
+            "last_seen": "180ms ago",
+            "status": "live",
+            "tag": "DEMO CONNECTOR",
+        },
+        {
+            "id": "src-webhook",
+            "name": "Custom Appliance (Bespoke TLS)",
+            "cluster": "Air-gapped telemetry relay",
+            "type": "Webhook /api/ingest",
+            "eps": 2450,
+            "last_seen": "890ms ago",
+            "status": "live",
+            "tag": "DEMO CONNECTOR",
+        },
+    ]
+
+
+@app.get("/api/plugins")
+def get_plugins():
+    """Return active DSL parsers from the registry with clear provenance and sandbox validation."""
+    from src.registry import _registry
+    is_syslog_registered = ("syslog-001", "1.0.0") in _registry
+
+    return [
+        {
+            "name": "syslog_netfilter_dsl",
+            "version": "v1.0.0",
+            "binary": "parsers/syslog.yaml",
+            "format": "Linux Netfilter RFC 3164",
+            "sandbox": "Native AST Sandbox",
+            "latency_p50": "0.22ms",
+            "status": "AST Validated • Active" if is_syslog_registered else "AST Validated • Ready",
+            "tag": "ACTIVE REGISTRY",
+        },
+        {
+            "name": "cisco_asa_parser",
+            "version": "v2.4.1",
+            "binary": "libparser_cisco.so",
+            "format": "Syslog RFC 3164/5424",
+            "sandbox": "Isolated WASM Enclave",
+            "latency_p50": "0.32ms",
+            "status": "AST Validated",
+            "tag": "DEMO CONNECTOR",
+        },
+        {
+            "name": "paloalto_panos_parser",
+            "version": "v3.1.0",
+            "binary": "libparser_panos.so",
+            "format": "CSV Delimited Syslog",
+            "sandbox": "Isolated WASM Enclave",
+            "latency_p50": "0.41ms",
+            "status": "AST Validated",
+            "tag": "DEMO CONNECTOR",
+        },
+        {
+            "name": "aws_cloudtrail_json",
+            "version": "v1.8.4",
+            "binary": "libparser_cloudtrail.so",
+            "format": "NDJSON / Gzip Bundles",
+            "sandbox": "Isolated WASM Enclave",
+            "latency_p50": "0.28ms",
+            "status": "AST Validated",
+            "tag": "DEMO CONNECTOR",
+        },
+    ]
+
+
+@app.get("/api/persistence/status")
+def get_persistence_status():
+    """Return status of SQLite persistence layer."""
+    from src.storage import persistence
+    return {
+        "persisted": persistence.has_persisted_state(),
+        "db_path": persistence.get_db_path(),
+        "total_events": len(event_service._events),
+        "total_summaries": len(event_service._summaries),
+        "total_quarantined": len(quarantine_service._failures),
+        "total_runs": len(run_service._runs)
+    }
+
+
+@app.post("/api/pipeline/reset")
+def reset_pipeline_state():
+    """Reset all in-memory and persisted pipeline state to clean genesis nil state."""
+    from src.storage import persistence
+    from src.vault import store as vault_store
+    persistence.clear_pipeline_state()
+    vault_store.clear()
+    event_service._events.clear()
+    event_service._summaries.clear()
+    quarantine_service._failures.clear()
+    run_service._runs.clear()
+    run_service._run_event_ids.clear()
+    event_service._active_parsers = 0
+    return {
+        "status": "success",
+        "message": "Pipeline state and SQLite database reset to clean genesis nil state."
+    }
+

@@ -152,3 +152,53 @@ def test_integrity_verification_endpoint_is_structured():
     assert "checkpoint_hash" in checkpoint
     if data["status"] == "verified":
         assert checkpoint["status"] == "valid"
+
+
+def test_post_demo_run(demo_data):
+    response = client.post("/api/demo/run")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "success"
+    assert data["total_events"] > 0
+    assert data["passed"] > 0
+    assert "message" in data
+    assert "run_id" in data
+
+
+def test_post_test_parse_cisco():
+    raw_cisco = "%ASA-6-302013: Built outbound TCP connection 984712 for outside:198.51.100.22/443 (198.51.100.22/443) to inside:10.0.12.84/51234 (10.0.12.84/51234)"
+    response = client.post("/api/test-parse", json={"raw_log": raw_cisco})
+    assert response.status_code == 200
+    data = response.json()
+    assert "format" in data
+    assert "confidence" in data
+    assert "parsed_fields" in data
+    assert "extracted_rows" in data
+    assert data["validation_status"] == "PASS"
+
+
+def test_post_test_parse_empty():
+    response = client.post("/api/test-parse", json={"raw_log": ""})
+    assert response.status_code == 400
+
+
+def test_post_quarantine_reprocess():
+    response = client.post("/api/quarantine/reprocess")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "dispatched"
+    assert "count" in data
+
+
+def test_get_sources_and_plugins():
+    res_sources = client.get("/api/sources")
+    assert res_sources.status_code == 200
+    sources = res_sources.json()
+    assert len(sources) > 0
+    assert "name" in sources[0]
+
+    res_plugins = client.get("/api/plugins")
+    assert res_plugins.status_code == 200
+    plugins = res_plugins.json()
+    assert len(plugins) > 0
+    assert "binary" in plugins[0]

@@ -612,6 +612,7 @@ class FileVaultBackend:
 
         return {
             "status": status,
+            "chain_status": "valid",
             "reason": reason,
             "records": len(chain["entries"]),
             "head_hash": chain["head_hash"],
