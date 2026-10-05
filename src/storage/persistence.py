@@ -174,7 +174,7 @@ def save_pipeline_state(
 
 
 def load_pipeline_state(custom_path: Optional[str] = None) -> Dict[str, Any]:
-    from src.api.models import EventEnvelope, EventSummary, FailureRecord, PipelineRun
+    from src.api.models import ULPFEventEnvelope, EventSummary, FailureRecord, PipelineRun
 
     conn = get_connection(custom_path)
     result = {
@@ -188,7 +188,7 @@ def load_pipeline_state(custom_path: Optional[str] = None) -> Dict[str, Any]:
     with conn:
         for row in conn.execute("SELECT data FROM events;"):
             try:
-                result["events"].append(EventEnvelope(**json.loads(row["data"])))
+                result["events"].append(ULPFEventEnvelope(**json.loads(row["data"])))
             except Exception:
                 pass
 
