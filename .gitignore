@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Local/runtime persistence (never commit generated SQLite state)
+data/*.db
+data/*.db-shm
+data/*.db-wal
