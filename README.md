@@ -1,111 +1,117 @@
 # ULPF — Universal Log Processing Framework
 
-A log processing pipeline that takes raw enterprise logs (Syslog, CEF, vendor formats), parses them with a YAML-based DSL, normalizes them to [OCSF 1.3.0](https://schema.ocsf.io/), and stores everything in a tamper-evident vault. The whole thing runs offline — no cloud dependencies, no external schema fetches.
+ULPF is a loss-aware log processing framework for ingesting heterogeneous security logs, preserving raw evidence, parsing with declarative rules, normalizing events to **OCSF 1.3.0**, validating the result, and exposing the pipeline through a FastAPI API and web dashboard.
 
-It ships with a FastAPI backend and a self-contained web dashboard for exploring events, verifying integrity chains, testing parsers, and monitoring pipeline health.
+The design emphasizes **raw-byte preservation, provenance, deterministic parsing, schema validation, integrity verification, and explicit failure/quarantine handling**.
 
-## What it does
+## Dashboard
 
-- **Parses logs with YAML rules** — declarative parser definitions in `parsers/*.yaml` extract structured fields from raw text. No arbitrary code execution.
-- **Validates against OCSF 1.3.0** — every normalized event is validated against a local frozen copy of the OCSF schema. The validator checks the schema's SHA-256 hash on startup, so you know it hasn't been tampered with.
-- **Stores raw logs in a vault** — raw bytes go into an append-only store with SHA-256 digests and chain verification. Even after retention purge, tombstone metadata keeps the chain verifiable.
-- **Quarantines bad events** — anything that fails parsing or schema validation gets quarantined with a failure record. No raw payload leakage.
-- **Manages source profiles** — versioned registry for parser + source context lifecycle (draft → active → deprecated). Persisted to disk.
+The repository includes an integrated dashboard served by the FastAPI application and a separate frontend artifact under `ULPF frontend/`.
 
-## Architecture
+![ULPF web dashboard](<ULPF frontend/screen.png>)
 
-```
-                       +-------------------------+
-                       |     Raw Log Streams     |
-                       +-------------------------+
-                                    |
-                                    v
-+------------------+      +-------------------+      +-------------------+
-|  Raw Log Vault   | <--- | Ingestion Engine  | ---> |  Source Registry  |
-| (SHA-256 Store)  |      +-------------------+      +-------------------+
-+------------------+                |                          |
-                                    v                          v
-                          +-------------------+      +-------------------+
-                          |  DSL Interpreter  | <--- |   YAML DSL Def    |
-                          +-------------------+      +-------------------+
-                                    |
-                                    v
-                          +-------------------+
-                          |    OCSF Mapper    |
-                          +-------------------+
-                                    |
-                                    v
-                          +-------------------+
-                          | OCSF 1.3.0       |
-                          | Runtime Validator | (Offline)
-                          +-------------------+
-                                    |
-                                    v
-                          +-------------------+
-                          |   Trust Gate      |
-                          +-------------------+
-                                    |
-            +-----------------------+-----------------------+
-            |                                               |
-            v                                               v
-+-----------------------+                       +-----------------------+
-|  Validated OCSF Event |                       |  Quarantine Record    |
-+-----------------------+                       +-----------------------+
-            \                                               /
-             +---------------------------------------------+
-                                    |
-                                    v
-       +---------------------------------------------------------+
-       |              FastAPI Backend (src/api)                  |
-       +---------------------------------------------------------+
-                                    |
-                                    v
-       +---------------------------------------------------------+
-       |           Web Dashboard (src/api/static)                |
-       | Overview | Events | Vault | Quarantine | Sources |      |
-       | Plugins | Benchmark | Ingest Tester | Studio | Runs    |
-       +---------------------------------------------------------+
+The dashboard is organized around operational views for:
+
+- Overview and pipeline health
+- Events and event inspection
+- Vault and integrity verification
+- Quarantine / dead-letter records
+- Source profiles
+- Parser plugins
+- Benchmarking
+- Ingest testing
+- Pipeline studio
+- Verification runs
+
+> The screenshot is a UI reference image committed in `ULPF frontend/screen.png`. Some dashboard numbers and connector labels shown in the visual are demonstration data; runtime API responses are authoritative.
+
+## Core pipeline
+
+```text
+Raw logs
+   |
+   v
+Ingestion
+   |
+   +----> Raw Vault / SHA-256 / offsets / references
+   |
+   v
+Format detection + parser registry
+   |
+   v
+YAML DSL parser
+   |
+   v
+OCSF 1.3.0 normalization
+   |
+   v
+Local OCSF schema validation
+   |
+   +--------------------+
+   |                    |
+   v                    v
+Validated event      Quarantine / failure record
+   |
+   v
+FastAPI API + dashboard
 ```
 
-## Project layout
+## What is implemented
 
-```
-├── contracts/                  # JSON Schema contracts for envelopes, parsers, source context
-├── docs/                       # Architecture docs, hardening notes
+### Lossless evidence handling
+Raw input can be stored as byte-addressed evidence with SHA-256 references and record metadata. Record splitting is a separate concern from whole-file ingestion, so do not assume `ingest_file()` performs logical event grouping.
+
+### Declarative parsing
+Parser definitions live in `parsers/` and are interpreted through the parser/DSL components under `src/parsers/`.
+
+### OCSF 1.3.0 validation
+ULPF keeps a local OCSF schema under `schema/ocsf/` and validates normalized events without needing to fetch a schema at runtime.
+
+### Provenance and trust
+Event envelopes carry source identity, raw references, integrity state, parser metadata, provenance, evidence classification, and a trust gate.
+
+### Quarantine
+Parsing, normalization, validation, and integrity failures are represented as structured failure records without embedding raw log content in the failure record itself.
+
+### Persistence
+Pipeline state can be persisted through the SQLite layer under `src/storage/`. For hosted deployments, persistent storage must be configured separately because local filesystem state should not be assumed to survive every platform restart/redeploy.
+
+## Repository layout
+
+```text
+.
+├── contracts/                  # JSON Schema contracts
+├── data/                      # Local pipeline state (development/runtime)
+├── docs/                      # Architecture, decisions, hardening, stabilization
 ├── fixtures/
-│   ├── raw/                    # Sample logs (syslog, CEF, fortigate, demo)
-│   ├── ground_truth/           # Expected normalized outputs
-│   ├── provenance/             # Where each fixture came from
-│   ├── manifest.json           # Fixture tracking
-│   └── SHA256SUMS              # Hash verification
-├── parsers/
-│   └── syslog.yaml             # Syslog parser definition (DSL)
-├── schema/
-│   └── ocsf/ocsf_schema.json   # Frozen OCSF 1.3.0 schema
+│   ├── raw/                   # Raw sample logs
+│   ├── ground_truth/          # Expected normalized outputs
+│   └── provenance/            # Fixture provenance and licensing notes
+├── parsers/                   # Declarative parser definitions
+├── schema/                    # Frozen local OCSF schema
 ├── src/
-│   ├── api/                    # FastAPI app
-│   │   ├── main.py             # Routes, lifespan, static mount
-│   │   ├── models.py           # Pydantic models
-│   │   ├── services/           # Event, run, quarantine logic
-│   │   └── static/             # Frontend SPA (HTML + JS + CSS)
-│   ├── ingestion/ingestor.py   # Raw log capture
-│   ├── normalization/
-│   │   ├── mapper.py           # OCSF field mapping + context injection
-│   │   └── ocsf_validator.py   # Offline schema validator
-│   ├── parsers/
-│   │   ├── interpreter.py      # DSL execution engine
-│   │   ├── engine.py           # Parser interface
-│   │   └── dsl_validator.py    # DSL syntax checks
-│   ├── registry/__init__.py    # Source profile + parser registry
-│   └── vault/store.py          # Append-only vault, chain, checkpoints
-├── tests/                      # 206 tests across all modules
-├── demo.py                     # CLI demo script
-└── requirements.txt
+│   ├── api/                   # FastAPI application, models, services, dashboard
+│   ├── ingestion/             # Raw ingestion and record splitting
+│   ├── normalization/         # OCSF mapping and validation
+│   ├── parsers/               # Parser engine and DSL interpreter
+│   ├── registry/              # Source/parser registry
+│   ├── storage/               # SQLite persistence
+│   └── vault/                 # Raw vault and integrity chain
+├── tests/                     # Automated test suite
+├── ULPF frontend/             # Separate static frontend/reference artifact
+├── demo.py                    # CLI demonstration
+└── requirements.txt           # Python dependencies
 ```
 
-## Setup
+## Quick start
 
-**Requirements:** Python 3.10+, a modern browser. No Node.js needed — the frontend is vanilla HTML/CSS/JS served by FastAPI.
+### Requirements
+
+- Python 3.10+
+- A modern browser
+- No Node.js is required for the integrated FastAPI-served dashboard
+
+### Install
 
 ```bash
 git clone https://github.com/ProNeethanR/Univeral-Log-Processing.git
@@ -114,7 +120,7 @@ cd Univeral-Log-Processing
 python -m venv venv
 
 # Windows PowerShell
-.\venv\Scripts\Activate.ps1
+.\\venv\\Scripts\\Activate.ps1
 
 # Linux / macOS
 source venv/bin/activate
@@ -123,157 +129,139 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Running it
-
-### Backend + Frontend (single process)
-
-The backend serves both the API and the dashboard. One command, one process:
-
-```powershell
-# Windows PowerShell
-python -m uvicorn src.api.main:app --host 127.0.0.1 --port 8000 --reload
-```
+### Run the integrated backend + dashboard
 
 ```bash
-# Linux / macOS
-python -m uvicorn src.api.main:app --host 127.0.0.1 --port 8000 --reload
+python -m uvicorn src.api.main:app --host 127.0.0.1 --port 8000
 ```
 
-On server startup, the dashboard initializes in a clean genesis / nil state. Then open:
+Open:
 
-| URL | What |
+| URL | Purpose |
 |---|---|
-| `http://127.0.0.1:8000` | Web dashboard |
-| `http://127.0.0.1:8000/docs` | Swagger API docs |
+| `http://127.0.0.1:8000/` | Web dashboard |
+| `http://127.0.0.1:8000/docs` | FastAPI / Swagger documentation |
 
-Click the **"Run Pipeline"** button in the top navigation bar to trigger live ingestion, cryptographic vault anchoring, DSL parsing, and OCSF 1.3.0 schema validation across all fixtures.
+The FastAPI application is defined in `src/api/main.py`.
 
-### CLI demo (no server needed)
+### CLI demo
 
 ```bash
 python demo.py
 ```
 
-Runs the full pipeline end-to-end in your terminal: registers a source profile, ingests syslog events, parses them, maps to OCSF, validates, and prints the results.
+## API
 
-## Frontend — Dashboard Views
+### Dashboard and events
 
-The unified responsive dashboard features 8 core operational views:
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/summary` | Pipeline summary and latest run |
+| GET | `/api/events` | Paginated event list with filters |
+| GET | `/api/events/{event_id}` | Event detail |
+| GET | `/api/events/{event_id}/raw` | Raw log representation |
+| GET | `/api/events/{event_id}/parsed` | Parsed fields |
+| GET | `/api/events/{event_id}/normalized` | OCSF-normalized event |
+| GET | `/api/events/{event_id}/validation` | Validation result |
+| GET | `/api/events/{event_id}/envelope` | Full ULPF event envelope |
 
-| Tab | What it shows |
-|---|---|
-| **Overview** | Interactive 6-stage DAG architecture, live telemetry KPIs (Ingested, OCSF Pass Rate, Diverted), and TPM-anchored Merkle root status |
-| **Events** | Searchable OCSF event ledger with multi-column filters. Click "Inspect →" to review raw evidence, parsed dict, OCSF JSON, and strict schema validation reports |
-| **Vault** | Cryptographic hash chain ledger, SHA-256 digests, block locators, genesis checkpoint status, and tamper-detection reports |
-| **Quarantine** | Dead-Letter Queue (DLQ) with categorical isolation (schema violations, missing context). Features an active **"Reprocess Quarantined"** action button |
-| **Sources** | Active registered source profiles and enterprise connector telemetry (Cisco ASA, Palo Alto, Fortinet, Netfilter) with protocol details and EPS |
-| **Plugins** | Sandboxed parser plugin catalog (AST YAML DSL and WASM enclaves) with hot-reload actions and latency metrics |
-| **Benchmark** | Dynamic synthetic load generator with multi-profile simulations (Mixed Enterprise, Syslog RFC 5424, CloudTrail, Cisco ASA) and live SVG latency graphs |
-| **Ingest Tester** | Live multi-format parser tester: paste raw logs from any system (Syslog, Windows Event XML, Apache, DNS, Postfix) to view detected tokens and mapped fields |
+### Integrity and quarantine
 
-The header bar features a prominent **"Run Pipeline"** button to dispatch end-to-end runs and a live **Chain Integrity Status** indicator.
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/integrity/verify` | Verify the vault chain/checkpoint state |
+| POST | `/api/integrity/checkpoint` | Create an integrity checkpoint |
+| GET | `/api/quarantine` | Query failure/quarantine records |
+| POST | `/api/quarantine/reprocess` | Reprocess quarantined failures |
+
+### Runs and interactive operations
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/runs` | Pipeline run history |
+| GET | `/api/runs/{run_id}` | Single run |
+| GET | `/api/runs/{run_id}/events` | Events belonging to a run |
+| POST | `/api/demo/run` | Run the demo pipeline |
+| POST | `/api/test-parse` | Test parsing for a supplied raw log |
+| GET | `/api/sources` | Source/connector view |
+| GET | `/api/plugins` | Parser/plugin view |
+| GET | `/api/persistence/status` | Persistence status |
+| POST | `/api/pipeline/reset` | Reset pipeline state |
+
+## Frontend deployment
+
+The repository contains two dashboard-related frontend forms:
+
+1. **Integrated dashboard** — served directly by FastAPI from `src/api/static/`.
+2. **Separate static frontend artifact** — stored under `ULPF frontend/`.
+
+For a Render deployment of the backend:
+
+```text
+Service type: Web Service
+Root directory: repository root
+Build command: pip install -r requirements.txt
+Start command: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
+```
+
+For the separate `ULPF frontend/` artifact, use that directory as the Render root only after ensuring the artifact has an `index.html` entry point and that its JavaScript is configured to call the deployed API.
 
 ## Testing
 
+Run the complete suite with:
+
 ```bash
-# Full suite (206 tests)
-python -m pytest -v
-
-# Just the demo pipeline integration
-python -m pytest tests/integration/test_syslog_demo_pipeline.py -v
-
-# Vault integrity tests
-python -m pytest tests/vault/ -v
-
-# Registry + source profile lifecycle
-python -m pytest tests/registry/ -v
-
-# Context injection + timezone handling
-python -m pytest tests/normalization/test_context_injection.py -v
+python -m pytest -q -p no:cacheprovider
 ```
 
-## API quick reference
+The latest stabilized repository baseline recorded **186 tests passing**.
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/summary` | Dashboard summary metrics |
-| GET | `/api/events` | Paginated event list (supports `search`, `format`, `status`, `validation_status` params) |
-| GET | `/api/events/{id}` | Single event detail |
-| GET | `/api/events/{id}/raw` | Raw log bytes |
-| GET | `/api/events/{id}/parsed` | Parsed field dictionary |
-| GET | `/api/events/{id}/normalized` | OCSF normalized event |
-| GET | `/api/events/{id}/validation` | Validation result |
-| GET | `/api/events/{id}/envelope` | Cryptographic envelope |
-| GET | `/api/integrity/verify` | Chain verification report + checkpoint anchor |
-| POST | `/api/integrity/checkpoint` | Create chain checkpoint |
-| GET | `/api/quarantine` | Failure records (supports `category`, `event_id` filters) |
-| GET | `/api/runs` | Pipeline run history |
-| GET | `/api/runs/{id}` | Single run detail |
-| GET | `/api/runs/{id}/events` | Events within a specific run |
+For stronger CI validation:
 
-## Code examples
-
-### Validate an OCSF event
-
-```python
-from src.normalization.ocsf_validator import OCSFValidator
-
-validator = OCSFValidator()
-result = validator.validate({
-    "class_uid": 4001,
-    "category_uid": 4,
-    "activity_id": 1,
-    "type_uid": 400101,
-    "time": 1726700000,
-    "severity_id": 1,
-    "metadata": {"version": "1.3.0", "product": {"vendor_name": "ULPF"}},
-    "dst_endpoint": {"ip": "192.168.1.100"}
-})
-
-if result.is_valid:
-    print(f"Valid OCSF {result.ocsf_version} event ({result.class_name})")
-else:
-    for err in result.errors:
-        print(f"  [{err.error_type}] {err.path}: {err.message}")
+```bash
+python -m pytest -q -p no:cacheprovider -W error::DeprecationWarning
 ```
 
-### Parse a raw log
+## Important semantics
 
-```python
-from src.registry import register_parser, _clear_registry
-from src.parsers.engine import ParserEngine
+### Whole-file ingestion vs record splitting
 
-_clear_registry()
-register_parser("syslog-demo-001", "1.0.0", "parsers/syslog.yaml")
+`ingest_file()` currently represents the supplied file as one stored record with offsets covering the entire file.
 
-engine = ParserEngine("syslog-demo-001", "1.0.0")
-fields = engine.parse(
-    "Sep  1 10:00:01 demo-fw kernel: INBOUND TCP: IN=eth0 OUT=eth1 "
-    "SRC=203.0.113.10 DST=192.168.1.5 PROTO=TCP SPT=54321 DPT=443"
-)
-print(fields["SRC"], fields["DST"], fields["DPT"])
-```
+`split_raw_records()` is the separate record-boundary operation.
+
+`ingest_batch()` accepts already separated inputs and assigns record indexes.
+
+Do not document `ingest_file()` as a multiline/logical-record parser.
+
+### Multiline logs
+
+The repository contains tests for byte preservation across multiline-looking input. Whether multiple physical lines are grouped into one logical event is a parser/record-boundary concern and must be verified against the current implementation before claiming full multiline grouping support.
+
+## Fixture provenance
+
+See [`fixtures/provenance/README.md`](fixtures/provenance/README.md) for source classification, hashes, byte lengths, and licensing notes for the frozen fixture corpus.
+
+Do not treat documentation-derived or reference examples as real-world captures unless the provenance file explicitly classifies them as real.
 
 ## Schema integrity
 
-The OCSF schema is pinned to version 1.3.0 and frozen locally. The validator checks its SHA-256 hash on startup:
+The OCSF schema is stored locally under `schema/ocsf/`. The validator checks the pinned schema material rather than downloading a replacement at runtime.
 
-```
-6ccff0f70b6216abc8f82be3756a9a167662a535c64a6a60df111b0db363e3e2
-```
+## Development principles
 
-You can verify manually:
+- Preserve raw evidence before parsing or normalization.
+- Prefer deterministic behavior over implicit inference.
+- Keep source context authoritative and fail closed when required provenance is unavailable.
+- Make parser behavior explicit and testable.
+- Never hide failures by weakening or skipping tests.
+- Distinguish verified implementation from UI/demo presentation data.
+- Avoid introducing new dependencies or architecture without a project-level reason.
 
-```bash
-python -c "import hashlib; print(hashlib.sha256(open('schema/ocsf/ocsf_schema.json','rb').read()).hexdigest())"
-```
+## Project status
 
-If the hash doesn't match, the validator refuses to start. The framework never makes network requests — everything runs from disk.
+The current repository includes the corrective stabilization work and a green automated test baseline. Continued development should focus on gaps that are demonstrable from the real production paths rather than treating the test count alone as proof that every planned phase is complete.
 
-## Context integrity policy
+## License / fixture use
 
-Source context fields (capture year, timezone, vendor name, product name) are never guessed or inferred. If a real log fixture doesn't have authoritative provenance for these fields, the pipeline honestly fails validation rather than substituting plausible-but-unverified defaults.
-
-## License
-
-Private / Confidential (ULPF Project). See `fixtures/manifest.json` and `fixtures/provenance/` for fixture origins.
+ULPF is a project repository rather than a released public software package. Some fixtures have source-specific licensing or redistribution constraints; consult `fixtures/provenance/README.md` before redistributing fixture data.
