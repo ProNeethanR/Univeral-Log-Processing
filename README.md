@@ -6,6 +6,12 @@ The design emphasizes **raw-byte preservation, provenance, deterministic parsing
 
 ## Dashboard
 
+## Live Dashboard
+
+**[Open the ULPF web dashboard](https://univeral-log-processing.onrender.com/)**
+
+Hosted deployment: `https://univeral-log-processing.onrender.com/`
+
 The repository includes an integrated dashboard served by the FastAPI application and a separate frontend artifact under `ULPF frontend/`.
 
 ![ULPF web dashboard](<ULPF frontend/screen.png>)
